@@ -1,0 +1,884 @@
+{
+  "label": "qwopus27b-coder-v2calib",
+  "port": 5001,
+  "think": false,
+  "wall_minutes": 24.3,
+  "results": {
+    "code": {
+      "by_level": {
+        "easy": {
+          "pass": 12,
+          "total": 12
+        },
+        "medium": {
+          "pass": 43,
+          "total": 60
+        },
+        "hard": {
+          "pass": 18,
+          "total": 40
+        }
+      },
+      "results": [
+        {
+          "id": "humaneval-HumanEval/0",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/1",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/2",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/3",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/4",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/5",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/6",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/7",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/8",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/9",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/10",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "humaneval-HumanEval/11",
+          "level": "easy",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-11",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-12",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-13",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-14",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-15",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-16",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-17",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-18",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-19",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-20",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-21",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-22",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-23",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-24",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-25",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-26",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-27",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-28",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-29",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-30",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-31",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-32",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-33",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-34",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-35",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-36",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-37",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-38",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-39",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-40",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-41",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-42",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-43",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-44",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-45",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-46",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-47",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-48",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-49",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-50",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-51",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-52",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-53",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-54",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-55",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-56",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-57",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-58",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-59",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-60",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-61",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-62",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-63",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-64",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-65",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-66",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-67",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "mbpp-68",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-69",
+          "level": "medium",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "mbpp-70",
+          "level": "medium",
+          "pass": false,
+          "why": "AssertionError"
+        },
+        {
+          "id": "lcb-1899_B",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-1899_C",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-1899_D",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc301_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc301_f",
+          "level": "hard",
+          "pass": false,
+          "why": "SyntaxError: invalid syntax"
+        },
+        {
+          "id": "lcb-abc302_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc302_f",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc303_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc304_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc305_d",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc305_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc306_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc307_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc308_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc308_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc309_e",
+          "level": "hard",
+          "pass": false,
+          "why": "ValueError: invalid literal for int() with base 10: '7 3\\n'"
+        },
+        {
+          "id": "lcb-abc310_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc310_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc311_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc312_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc312_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc314_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc314_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc315_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc315_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc318_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc319_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc320_e",
+          "level": "hard",
+          "pass": false,
+          "why": "ValueError: invalid literal for int() with base 10: '3 5\\n'"
+        },
+        {
+          "id": "lcb-abc321_e",
+          "level": "hard",
+          "pass": false,
+          "why": "timeout"
+        },
+        {
+          "id": "lcb-abc322_e",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc323_d",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc323_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc324_d",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc324_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc324_f",
+          "level": "hard",
+          "pass": false,
+          "why": "wrong answer"
+        },
+        {
+          "id": "lcb-abc325_d",
+          "level": "hard",
+          "pass": false,
+          "why": "SyntaxError: invalid syntax"
+        },
+        {
+          "id": "lcb-abc325_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc325_f",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        },
+        {
+          "id": "lcb-abc326_d",
+          "level": "hard",
+          "pass": false,
+          "why": "NameError: name 'combinations' is not defined"
+        },
+        {
+          "id": "lcb-abc326_e",
+          "level": "hard",
+          "pass": true,
+          "why": ""
+        }
+      ]
+    },
+    "tools": {
+      "pass": 24,
+      "total": 30,
+      "results": [
+        {
+          "id": "hermes-14657d01",
+          "pass": true,
+          "expected": "set_thermostat_schedule",
+          "got": "set_thermostat_schedule"
+        },
+        {
+          "id": "hermes-610f6af1",
+          "pass": false,
+          "expected": "set_ambient_mode",
+          "got": "set_ambient_mode"
+        },
+        {
+          "id": "hermes-4195cbf2",
+          "pass": false,
+          "expected": "design_quantum_circuit",
+          "got": "design_quantum_circuit"
+        },
+        {
+          "id": "hermes-84bff146",
+          "pass": false,
+          "expected": "debug_quantum_circuit",
+          "got": "debug_quantum_circuit"
+        },
+        {
+          "id": "hermes-b2165b46",
+          "pass": true,
+          "expected": "createReservation",
+          "got": "createReservation"
+        },
+        {
+          "id": "hermes-d1d0816c",
+          "pass": true,
+          "expected": "generate_invoices",
+          "got": "generate_invoices"
+        },
+        {
+          "id": "hermes-89ef3c87",
+          "pass": true,
+          "expected": "initialize_smart_home_system",
+          "got": "initialize_smart_home_system"
+        },
+        {
+          "id": "hermes-81ad724a",
+          "pass": true,
+          "expected": "set_smart_light_color",
+          "got": "set_smart_light_color"
+        },
+        {
+          "id": "hermes-d1bff923",
+          "pass": true,
+          "expected": "schedule_watering",
+          "got": "schedule_watering"
+        },
+        {
+          "id": "hermes-64f1174b",
+          "pass": false,
+          "expected": "generate_quantum_circuit",
+          "got": "generate_quantum_circuit"
+        },
+        {
+          "id": "hermes-6de2be31",
+          "pass": true,
+          "expected": "get_language_syntax",
+          "got": "get_language_syntax"
+        },
+        {
+          "id": "hermes-c483f963",
+          "pass": true,
+          "expected": "activate_voice_command",
+          "got": "activate_voice_command"
+        },
+        {
+          "id": "hermes-d43227ba",
+          "pass": true,
+          "expected": "control_smart_light",
+          "got": "control_smart_light"
+        },
+        {
+          "id": "hermes-3f440c20",
+          "pass": true,
+          "expected": "set_thermostat_schedule",
+          "got": "set_thermostat_schedule"
+        },
+        {
+          "id": "hermes-e279e98f",
+          "pass": true,
+          "expected": "set_fridge_temperature_schedule",
+          "got": "set_fridge_temperature_schedule"
+        },
+        {
+          "id": "hermes-ec0e73f1",
+          "pass": true,
+          "expected": "install_smart_lock",
+          "got": "install_smart_lock"
+        },
+        {
+          "id": "hermes-5790a757",
+          "pass": true,
+          "expected": "create_quantum_workspace",
+          "got": "create_quantum_workspace"
+        },
+        {
+          "id": "hermes-2b4b37c2",
+          "pass": true,
+          "expected": "simulate_quantum_entanglement",
+          "got": "simulate_quantum_entanglement"
+        },
+        {
+          "id": "hermes-adc48a37",
+          "pass": true,
+          "expected": "record_expenses",
+          "got": "record_expenses"
+        },
+        {
+          "id": "hermes-de713f49",
+          "pass": true,
+          "expected": "categorize_parties",
+          "got": "categorize_parties"
+        },
+        {
+          "id": "hermes-f7f0f05f",
+          "pass": true,
+          "expected": "categorize_records_by_diagnosis",
+          "got": "categorize_records_by_diagnosis"
+        },
+        {
+          "id": "hermes-7d99abac",
+          "pass": false,
+          "expected": "open_garage_door",
+          "got": null
+        },
+        {
+          "id": "hermes-8e0d5c89",
+          "pass": true,
+          "expected": "set_blind_openness",
+          "got": "set_blind_openness"
+        },
+        {
+          "id": "hermes-edfc63f9",
+          "pass": true,
+          "expected": "lock_all_smart_doors",
+          "got": "lock_all_smart_doors"
+        },
+        {
+          "id": "hermes-c0d622cf",
+          "pass": true,
+          "expected": "initialize_qubits",
+          "got": "initialize_qubits"
+        },
+        {
+          "id": "hermes-1e9a5790",
+          "pass": true,
+          "expected": "list_qcaas_providers",
+          "got": "list_qcaas_providers"
+        },
+        {
+          "id": "hermes-24b4de96",
+          "pass": true,
+          "expected": "create_employee_profile",
+          "got": "create_employee_profile"
+        },
+        {
+          "id": "hermes-85f6c398",
+          "pass": true,
+          "expected": "get_camera_live_feed",
+          "got": "get_camera_live_feed"
+        },
+        {
+          "id": "hermes-5ba3ba10",
+          "pass": true,
+          "expected": "schedule_smart_plug",
+          "got": "schedule_smart_plug"
+        },
+        {
+          "id": "hermes-cb260921",
+          "pass": false,
+          "expected": "book_appointment",
+          "got": "book_appointment"
+        }
+      ]
+    }
+  }
+}

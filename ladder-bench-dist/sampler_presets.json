@@ -1,0 +1,50 @@
+{
+  "_comment": "Справочник рекомендованных сэмплеров по семействам моделей (источник: unsloth.ai/docs/models, официальные карточки). Режим LADDER_SAMPLER=recommended матчит имя модели по подстрокам match (без учёта регистра, первый совпавший — приоритет сверху вниз). think/nonthink — варианты под режим; для think взяты рекомендации «точный кодинг», т.к. бенч кодинговый. Дополняйте своими семействами — файл просто читается раннером.",
+  "presets": [
+    {
+      "name": "Qwen3-Coder-Next",
+      "match": ["coder-next", "codernext"],
+      "source": "https://unsloth.ai/docs/models/qwen3-coder-next",
+      "nonthink": {"temperature": 1.0, "top_p": 0.95, "top_k": 40, "min_p": 0.01},
+      "think": {"temperature": 1.0, "top_p": 0.95, "top_k": 40, "min_p": 0.01}
+    },
+    {
+      "name": "Qwen3.6 (и дистиллы: Qwopus3.6, huihui)",
+      "match": ["qwen3.6", "qwen36", "qwopus3.6", "qwopus36"],
+      "source": "https://unsloth.ai/docs/models/qwen3.6",
+      "nonthink": {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "min_p": 0.0, "presence_penalty": 1.5},
+      "think": {"temperature": 0.6, "top_p": 0.95, "top_k": 20, "min_p": 0.0},
+      "think_note": "вариант «точный кодинг»; для общих задач think: temp 1.0 / top_p 0.95"
+    },
+    {
+      "name": "Qwen3.5 (и дистиллы: Qwopus3.5)",
+      "match": ["qwen3.5", "qwen35", "qwopus3.5", "qwopus35"],
+      "source": "https://unsloth.ai/docs/models/qwen3.5",
+      "nonthink": {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "min_p": 0.0, "presence_penalty": 1.5},
+      "think": {"temperature": 0.6, "top_p": 0.95, "top_k": 20, "min_p": 0.0},
+      "think_note": "вариант «точный кодинг»; для общих задач think: temp 1.0 / top_p 0.95 / presence 1.5"
+    },
+    {
+      "name": "Qwen3 / Qwen3-Next (общий)",
+      "match": ["qwen3-next", "qwen3"],
+      "source": "https://unsloth.ai/docs/models",
+      "nonthink": {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "min_p": 0.0},
+      "think": {"temperature": 0.6, "top_p": 0.95, "top_k": 20, "min_p": 0.0}
+    },
+    {
+      "name": "GLM-4.x/5",
+      "match": ["glm"],
+      "source": "https://unsloth.ai/docs/models/tutorials/glm-4.7.md",
+      "nonthink": {"temperature": 1.0, "top_p": 0.95},
+      "think": {"temperature": 1.0, "top_p": 0.95},
+      "think_note": "для агентских задач GLM рекомендует temp 0.7 / top_p 1.0"
+    },
+    {
+      "name": "Gemma 3/4",
+      "match": ["gemma"],
+      "source": "https://unsloth.ai/docs/models/gemma-4",
+      "nonthink": {"temperature": 1.0, "top_p": 0.95, "top_k": 64},
+      "think": {"temperature": 1.0, "top_p": 0.95, "top_k": 64}
+    }
+  ]
+}

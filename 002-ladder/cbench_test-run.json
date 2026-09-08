@@ -1,0 +1,89 @@
+{
+  "label": "test-run",
+  "provider": {
+    "name": "lmstudio",
+    "base_url": "http://192.168.56.1:1234",
+    "model": "",
+    "enable_thinking_support": false,
+    "has_api_key": false
+  },
+  "model": "qwen/qwen3-4b-2507",
+  "think": false,
+  "conditions": {
+    "sampler": {
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "seed": 42
+    },
+    "sampler_mode": "reference",
+    "think": false,
+    "max_tokens": 16384,
+    "n_runs": 1,
+    "base_seed": 42,
+    "levels": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "topics": [],
+    "exec_timeout_s": 20.0,
+    "sandbox": true,
+    "sandbox_mode": "windows-best-effort",
+    "compiler": "clang.EXE",
+    "compiler_version": "clang version 22.1.7 (https://github.com/msys2/MINGW-packages b8f306ad57e0c8f3f15aed0dc809d7e3e8e2eee9)",
+    "platform": "Windows-10-10.0.19044-SP0",
+    "python_version": "3.14.5",
+    "provider": {
+      "name": "lmstudio",
+      "base_url": "http://192.168.56.1:1234",
+      "model": "",
+      "enable_thinking_support": false,
+      "has_api_key": false
+    },
+    "case_bank_hash": "2fa1efbc67ebcf56",
+    "n_cases": 1,
+    "sanitizers": false,
+    "nothink_thought": false
+  },
+  "usage": {
+    "prompt_tokens": 464,
+    "completion_tokens": 1101,
+    "requests": 1,
+    "request_seconds": 13.1,
+    "gen_tok_s": 84.1,
+    "answers_cut_by_limit": 0,
+    "loop_suspects": 0,
+    "empty_answers": 0,
+    "thinking_answers": 0,
+    "code_from_think": 0
+  },
+  "wall_minutes": 0.2,
+  "results": {
+    "code": {
+      "by_level": {
+        "easy": {
+          "pass": 1,
+          "total": 1
+        }
+      },
+      "by_topic": {
+        "files": {
+          "pass": 1,
+          "total": 1
+        }
+      },
+      "sandbox_blocked_tasks": 0,
+      "results": [
+        {
+          "id": "c-matrix-001",
+          "level": "easy",
+          "topic": "files",
+          "pass": true,
+          "tok": 1101
+        }
+      ]
+    }
+  }
+}

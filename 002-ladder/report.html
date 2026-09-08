@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<title>cbench — отчёт</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#111;color:#ddd}
+header{padding:16px 24px;background:#161616;border-bottom:1px solid #333}
+h1{font-size:20px;margin:0}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid #333;padding:6px 10px;text-align:left;white-space:nowrap}
+th{background:#1e1e1e;position:sticky;top:0}
+tr:hover{background:#202020;cursor:pointer}
+.num{text-align:right}
+#detail{margin:24px;background:#161616;border:1px solid #333;border-radius:6px;padding:16px;display:none}
+pre{background:#0d0d0d;padding:10px;overflow:auto;border-radius:4px;font-size:12px}
+.ok{color:#4caf50}.bad{color:#f44336}.warn{color:#ff9800}
+</style></head><body>
+<header><h1>cbench — бенчмарк знания языка Си</h1></header>
+<div style="overflow:auto;max-height:70vh">
+<table><thead><tr>
+<th>label</th><th>model</th><th>provider</th><th>compiler</th><th>think</th><th>sampler</th>
+<th>easy</th><th>files</th><th>tok/s</th><th>мин</th></tr></thead>
+<tbody><tr onclick='detail("my-model")'><td>my-model</td><td>qwen/qwen3-4b-2507</td><td>lmstudio</td><td>clang.EXE</td><td>no-think</td><td>reference</td><td class='num'>100%</td><td class='num'>100%</td><td class='num'>90.6</td><td class='num'>0.2</td></tr><tr onclick='detail("test-run")'><td>test-run</td><td>qwen/qwen3-4b-2507</td><td>lmstudio</td><td>clang.EXE</td><td>no-think</td><td>reference</td><td class='num'>100%</td><td class='num'>100%</td><td class='num'>84.1</td><td class='num'>0.2</td></tr></tbody></table>
+</div>
+<div id="detail"></div>
+<script>
+const ROWS=[{&quot;label&quot;: &quot;my-model&quot;, &quot;model&quot;: &quot;qwen/qwen3-4b-2507&quot;}, {&quot;label&quot;: &quot;test-run&quot;, &quot;model&quot;: &quot;qwen/qwen3-4b-2507&quot;}];
+function detail(label){
+  const r=ROWS.find(x=>x.label===label);
+  const d=document.getElementById('detail');
+  d.style.display='block';
+  d.innerHTML='<h2>'+r.label+' — '+r.model+'</h2>'+
+    '<p>Кликните в таблице для выбора прогона (детали по задачам — см. JSON).</p>';
+}
+</script></body></html>

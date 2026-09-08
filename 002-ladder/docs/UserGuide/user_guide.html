@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cbench — руководство пользователя</title>
+<style>
+:root {
+  --bg:#0f1216; --panel:#171c22; --panel2:#1d242c; --border:#2a3340;
+  --text:#d7dee8; --muted:#8b98a8; --accent:#4da3ff; --mark:#ffd54f;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; font:15px/1.65 "Segoe UI",system-ui,Arial,sans-serif;
+  background:var(--bg); color:var(--text); }
+a { color:var(--accent); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:320px; min-width:260px; background:var(--panel);
+  border-right:1px solid var(--border); position:sticky; top:0; height:100vh;
+  overflow-y:auto; padding:16px; }
+.sidebar h1 { font-size:15px; margin:0 0 12px; color:#fff; }
+#search { width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--border);
+  background:var(--panel2); color:var(--text); font-size:14px; margin-bottom:4px; }
+#search:focus { outline:none; border-color:var(--accent); }
+#stats { font-size:12px; color:var(--muted); margin:4px 2px 12px; min-height:14px; }
+.toc-ch { display:block; padding:6px 8px; border-radius:5px; color:var(--text);
+  font-weight:600; font-size:13.5px; margin-top:4px; }
+.toc-ch:hover { background:var(--panel2); text-decoration:none; }
+.toc-sub { display:block; padding:3px 8px 3px 22px; border-radius:5px;
+  color:var(--muted); font-size:12.5px; }
+.toc-sub:hover { background:var(--panel2); color:var(--text); text-decoration:none; }
+.content { flex:1; max-width:900px; padding:28px 40px 80px; }
+.topbar { position:sticky; top:0; background:linear-gradient(var(--bg) 70%,transparent);
+  padding:8px 0; display:flex; gap:10px; align-items:center; }
+.topbar button { background:var(--panel2); border:1px solid var(--border); color:var(--text);
+  padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; }
+.topbar button:hover { border-color:var(--accent); }
+h1 { font-size:26px; color:#fff; }
+h2 { font-size:20px; margin-top:44px; padding-top:14px; border-top:1px solid var(--border);
+  color:#fff; }
+h3 { font-size:16.5px; margin-top:26px; color:#cfe3ff; }
+p { margin:12px 0; }
+code { background:var(--panel2); padding:1px 6px; border-radius:4px;
+  font-family:Consolas,"Cascadia Code",monospace; font-size:13px; }
+pre { background:#0b0e12; border:1px solid var(--border); border-radius:8px;
+  padding:14px 16px; overflow-x:auto; }
+pre code { background:none; padding:0; font-size:13px; }
+blockquote { border-left:3px solid var(--accent); margin:14px 0; padding:6px 16px;
+  background:var(--panel); border-radius:0 6px 6px 0; color:var(--muted); }
+.tablewrap { overflow-x:auto; margin:14px 0; }
+table { border-collapse:collapse; width:100%; font-size:13.5px; }
+th,td { border:1px solid var(--border); padding:7px 12px; text-align:left; }
+th { background:var(--panel2); color:#fff; }
+td code, th code { font-size:12.5px; }
+hr { border:none; border-top:1px solid var(--border); margin:28px 0; }
+mark { background:var(--mark); color:#222; border-radius:2px; padding:0 1px; }
+.chapnav { display:flex; gap:10px; margin-top:26px; }
+.navlink { background:var(--panel2); border:1px solid var(--border); color:var(--text);
+  padding:7px 16px; border-radius:6px; font-size:13px; cursor:pointer; }
+.navlink:hover { border-color:var(--accent); text-decoration:none; }
+.navlink.empty { opacity:.4; pointer-events:none; }
+section.hidden { display:none; }
+@media (max-width:820px) {
+  .layout { flex-direction:column; }
+  .sidebar { width:100%; height:auto; position:relative; border-right:none;
+    border-bottom:1px solid var(--border); }
+  .content { padding:18px 20px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <h1>📘 cbench · User Guide</h1>
+    <input id="search" type="text" placeholder="Поиск по руководству…" autocomplete="off">
+    <div id="stats"></div>
+    <nav id="toc">
+<a class="toc-ch" href="#ch-1">1. Что измеряет бенчмарк</a>
+<a class="toc-ch" href="#ch-2">2. Требования и установка</a>
+<a class="toc-ch" href="#ch-3">3. Установка компилятора</a><a class="toc-sub" href="#ch-3-1">3.1 Linux — GCC/Clang</a><a class="toc-sub" href="#ch-3-2">3.2 Windows — MSVC (Visual Studio)</a><a class="toc-sub" href="#ch-3-3">3.3 Windows — clang (MSYS2, опционально)</a><a class="toc-sub" href="#ch-3-4">3.4 Принудительный выбор компилятора</a>
+<a class="toc-ch" href="#ch-4">4. Подключение к модели: три варианта</a><a class="toc-sub" href="#ch-4-1">4.1 LM Studio (локально)</a><a class="toc-sub" href="#ch-4-2">4.2 llama.cpp-server</a><a class="toc-sub" href="#ch-4-3">4.3 Внешний провайдер (OpenAI-протокол)</a>
+<a class="toc-ch" href="#ch-5">5. LM Studio через reverse-proxy (Caddy)</a>
+<a class="toc-ch" href="#ch-6">6. Быстрый старт (пошагово)</a>
+<a class="toc-ch" href="#ch-7">7. Командная строка</a>
+<a class="toc-ch" href="#ch-8">8. Переменные окружения</a>
+<a class="toc-ch" href="#ch-9">9. Банк задач (cases.json)</a><a class="toc-sub" href="#ch-9-1">9.1 Правила написания задачи</a>
+<a class="toc-ch" href="#ch-10">10. Как устроена проверка (pipeline)</a><a class="toc-sub" href="#ch-10-1">10.1 Маркеры аномалий ответа</a>
+<a class="toc-ch" href="#ch-11">11. Песочница и безопасность</a>
+<a class="toc-ch" href="#ch-12">12. Отчёт и результаты</a>
+<a class="toc-ch" href="#ch-13">13. Разбор примера: MatrixOp</a>
+<a class="toc-ch" href="#ch-14">14. Устранение неполадок</a>
+<a class="toc-ch" href="#ch-15">15. ЧаВо (FAQ)</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <div class="topbar">
+      <button id="btn-prev">← Предыдущая глава</button>
+      <button id="btn-next">Следующая глава →</button>
+      <button id="btn-clear" style="display:none">Сбросить поиск</button>
+    </div>
+<h1>Руководство пользователя — cbench</h1>
+<p>Бенчмарк для оценки <strong>знания языка Си</strong> локальными LLM. Модель пишет код на Си, он <strong>компилируется</strong> и <strong>исполняется на реальных тестах</strong> (pass/fail, без LLM-судьи). Работает с любым OpenAI-совместимым сервером в трёх вариантах подключения: внешний провайдер (OpenAI), llama.cpp-server, LM Studio (в том числе через reverse-proxy, например Caddy).</p>
+<hr>
+<section id="ch-1" data-title="1. Что измеряет бенчмарк"><h2 id="ch-1-h">1. Что измеряет бенчмарк</h2><p>Для каждой задачи модель получает текстовое условие, пишет решение на Си, а бенчмарк:</p>
+<ol><li>извлекает код из ответа;</li><li><strong>компилирует</strong> его (gcc/clang/MSVC);</li><li><strong>запускает</strong> скомпилированный бинарник в песочнице;</li><li>сверяет вывод с эталоном (<code>pass</code> / <code>fail</code>).</li></ol>
+<p>Результат — <strong>процент решённых задач</strong> по уровням сложности (<code>easy</code>, <code>medium</code>, <code>hard</code>) и по темам (указатели, память, строки, структуры, файлы, рекурсия и т.д.). Никакой «оценки другой моделью» — только реальное исполнение.</p>
+<p>Типы задач:</p>
+<div class="tablewrap"><table><thead><tr><th>Тип</th><th>Описание</th></tr></thead><tbody><tr><td><code>function</code></td><td>модель дописывает одну функцию, тест через <code>main()</code> с проверками</td></tr><tr><td><code>program</code> + stdin/stdout</td><td>полная программа: читает stdin, пишет stdout</td></tr><tr><td><code>program</code> + argv</td><td>аргументы командной строки</td></tr><tr><td><code>program</code> + files</td><td>чтение/запись файлов</td></tr><tr><td><code>program</code> + argv_files</td><td>имена файлов передаются через argv (пример — MatrixOp)</td></tr></tbody></table></div>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-2" data-title="2. Требования и установка"><h2 id="ch-2-h">2. Требования и установка</h2><ul><li><strong>Python 3.8+</strong> — только стандартная библиотека, ничего устанавливать не нужно.</li><li><strong>Компилятор Си</strong>: на Linux — <code>gcc</code> или <code>clang</code>; на Windows — MSVC <code>cl.exe</code> (Visual Studio Build Tools) или clang из PATH (например, MSYS2 clang64).</li><li>Запущенный сервер модели с OpenAI-совместимым API.</li></ul>
+<p>Проверка окружения (компилятор + компиляция + запуск + таймаут):</p>
+<pre><code class="lang-bash">python run_cbench.py selftest</code></pre>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-3" data-title="3. Установка компилятора"><h2 id="ch-3-h">3. Установка компилятора</h2><h3 id="ch-3-1">3.1 Linux — GCC/Clang</h3>
+<pre><code class="lang-bash"># Ubuntu/Debian
+sudo apt install gcc            # или: sudo apt install clang
+
+# Fedora
+sudo dnf install gcc            # или: sudo dnf install clang</code></pre>
+<p>Проверка: <code>gcc --version</code> или <code>clang --version</code>.</p>
+<h3 id="ch-3-2">3.2 Windows — MSVC (Visual Studio)</h3>
+<ol><li>Установите <strong>Visual Studio 2019/2022 Community</strong> или <strong>Build Tools</strong>.</li><li>Обязательно отметьте рабочую нагрузку <strong>«Разработка классических приложений на C++»</strong> (включает компилятор MSVC и <code>vswhere</code>).</li><li>Бенчмарк сам находит <code>cl.exe</code> через <code>vswhere</code> и подгружает окружение через <code>vcvars64.bat</code>.</li></ol>
+<p>Проверка: <code>python run_cbench.py selftest</code> должен показать найденный компилятор.</p>
+<h3 id="ch-3-3">3.3 Windows — clang (MSYS2, опционально)</h3>
+<pre><code class="lang-text">pacman -S mingw-w64-clang-x86_64-clang</code></pre>
+<p>Если clang есть в <code>PATH</code>, он будет найден автоматически.</p>
+<h3 id="ch-3-4">3.4 Принудительный выбор компилятора</h3>
+<pre><code class="lang-bash">CBENCH_CC=clang python run_cbench.py 1234 my-model code
+CBENCH_CC=gcc   python run_cbench.py 1234 my-model code
+# или полный путь:
+CBENCH_CC="C:\msys64\clang64\bin\clang.exe" python run_cbench.py 1234 my-model code</code></pre>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-4" data-title="4. Подключение к модели: три варианта"><h2 id="ch-4-h">4. Подключение к модели: три варианта</h2><p>Все три варианта говорят по одному OpenAI-протоколу — разница только в конфигурации. Бенчмарк выбирает пресет по <code>CBENCH_PROVIDER</code> или автоматически по порту/URL.</p>
+<div class="tablewrap"><table><thead><tr><th>Вариант</th><th>Порт по умолч.</th><th>API key</th><th>Имя модели</th></tr></thead><tbody><tr><td><strong>LM Studio</strong></td><td><code>1234</code></td><td>не нужен</td><td>авто (<code>/v1/models</code>)</td></tr><tr><td><strong>llama.cpp-server</strong></td><td><code>8080</code></td><td>не нужен</td><td>авто (<code>/v1/models</code>)</td></tr><tr><td><strong>внешний провайдер (OpenAI)</strong></td><td>задаётся URL</td><td>обязателен</td><td>обязательно</td></tr></tbody></table></div>
+<h3 id="ch-4-1">4.1 LM Studio (локально)</h3>
+<pre><code class="lang-bash">python run_cbench.py 1234 my-model code</code></pre>
+<h3 id="ch-4-2">4.2 llama.cpp-server</h3>
+<pre><code class="lang-bash">python run_cbench.py 8080 my-model code</code></pre>
+<h3 id="ch-4-3">4.3 Внешний провайдер (OpenAI-протокол)</h3>
+<pre><code class="lang-bash">python run_cbench.py https://api.openai.com/v1 my-model code \
+    --provider openai --api-key sk-...</code></pre>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-5" data-title="5. LM Studio через reverse-proxy (Caddy)"><h2 id="ch-5-h">5. LM Studio через reverse-proxy (Caddy)</h2><p>Если LM Studio проксируется Caddy, например:</p>
+<pre><code class="lang-text">caddy_windows_amd64.exe reverse-proxy --from http://192.168.56.1:1234 --to 192.168.1.70:1234</code></pre>
+<p>то:</p>
+<ul><li><code>192.168.56.1:1234</code> — <strong>внешний</strong> адрес прокси, на него обращается бенчмарк;</li><li><code>192.168.1.70:1234</code> — <strong>внутренний</strong> адрес LM Studio, его знает только Caddy.</li></ul>
+<p>Запуск бенчмарка:</p>
+<pre><code class="lang-bash">CBENCH_PROVIDER=lmstudio CBENCH_BASE_URL=http://192.168.56.1:1234 \
+    python run_cbench.py http://192.168.56.1:1234 my-model code</code></pre>
+<p>Проверка доступности и честности параметров сервера:</p>
+<pre><code class="lang-bash">python probe_sampler.py http://192.168.56.1:1234</code></pre>
+<blockquote>⚠️ Если сервис доступен из недоверенной сети — ограничьте доступ firewall или добавьте TLS/аутентификацию: HTTP-трафик и модель проходят по сети в открытом виде.</blockquote>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-6" data-title="6. Быстрый старт (пошагово)"><h2 id="ch-6-h">6. Быстрый старт (пошагово)</h2><pre><code class="lang-bash"># 1. Окружение
+python run_cbench.py selftest
+
+# 2. Банк задач
+python run_cbench.py validate
+
+# 3. (опционально) проверка сервера
+python probe_sampler.py 1234
+
+# 4. Прогон
+python run_cbench.py 1234 my-model code</code></pre>
+<p>Результат: <code>cbench_my-model.json</code> + автообновляемый <code>report.html</code> (открыть в браузере).</p>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-7" data-title="7. Командная строка"><h2 id="ch-7-h">7. Командная строка</h2><pre><code class="lang-text">python run_cbench.py &lt;endpoint&gt; &lt;label&gt; [code|all] [опции]</code></pre>
+<div class="tablewrap"><table><thead><tr><th>Аргумент</th><th>Описание</th></tr></thead><tbody><tr><td><code>endpoint</code></td><td>порт (<code>1234</code>) или полный URL (<code>http://192.168.56.1:1234</code>, <code>https://api.openai.com/v1</code>)</td></tr><tr><td><code>label</code></td><td>метка прогона (имя файла результата)</td></tr><tr><td><code>track</code></td><td><code>code</code> (только код) или <code>all</code></td></tr><tr><td><code>selftest</code></td><td>вместо прогона — проверка компилятора и песочницы</td></tr><tr><td><code>validate</code></td><td>проверка корректности банка задач</td></tr></tbody></table></div>
+<p>Опции:</p>
+<div class="tablewrap"><table><thead><tr><th>Опция</th><th>Описание</th></tr></thead><tbody><tr><td><code>--provider</code></td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>--base-url</code></td><td>переопределить базовый URL</td></tr><tr><td><code>--api-key</code></td><td>ключ API (внешний провайдер)</td></tr><tr><td><code>--model</code></td><td>имя модели</td></tr><tr><td><code>--level</code></td><td>уровни через запятую: <code>--level easy,hard</code></td></tr><tr><td><code>--topic</code></td><td>темы через запятую: <code>--topic files,pointers</code></td></tr><tr><td><code>--case</code></td><td>id задач через запятую</td></tr><tr><td><code>--runs</code></td><td>число прогонов (усреднение)</td></tr><tr><td><code>--cc</code></td><td>путь к компилятору</td></tr><tr><td><code>--sanitizers</code></td><td>диагностический прогон ASan/UBSan</td></tr><tr><td><code>--unsafe</code></td><td>отключить песочницу</td></tr></tbody></table></div>
+<p>Примеры:</p>
+<pre><code class="lang-bash">python run_cbench.py 1234 my-model code --level hard
+python run_cbench.py 1234 my-model code --topic files
+python run_cbench.py 1234 my-model code --case c-matrix-001
+python run_cbench.py 1234 my-model code --runs 3</code></pre>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-8" data-title="8. Переменные окружения"><h2 id="ch-8-h">8. Переменные окружения</h2><div class="tablewrap"><table><thead><tr><th>Переменная</th><th>По умолчанию</th><th>Назначение</th></tr></thead><tbody><tr><td><code>CBENCH_PROVIDER</code></td><td>авто</td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>CBENCH_BASE_URL</code></td><td>по провайдеру</td><td>базовый URL</td></tr><tr><td><code>CBENCH_MODEL</code></td><td>авто (<code>/v1/models</code>)</td><td>имя модели</td></tr><tr><td><code>CBENCH_API_KEY</code></td><td>—</td><td>ключ API</td></tr><tr><td><code>CBENCH_CC</code></td><td>авто</td><td>путь к компилятору</td></tr><tr><td><code>CBENCH_LEVELS</code></td><td><code>easy,medium,hard</code></td><td>уровни через запятую</td></tr><tr><td><code>CBENCH_TOPICS</code></td><td>—</td><td>темы через запятую</td></tr><tr><td><code>CBENCH_CASES</code></td><td>—</td><td>id задач через запятую</td></tr><tr><td><code>CBENCH_RUNS</code></td><td><code>1</code></td><td>число прогонов (сиды 42, 43, …)</td></tr><tr><td><code>CBENCH_SAMPLER</code></td><td><code>reference</code></td><td>режим сэмплера</td></tr><tr><td><code>CBENCH_SANITIZERS</code></td><td><code>0</code></td><td><code>1</code> — доп. прогон ASan/UBSan</td></tr><tr><td><code>CBENCH_UNSAFE</code></td><td><code>0</code></td><td><code>1</code> — выключить песочницу</td></tr><tr><td><code>CBENCH_COMPILE_TIMEOUT</code></td><td><code>60</code></td><td>таймаут компиляции, сек</td></tr><tr><td><code>THINK</code></td><td><code>0</code></td><td><code>1</code> — reasoning-режим</td></tr><tr><td><code>CBENCH_MAX_TOKENS</code></td><td><code>16384</code></td><td>лимит токенов (для think — 32000+)</td></tr><tr><td><code>CBENCH_TEMP</code>/<code>CBENCH_TOP_P</code>/<code>CBENCH_TOP_K</code>/<code>CBENCH_MIN_P</code>/<code>CBENCH_SEED</code></td><td>эталон</td><td>переопределения для <code>CBENCH_SAMPLER=custom</code></td></tr></tbody></table></div>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-9" data-title="9. Банк задач (cases.json)"><h2 id="ch-9-h">9. Банк задач (cases.json)</h2><p>Задачи лежат в <code>cases/cases.json</code>. Формат одной задачи:</p>
+<pre><code class="lang-json">{
+  "id": "c-matrix-001",
+  "topic": "files",
+  "level": "easy",
+  "kind": "program",
+  "io_mode": "argv_files",
+  "compile_flags": [],
+  "prompt": "…текст задачи для модели…",
+  "tests": [
+    {
+      "argv": ["matrix1.txt", "matrix2.txt"],
+      "files": [
+        { "name": "matrix1.txt", "content": "2 2\n1 2\n3 4\n" }
+      ],
+      "expected": {
+        "stdout": "6 8\n10 12\n\n-4 -4\n-4 -4\n\n19 22\n43 50\n",
+        "exit_code": 0
+      },
+      "timeout_s": 20
+    }
+  ]
+}</code></pre>
+<p>Поля:</p>
+<div class="tablewrap"><table><thead><tr><th>Поле</th><th>Описание</th></tr></thead><tbody><tr><td><code>id</code></td><td>уникальный идентификатор</td></tr><tr><td><code>topic</code></td><td>тема (произвольная строка: <code>files</code>, <code>pointers</code>, <code>memory</code>, …)</td></tr><tr><td><code>level</code></td><td><code>easy</code> / <code>medium</code> / <code>hard</code></td></tr><tr><td><code>kind</code></td><td><code>function</code> / <code>program</code></td></tr><tr><td><code>io_mode</code></td><td>для <code>program</code>: <code>stdin_stdout</code> / <code>argv</code> / <code>files</code> / <code>argv_files</code></td></tr><tr><td><code>compile_flags</code></td><td>доп. флаги компиляции (обычно <code>[]</code>; на MSVC <code>-std=c11</code> транслируется в <code>/std:c11</code>)</td></tr><tr><td><code>prompt</code></td><td>текст задачи (с полным контрактом ввода-вывода)</td></tr><tr><td><code>harness</code></td><td>для <code>function</code>: <code>main()</code> с проверками, приклеивается к решению модели</td></tr><tr><td><code>tests</code></td><td>для <code>program</code>: список запусков с входными файлами, stdin, argv и эталоном</td></tr></tbody></table></div>
+<h3 id="ch-9-1">9.1 Правила написания задачи</h3>
+<ol><li><strong>Контракт ввода-вывода должен быть однозначным</strong> — модель и эталон должны понимать его одинаково (формат файлов, разделители, порядок вывода).</li><li><strong>Эталон должен быть точным</strong> — сравнение stdout с нормализацией хвостовых пробелов строк и пустых строк по краям (внутренние пустые строки сохраняются).</li><li><strong>Тестов должно быть несколько</strong> — включайте крайние случаи (1×1, отрицательные числа, пустые входы).</li><li>После изменения банка меняется его <code>case_bank_hash</code> в <code>conditions</code> — прогоны со старым и новым банком несравнимы.</li></ol>
+<p>Проверка банка:</p>
+<pre><code class="lang-bash">python run_cbench.py validate</code></pre>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-10" data-title="10. Как устроена проверка (pipeline)"><h2 id="ch-10-h">10. Как устроена проверка (pipeline)</h2><pre><code class="lang-text">prompt ──▶ LLM-запрос ──▶ вырезание reasoning ──▶ извлечение ```c-кода
+     ──▶ компиляция (таймаут) ──▶ запуск в песочнице (каждый тест)
+     ──▶ сверка stdout/exit-code/файлов ──▶ pass/fail</code></pre>
+<p>Причины провала (<code>why</code>):</p>
+<div class="tablewrap"><table><thead><tr><th>Значение</th><th>Что произошло</th></tr></thead><tbody><tr><td><code>compile_error</code></td><td>код не скомпилировался</td></tr><tr><td><code>runtime_error</code></td><td>программа завершилась с ненулевым кодом/сигналом</td></tr><tr><td><code>timeout</code></td><td>превышен таймаут исполнения</td></tr><tr><td><code>wrong_answer</code></td><td>вывод/файлы не совпали с эталоном</td></tr><tr><td><code>sanitizer_error</code></td><td>ASan/UBSan нашёл UB (только при <code>CBENCH_SANITIZERS=1</code>)</td></tr></tbody></table></div>
+<h3 id="ch-10-1">10.1 Маркеры аномалий ответа</h3>
+<div class="tablewrap"><table><thead><tr><th>Флаг</th><th>Значение</th></tr></thead><tbody><tr><td><code>cut</code></td><td>ответ обрезан по лимиту токенов</td></tr><tr><td><code>loop</code></td><td>хвост ответа зациклен</td></tr><tr><td><code>empty</code></td><td>пустой ответ</td></tr><tr><td><code>thought</code></td><td>модель думала (reasoning-режим)</td></tr><tr><td><code>code_from_think</code></td><td>код взят из размышлений</td></tr></tbody></table></div>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-11" data-title="11. Песочница и безопасность"><h2 id="ch-11-h">11. Песочница и безопасность</h2><p>Код модели компилируется и исполняется в песочнице:</p>
+<ul><li>рабочий каталог — временная папка теста (туда кладутся входные файлы);</li><li>чистое окружение (ключи/токены из вашего env не видны коду);</li><li>wall-clock таймаут + убийство дерева процессов;</li><li>ограничение размера stdout/stderr;</li><li><strong>Linux</strong>: <code>setsid</code> + <code>setrlimit</code> (CPU, память, размер файла, число процессов);</li><li><strong>Windows</strong>: process group + <code>taskkill /T /F</code> + Job Object (best-effort).</li></ul>
+<blockquote><strong>Честная оговорка:</strong> это защита от <strong>случайно-вредного кода LLM</strong>, а не крепость против целенаправленного атакующего. Надёжная блокировка сети на Windows не гарантируется. При паранойе — гоняйте в VM/WSL/Docker; бенчу это не мешает.</blockquote>
+<p>Отключение песочницы (не рекомендуется): <code>CBENCH_UNSAFE=1</code>.</p>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-12" data-title="12. Отчёт и результаты"><h2 id="ch-12-h">12. Отчёт и результаты</h2><p>После прогона создаётся <code>cbench_&lt;label&gt;.json</code> с полными данными и блоком <code>conditions</code> (отпечаток условий: сэмплер, think, компилятор, платформа, hash банка). По нему любой прогон самопроверяем на сравнимость.</p>
+<p>Сводный HTML-отчёт — <code>report.html</code> (обновляется автоматически):</p>
+<pre><code class="lang-bash">python make_report.py</code></pre>
+<p>В отчёте: процент по уровням и темам, токены и скорость генерации, маркеры аномалий, детали по каждой задаче (почему провалена, expected/actual).</p>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-13" data-title="13. Разбор примера: MatrixOp"><h2 id="ch-13-h">13. Разбор примера: MatrixOp</h2><p>Первая задача банка — <code>c-matrix-001</code> (тема <code>files</code>, уровень <code>easy</code>, тип <code>program</code> + <code>argv_files</code>). Условие — из файла <code>001-tasks/001-MatrixOp.md</code> (действия над считанными из файлов матрицами), доработанное до однозначного контракта:</p>
+<ul><li>программа получает <strong>два аргумента</strong> — имена файлов с матрицами;</li><li>формат файла: первая строка <code>R C</code>, далее <code>R</code> строк по <code>C</code> целых чисел;</li><li>гарантируется, что матрицы квадратные и одного размера;</li><li>вывод: три матрицы (сумма, разность, произведение), каждая строка — отдельной строкой, элементы через один пробел, между матрицами — ровно одна пустая строка;</li><li>память выделяется через <code>malloc</code> и освобождается через <code>free</code>.</li></ul>
+<p>Эталон для теста 1:</p>
+<pre><code class="lang-text">A = [[1,2],[3,4]], B = [[5,6],[7,8]]
+
+A+B = 6 8        A-B = -4 -4       A*B = 19 22
+      10 12            -4 -4             43 50</code></pre>
+<p>Полный текст промпта и эталонов — в <code>cases/cases.json</code>.</p>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-14" data-title="14. Устранение неполадок"><h2 id="ch-14-h">14. Устранение неполадок</h2><div class="tablewrap"><table><thead><tr><th>Симптом</th><th>Причина / решение</th></tr></thead><tbody><tr><td><code>❌ компилятор Си не найден</code></td><td>установите gcc/clang/MSVC, либо <code>CBENCH_CC=&lt;путь&gt;</code></td></tr><tr><td><code>нет соединения с …</code></td><td>сервер не запущен или неверный URL/порт</td></tr><tr><td><code>HTTP 4xx</code></td><td>неверный API key (внешний провайдер) или имя модели</td></tr><tr><td><code>сервер вернул не-JSON</code></td><td>URL указывает не на OpenAI-эндпоинт (проверьте <code>/v1/chat/completions</code>)</td></tr><tr><td><code>compile_error</code> у всех задач</td><td>проверьте компилятор: <code>python run_cbench.py selftest</code></td></tr><tr><td>вывод «всё <code>wrong_answer</code>»</td><td>проверьте, что контракт в <code>prompt</code> совпадает с эталоном в <code>tests</code></td></tr><tr><td>эмодзи/кириллица в консоли битые</td><td><code>PYTHONIOENCODING=utf-8</code> (обёртки <code>run_reference.*</code> ставят сами)</td></tr><tr><td>LM Studio игнорирует <code>think</code></td><td>reasoning отключается тумблером на стороне сервера</td></tr></tbody></table></div>
+<hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+<section id="ch-15" data-title="15. ЧаВо (FAQ)"><h2 id="ch-15-h">15. ЧаВо (FAQ)</h2><p><strong>Зачем компиляция, а не просто текст?</strong> Только реальное исполнение даёт честный <code>pass/fail</code> без LLM-судьи. Компиляция дополнительно ловит синтаксические ошибки и (с <code>CBENCH_SANITIZERS=1</code>) UB.</p>
+<p><strong>Почему результаты на gcc и MSVC могут отличаться?</strong> Код с undefined behavior ведёт себя по-разному на разных компиляторах. Для сравнимых цифр используйте один компилятор и указывайте его при публикации.</p>
+<p><strong>Как добавить свою задачу?</strong> Добавьте объект в <code>cases/cases.json</code> и проверьте: <code>python run_cbench.py validate</code>.</p>
+<p><strong>Можно ли гонять одну задачу?</strong> Да: <code>python run_cbench.py 1234 my-model code --case c-matrix-001</code>.</p>
+<p><strong>Сравнимы ли прогоны на разных сэмплерах?</strong> Нет. Фиксируйте <code>CBENCH_SAMPLER=reference</code> (по умолчанию) для сравнимых цифр.</p><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
+  </main>
+</div>
+<script>
+(function(){
+  const sections = Array.from(document.querySelectorAll('section[id^="ch-"]'));
+  const tocChapters = Array.from(document.querySelectorAll('.toc-ch'));
+  const search = document.getElementById('search');
+  const stats = document.getElementById('stats');
+  const btnClear = document.getElementById('btn-clear');
+
+  function currentChapterIndex(){
+    for (let i=sections.length-1;i>=0;i--){
+      const r = sections[i].getBoundingClientRect();
+      if (r.top <= 140) return i;
+    }
+    return 0;
+  }
+  function updateNav(){
+    const i = currentChapterIndex();
+    const prev = sections[i-1], next = sections[i+1];
+    const bp = document.getElementById('btn-prev'), bn = document.getElementById('btn-next');
+    if (prev) { bp.textContent = '← ' + prev.dataset.title; bp.disabled = false; }
+    else { bp.textContent = '← Предыдущая глава'; bp.disabled = true; }
+    if (next) { bn.textContent = 'Следующая глава → ' + next.dataset.title; bn.disabled = false; }
+    else { bn.textContent = 'Следующая глава →'; bn.disabled = true; }
+  }
+  document.getElementById('btn-prev').addEventListener('click', ()=>{
+    const i = currentChapterIndex();
+    if (i>0) sections[i-1].scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('btn-next').addEventListener('click', ()=>{
+    const i = currentChapterIndex();
+    if (i<sections.length-1) sections[i+1].scrollIntoView({behavior:'smooth'});
+  });
+  window.addEventListener('scroll', updateNav, {passive:true});
+
+  function clearMarks(root){
+    root.querySelectorAll('mark').forEach(m=>{
+      const p=m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();
+    });
+  }
+  function highlight(root, q){
+    if(!q) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    const ql = q.toLowerCase();
+    for (const n of nodes){
+      const t = n.nodeValue;
+      if(!t) continue;
+      const lo = t.toLowerCase();
+      if(!lo.includes(ql)) continue;
+      const frag = document.createDocumentFragment();
+      let last=0, idx=lo.indexOf(ql);
+      while(idx!==-1){
+        if(idx>last) frag.appendChild(document.createTextNode(t.slice(last,idx)));
+        const m=document.createElement('mark'); m.textContent=t.slice(idx,idx+q.length);
+        frag.appendChild(m);
+        last = idx+q.length;
+        idx = lo.indexOf(ql, last);
+      }
+      if(last<t.length) frag.appendChild(document.createTextNode(t.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    }
+  }
+  function doSearch(){
+    const q = search.value.trim();
+    btnClear.style.display = q ? 'inline-block' : 'none';
+    let visible = 0;
+    sections.forEach(s => clearMarks(s));
+    if(!q){
+      sections.forEach(s=>s.classList.remove('hidden'));
+      tocChapters.forEach(t=>t.style.display='');
+      document.querySelectorAll('.toc-sub').forEach(t=>t.style.display='');
+      stats.textContent='';
+      return;
+    }
+    const ql = q.toLowerCase();
+    sections.forEach((s,idx)=>{
+      const hit = s.textContent.toLowerCase().includes(ql);
+      if(hit){ s.classList.remove('hidden'); visible++; highlight(s, q); }
+      else s.classList.add('hidden');
+      const ch = tocChapters[idx];
+      if(ch){ ch.style.display = hit ? '' : 'none';
+        const subs = ch.parentNode.querySelectorAll('.toc-sub');
+        subs.forEach(sub=>sub.style.display = hit ? '' : 'none');
+      }
+    });
+    stats.textContent = 'Найдено в главах: ' + visible;
+    const first = sections.find(s=>!s.classList.contains('hidden'));
+    if(first) first.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  search.addEventListener('input', doSearch);
+  btnClear.addEventListener('click', ()=>{
+    search.value=''; doSearch(); search.focus();
+  });
+  updateNav();
+})();
+</script>
+</body>
+</html>
