@@ -1,4 +1,8 @@
-"""Сборка HTML-отчёта по всем cbench_*.json в папке."""
+"""Сборка HTML-отчёта по всем cbench_*.json в папке.
+
+Отчёт: сводная таблица прогонов + при клике по строке — детали по каждой задаче
+(код решения модели, рассуждения, ошибка компиляции, причина провала).
+"""
 from __future__ import annotations
 
 import html
@@ -6,6 +10,9 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
+
+MAX_REASONING = 4000   # показываем в отчёте, полный текст — в JSON
+MAX_CODE = 30000
 
 
 def _esc(s) -> str:
@@ -36,6 +43,7 @@ def build(root: Path) -> Path:
             "usage": j.get("usage") or {},
             "results": code.get("results") or [],
             "wall": j.get("wall_minutes", 0),
+            "partial": bool(j.get("partial")),
             "sandbox_mode": (j.get("conditions") or {}).get("sandbox_mode", ""),
         }
         rows.append(cells)
@@ -50,15 +58,65 @@ def build(root: Path) -> Path:
 
 
 def _pct(d) -> str:
+    if not d:
+        return "—"
     total = d.get("total", 0)
     if not total:
         return "—"
     return f"{round(100 * d.get('pass', 0) / total)}%"
 
 
+def _detail_html(results) -> str:
+    """HTML-детализация одной задачи (код, рассуждения, ошибки)."""
+    out = []
+    for t in results:
+        flags = ", ".join(t.get("flags") or [])
+        why = t.get("why") or ""
+        cls = "ok" if t.get("pass") else "bad"
+        head = (f"<b>{_esc(t.get('id'))}</b> "
+                f"<span class='lvl'>({_esc(t.get('level'))}/{_esc(t.get('topic'))})</span> "
+                f"{'✅' if t.get('pass') else '❌'}")
+        if why:
+            head += f" <span class='why'>— {_esc(why)}</span>"
+        if flags:
+            head += f" <span class='flags'>[{_esc(flags)}]</span>"
+        parts = [f"<div class='task {cls}'>{head}"]
+
+        if t.get("reasoning"):
+            r = t["reasoning"]
+            note = "" if len(r) <= MAX_REASONING else "\n…[обрезано, полный текст в JSON]"
+            shown = r[:MAX_REASONING] + note
+            parts.append(
+                f"<details><summary>🧠 рассуждения ({len(r)} симв.)</summary>"
+                f"<pre class='reason'>{_esc(shown)}</pre></details>")
+        elif t.get("think_tail"):
+            parts.append(
+                f"<details><summary>🧠 рассуждения (хвост)</summary>"
+                f"<pre class='reason'>{_esc(t['think_tail'])}</pre></details>")
+
+        if t.get("compile_error"):
+            parts.append(
+                f"<details><summary>⚙️ ошибка компиляции</summary>"
+                f"<pre class='comp'>{_esc(t['compile_error'])}</pre></details>")
+
+        if t.get("code"):
+            c = t["code"]
+            if len(c) > MAX_CODE:
+                c = c[:MAX_CODE] + "\n…[обрезано]"
+            parts.append(
+                f"<details open><summary>📄 код решения</summary>"
+                f"<pre class='code'>{_esc(c)}</pre></details>")
+
+        parts.append("</div>")
+        out.append("".join(parts))
+    return "".join(out)
+
+
 def _render(rows, levels, topics, root) -> str:
-    head = _esc(json.dumps([{"label": r["label"], "model": r["model"]}
-                            for r in rows], ensure_ascii=False))
+    details = {r["label"]: _detail_html(r["results"]) for r in rows}
+    # JSON внутрь <script>: без HTML-экранирования, только защита от </script>.
+    details_json = json.dumps(details, ensure_ascii=False).replace("</", "<\\/")
+
     tr = []
     for r in rows:
         lv_cells = "".join(
@@ -66,9 +124,10 @@ def _render(rows, levels, topics, root) -> str:
         tp_cells = "".join(
             f"<td class='num'>{_pct(r['topics'].get(t))}</td>" for t in topics)
         u = r["usage"]
+        part = " ⚠частичный" if r["partial"] else ""
         tr.append(
             f"<tr onclick='detail({json.dumps(r['label'], ensure_ascii=False)})'>"
-            f"<td>{_esc(r['label'])}</td><td>{_esc(r['model'])}</td>"
+            f"<td>{_esc(r['label'])}{part}</td><td>{_esc(r['model'])}</td>"
             f"<td>{_esc(r['provider'])}</td><td>{_esc(r['compiler'])}</td>"
             f"<td>{_esc(r['think'])}</td><td>{_esc(r['sampler'])}</td>"
             f"{lv_cells}{tp_cells}"
@@ -89,7 +148,17 @@ th{{background:#1e1e1e;position:sticky;top:0}}
 tr:hover{{background:#202020;cursor:pointer}}
 .num{{text-align:right}}
 #detail{{margin:24px;background:#161616;border:1px solid #333;border-radius:6px;padding:16px;display:none}}
-pre{{background:#0d0d0d;padding:10px;overflow:auto;border-radius:4px;font-size:12px}}
+pre{{background:#0d0d0d;padding:10px;overflow:auto;border-radius:4px;font-size:12px;white-space:pre-wrap;word-break:break-word}}
+.task{{border-left:3px solid #333;padding:8px 12px;margin:10px 0;background:#161616;border-radius:4px}}
+.task.ok{{border-left-color:#4caf50}}
+.task.bad{{border-left-color:#f44336}}
+.task details{{margin:6px 0}}
+.task summary{{cursor:pointer;color:#8ab4f8;font-size:13px}}
+.lvl{{color:#888;font-size:12px}}
+.why{{color:#f44336}}
+.flags{{color:#ff9800;font-size:12px}}
+.comp{{color:#ff8a80}}
+.reason{{color:#b0bec5}}
 .ok{{color:#4caf50}}.bad{{color:#f44336}}.warn{{color:#ff9800}}
 </style></head><body>
 <header><h1>cbench — бенчмарк знания языка Си</h1></header>
@@ -101,17 +170,11 @@ pre{{background:#0d0d0d;padding:10px;overflow:auto;border-radius:4px;font-size:1
 </div>
 <div id="detail"></div>
 <script>
-const ROWS={head};
+const DETAILS={details_json};
 function detail(label){{
-  const r=ROWS.find(x=>x.label===label);
   const d=document.getElementById('detail');
+  const html=DETAILS[label]||'';
   d.style.display='block';
-  d.innerHTML='<h2>'+r.label+' — '+r.model+'</h2>'+
-    '<p>Кликните в таблице для выбора прогона (детали по задачам — см. JSON).</p>';
+  d.innerHTML='<h2>'+label+'</h2>'+(html||'<p>Нет деталей.</p>');
 }}
 </script></body></html>"""
-
-
-if __name__ == "__main__":
-    p = build(HERE)
-    print(f"отчёт -> {p}")

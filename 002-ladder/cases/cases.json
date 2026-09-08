@@ -9,10 +9,19 @@
     "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nПрограмма выполняет действия над двумя матрицами, считанными из двух файлов.\n\nТребования:\n- Программа принимает два аргумента командной строки: имена двух файлов с матрицами\n  (первый аргумент — первая матрица A, второй — вторая матрица B).\n- Формат каждого файла: первая строка — два целых числа R и C (число строк и столбцов);\n  далее R строк, в каждой C целых чисел, разделённых пробелами.\n- Элементы матриц — целые числа (int), могут быть отрицательными.\n- Гарантируется, что обе матрицы квадратные и одного размера (R == C, размеры A и B совпадают),\n  поэтому сложение, вычитание и умножение всегда определены.\n\nПрограмма должна вычислить и вывести на экран (stdout) три матрицы в порядке:\n  1) сумма A + B;\n  2) разность A - B;\n  3) произведение A * B.\n\nФормат вывода:\n- Каждая строка матрицы выводится на отдельной строке, элементы разделяются одним пробелом.\n- Между матрицами — ровно одна пустая строка.\n- Никаких поясняющих надписей и лишних пробелов.\n\nДля хранения матриц используй динамическую память (malloc) и освободи её (free) в конце.\n\nПример: если A = [[1,2],[3,4]] и B = [[5,6],[7,8]], вывод:\n6 8\n10 12\n\n-4 -4\n-4 -4\n\n19 22\n43 50\n",
     "tests": [
       {
-        "argv": ["matrix1.txt", "matrix2.txt"],
+        "argv": [
+          "matrix1.txt",
+          "matrix2.txt"
+        ],
         "files": [
-          { "name": "matrix1.txt", "content": "2 2\n1 2\n3 4\n" },
-          { "name": "matrix2.txt", "content": "2 2\n5 6\n7 8\n" }
+          {
+            "name": "matrix1.txt",
+            "content": "2 2\n1 2\n3 4\n"
+          },
+          {
+            "name": "matrix2.txt",
+            "content": "2 2\n5 6\n7 8\n"
+          }
         ],
         "expected": {
           "stdout": "6 8\n10 12\n\n-4 -4\n-4 -4\n\n19 22\n43 50\n",
@@ -21,10 +30,19 @@
         "timeout_s": 20
       },
       {
-        "argv": ["a.txt", "b.txt"],
+        "argv": [
+          "a.txt",
+          "b.txt"
+        ],
         "files": [
-          { "name": "a.txt", "content": "3 3\n1 0 2\n0 -1 3\n2 1 0\n" },
-          { "name": "b.txt", "content": "3 3\n1 2 3\n0 1 0\n-1 1 2\n" }
+          {
+            "name": "a.txt",
+            "content": "3 3\n1 0 2\n0 -1 3\n2 1 0\n"
+          },
+          {
+            "name": "b.txt",
+            "content": "3 3\n1 2 3\n0 1 0\n-1 1 2\n"
+          }
         ],
         "expected": {
           "stdout": "2 2 5\n0 0 3\n1 2 2\n\n0 -2 -1\n0 -2 3\n3 0 -2\n\n-1 4 7\n-3 2 6\n2 5 6\n",
@@ -33,13 +51,2647 @@
         "timeout_s": 20
       },
       {
-        "argv": ["m1.txt", "m2.txt"],
+        "argv": [
+          "m1.txt",
+          "m2.txt"
+        ],
         "files": [
-          { "name": "m1.txt", "content": "1 1\n3\n" },
-          { "name": "m2.txt", "content": "1 1\n4\n" }
+          {
+            "name": "m1.txt",
+            "content": "1 1\n3\n"
+          },
+          {
+            "name": "m2.txt",
+            "content": "1 1\n4\n"
+          }
         ],
         "expected": {
           "stdout": "7\n\n-1\n\n12\n",
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-001",
+    "topic": "arrays",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем матрицу n x n (n строк по n целых чисел). Вычисли след матрицы — сумму элементов главной диагонали. Выведи след.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3\n1 2 3\n4 5 6\n7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "15\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2\n1 2\n3 4",
+        "files": [],
+        "expected": {
+          "stdout": "5\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-001",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одно пятизначное целое число (от 10000 до 99999). Выведи каждую его цифру в отдельной строке, начиная со старшей (десятки тысяч) и заканчивая младшей (единицы). Больше ничего выводить не нужно.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "10819",
+        "files": [],
+        "expected": {
+          "stdout": "1\n0\n8\n1\n9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "99999",
+        "files": [],
+        "expected": {
+          "stdout": "9\n9\n9\n9\n9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10000",
+        "files": [],
+        "expected": {
+          "stdout": "1\n0\n0\n0\n0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "54321",
+        "files": [],
+        "expected": {
+          "stdout": "5\n4\n3\n2\n1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-002",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай три целых числа a, b, f (a != 0). Вычисли выражение x = (a + b - f / a) + f * a * a - (a + b) в целочисленной арифметике (деление f / a — целочисленное). Выведи x в отдельной строке.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "15 10 3",
+        "files": [],
+        "expected": {
+          "stdout": "675\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 5 8",
+        "files": [],
+        "expected": {
+          "stdout": "28\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4 2 20",
+        "files": [],
+        "expected": {
+          "stdout": "315\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-003",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай целое число метров. Переведи его в километры (раздели на 1000) и выведи результат с тремя знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "15",
+        "files": [],
+        "expected": {
+          "stdout": "0.015\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1000",
+        "files": [],
+        "expected": {
+          "stdout": "1.000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1234",
+        "files": [],
+        "expected": {
+          "stdout": "1.234\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-004",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай два целых числа. Если первое больше второго — выведи \"greater\", если меньше — \"less\", если равны — \"equal\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "22 314",
+        "files": [],
+        "expected": {
+          "stdout": "less\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 10",
+        "files": [],
+        "expected": {
+          "stdout": "equal\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "100 3",
+        "files": [],
+        "expected": {
+          "stdout": "greater\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-005",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай три целых числа. Если среди них есть хотя бы две равные, увеличь каждое на 5 и выведи полученные три числа каждое в отдельной строке. Иначе выведи \"no equal\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "10 9 9",
+        "files": [],
+        "expected": {
+          "stdout": "15\n14\n14\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 2 3",
+        "files": [],
+        "expected": {
+          "stdout": "no equal\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5 5 5",
+        "files": [],
+        "expected": {
+          "stdout": "10\n10\n10\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-006",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСначала считай целое число n (количество слагаемых). Затем считай n строк, в каждой — четыре числа Z, B, A, beta (beta — угол в радианах). Вычисли Y = sum(Z^3 - B + A^2 / tg^2(beta)) по всем n наборам. Выведи Y с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2\n1 0 1 0.5\n2 1 1 1.0",
+        "files": [],
+        "expected": {
+          "stdout": "11.762968\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1\n3 2 2 0.8",
+        "files": [],
+        "expected": {
+          "stdout": "28.773031\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n1 0 0.5 0.3\n2 1 2 0.6\n0 3 1 0.9",
+        "files": [],
+        "expected": {
+          "stdout": "16.788576\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-007",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай два целых числа N и k. Вычисли сумму 1^k + 2^k + 3^k + ... + N^k (целочисленное возведение в степень, k >= 0). Выведи сумму.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5 2",
+        "files": [],
+        "expected": {
+          "stdout": "55\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4 3",
+        "files": [],
+        "expected": {
+          "stdout": "100\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 1",
+        "files": [],
+        "expected": {
+          "stdout": "55\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-008",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одно двузначное натуральное число (10..99). Выведи в первой строке наибольшую цифру числа, во второй — наименьшую.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "37",
+        "files": [],
+        "expected": {
+          "stdout": "7\n3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "99",
+        "files": [],
+        "expected": {
+          "stdout": "9\n9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "20",
+        "files": [],
+        "expected": {
+          "stdout": "2\n0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-009",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай начальную скорость V и время полёта T тела, брошенного под углом к горизонту. Угол alpha = arcsin(g * T / (2 * V)), где g = 9.81. Выведи угол в градусах с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "20 2",
+        "files": [],
+        "expected": {
+          "stdout": "29.373450\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 1",
+        "files": [],
+        "expected": {
+          "stdout": "29.373450\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5 1",
+        "files": [],
+        "expected": {
+          "stdout": "78.813236\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-010",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай основание a (целое) и неотрицательную целую степень n. Вычисли a^n, используя цикл (без функции pow). Выведи результат.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2 10",
+        "files": [],
+        "expected": {
+          "stdout": "1024\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3 4",
+        "files": [],
+        "expected": {
+          "stdout": "81\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-2 3",
+        "files": [],
+        "expected": {
+          "stdout": "-8\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5 0",
+        "files": [],
+        "expected": {
+          "stdout": "1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-011",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай три координаты вектора x, y, z. Вычисли и выведи длину вектора sqrt(x*x + y*y + z*z) с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1 2 2",
+        "files": [],
+        "expected": {
+          "stdout": "3.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3 0 4",
+        "files": [],
+        "expected": {
+          "stdout": "5.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 1 1",
+        "files": [],
+        "expected": {
+          "stdout": "1.732051\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-012",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nВычисли значения функции z(x, m) = x^m * sin^m(x * m) для x от -1.1 до 0.3 с шагом 0.2 и m от 1 до 5, не используя функцию pow (возводи в степень циклом). Для каждой пары (x, m) выведи строку \"x m z\", где x — с одним знаком после запятой, z — с шестью знаками после запятой. Ввод отсутствует.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "",
+        "files": [],
+        "expected": {
+          "stdout": "-1.1 1 0.980328\n-1.1 2 0.790936\n-1.1 3 -0.005225\n-1.1 4 1.200583\n-1.1 5 -0.281561\n-0.9 1 0.704994\n-0.9 2 0.768187\n-0.9 3 0.056908\n-0.9 4 0.025160\n-0.9 5 -0.527064\n-0.7 1 0.450952\n-0.7 2 0.475844\n-0.7 3 0.220619\n-0.7 4 0.003023\n-0.7 5 -0.000893\n-0.5 1 0.239713\n-0.5 2 0.177018\n-0.5 3 0.124063\n-0.5 4 0.042727\n-0.5 5 0.002399\n-0.3 1 0.088656\n-0.3 2 0.028694\n-0.3 3 0.012978\n-0.3 4 0.006113\n-0.3 5 0.002400\n-0.1 1 0.009983\n-0.1 2 0.000395\n-0.1 3 0.000026\n-0.1 4 0.000002\n-0.1 5 0.000000\n0.1 1 0.009983\n0.1 2 0.000395\n0.1 3 0.000026\n0.1 4 0.000002\n0.1 5 0.000000\n0.3 1 0.088656\n0.3 2 0.028694\n0.3 3 0.012978\n0.3 4 0.006113\n0.3 5 0.002400\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-013",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n действительных чисел. Вычисли сумму квадратов тех чисел, модуль которых больше 2.5. Выведи сумму с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n3 1 -2.6 4 2",
+        "files": [],
+        "expected": {
+          "stdout": "31.760000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n1 2 3 4",
+        "files": [],
+        "expected": {
+          "stdout": "25.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n-5 5 0",
+        "files": [],
+        "expected": {
+          "stdout": "50.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-014",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай два действительных числа x и y (углы в радианах). Вычисли значение выражения (1 - tg x)^(ctg x) + cos(x - y). Выведи результат с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "0.5 0.3",
+        "files": [],
+        "expected": {
+          "stdout": "1.215417\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "0.2 1.0",
+        "files": [],
+        "expected": {
+          "stdout": "1.023790\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "0.6 -0.4",
+        "files": [],
+        "expected": {
+          "stdout": "0.725835\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-015",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай пять целых чисел a, mu, m, x0, n. Сгенерируй n псевдослучайных чисел линейным конгруэнтным методом: x(i+1) = (a * x(i) + mu) mod m, а выдаваемое число y(i) = x(i) / m. Первое выдаваемое число — y(0) = x0 / m. Выведи n чисел, каждое в отдельной строке, с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "7 3 10 2 5",
+        "files": [],
+        "expected": {
+          "stdout": "0.200000\n0.700000\n0.200000\n0.700000\n0.200000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5 1 16 3 4",
+        "files": [],
+        "expected": {
+          "stdout": "0.187500\n0.000000\n0.062500\n0.375000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 1 7 1 3",
+        "files": [],
+        "expected": {
+          "stdout": "0.142857\n0.428571\n0.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-016",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай координаты точки X и Y (оба значения не равны нулю). Определи и выведи номер четверти плоскости (1..4), в которой находится точка.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2 3",
+        "files": [],
+        "expected": {
+          "stdout": "1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-2 3",
+        "files": [],
+        "expected": {
+          "stdout": "2\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-2 -3",
+        "files": [],
+        "expected": {
+          "stdout": "3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 -3",
+        "files": [],
+        "expected": {
+          "stdout": "4\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-017",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одно трёхзначное число. Выведи \"yes\", если среди его цифр есть одинаковые, иначе \"no\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "121",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "123",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "555",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-018",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай размеры прямоугольного отверстия (ширину a и высоту b) и габариты кирпича (x, y, z). Кирпич проходит в отверстие, если две его меньшие стороны можно совместить со сторонами отверстия (каждая не больше соответствующей стороны отверстия). Выведи \"yes\" или \"no\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "10 5 4 6 3",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 5 10 6 10",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4 3 5 5 5",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-019",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай неотрицательное целое число. Выведи его шестнадцатеричное представление заглавными буквами, без префикса 0x.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "255",
+        "files": [],
+        "expected": {
+          "stdout": "FF\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "16",
+        "files": [],
+        "expected": {
+          "stdout": "10\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "0",
+        "files": [],
+        "expected": {
+          "stdout": "0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-020",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай три числа a, b, h. Протабулируй функцию f(x) = ctg^2(ln x) = (cos(ln x)/sin(ln x))^2 на отрезке [a, b] с шагом h. Для каждого значения x выведи строку \"x f(x)\", где x — с двумя знаками после запятой, f(x) — с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2 3 0.5",
+        "files": [],
+        "expected": {
+          "stdout": "2.00 1.449350\n2.50 0.588808\n3.00 0.260831\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1.5 2.5 0.5",
+        "files": [],
+        "expected": {
+          "stdout": "1.50 5.427239\n2.00 1.449350\n2.50 0.588808\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-021",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n действительных чисел. Вычисли и выведи их среднее арифметическое с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n1 2 3 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "3.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n2.5 3.5 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "3.750000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-022",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай натуральное число n. Вычисли сумму 1/sin(1) + 1/(sin(1)+sin(2)) + ... + 1/(sin(1)+...+sin(n)). Выведи результат с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "1.188395\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2",
+        "files": [],
+        "expected": {
+          "stdout": "1.759573\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5",
+        "files": [],
+        "expected": {
+          "stdout": "8.845740\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-023",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай целое число N (N >= 0). Вычисли сумму всех чисел от 0 до N включительно, которые нацело делятся на 5. Выведи сумму.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "20",
+        "files": [],
+        "expected": {
+          "stdout": "50\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4",
+        "files": [],
+        "expected": {
+          "stdout": "0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "25",
+        "files": [],
+        "expected": {
+          "stdout": "75\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-024",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nВыведи таблицу квадратов чисел от 1 до 5: в каждой строке число и его квадрат через пробел. Ввод отсутствует.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "",
+        "files": [],
+        "expected": {
+          "stdout": "1 1\n2 4\n3 9\n4 16\n5 25\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-025",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай целое число n. Выведи таблицу умножения числа n: для i от 1 до 10 выведи произведение i * n, каждое в отдельной строке.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "7",
+        "files": [],
+        "expected": {
+          "stdout": "7\n14\n21\n28\n35\n42\n49\n56\n63\n70\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3",
+        "files": [],
+        "expected": {
+          "stdout": "3\n6\n9\n12\n15\n18\n21\n24\n27\n30\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-026",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай коэффициенты a, b, c, d, k. Найди точки пересечения линий y = a*x^2 + b*x + c и y = d*x + k, то есть реши уравнение a*x^2 + (b - d)*x + (c - k) = 0. Если два корня — выведи их по возрастанию через пробел; один корень — выведи его; нет решений — выведи \"no roots\". Значения выводи с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1 -5 6 0 0",
+        "files": [],
+        "expected": {
+          "stdout": "2.000000 3.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 0 -4 0 0",
+        "files": [],
+        "expected": {
+          "stdout": "-2.000000 2.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 0 4 0 0",
+        "files": [],
+        "expected": {
+          "stdout": "no roots\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 -2 1 0 0",
+        "files": [],
+        "expected": {
+          "stdout": "1.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-027",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одну строку текста. Выведи \"yes\", если она представляет собой целое число (необязательный знак + или - и одна или более цифр), иначе \"no\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "23.5\n",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "42\n",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-7\n",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "abc\n",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-028",
+    "topic": "math",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитывай целые числа, пока не встретится число 1. Выведи количество чисел, введённых до 1 (не считая саму 1).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3 5 2 1",
+        "files": [],
+        "expected": {
+          "stdout": "3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 1",
+        "files": [],
+        "expected": {
+          "stdout": "1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-str-001",
+    "topic": "strings",
+    "level": "easy",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одно пятизначное число. Выведи \"yes\", если оно является палиндромом (читается одинаково слева направо и справа налево), иначе \"no\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "12321",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "12345",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10001",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-002",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай матрицу 10 x 10 (сто целых чисел). Найди номер строки с минимальным элементом и поменяй эту строку местами с первой строкой матрицы. Выведи полученную матрицу (10 строк по 10 чисел).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1 2 3 4 5 6 7 8 9 10\n11 12 13 14 15 16 17 18 19 20\n21 22 23 24 25 26 27 28 29 30\n31 32 33 34 35 36 37 38 39 40\n41 42 43 44 45 46 47 48 49 50\n51 52 53 54 55 56 57 -100 59 60\n61 62 63 64 65 66 67 68 69 70\n71 72 73 74 75 76 77 78 79 80\n81 82 83 84 85 86 87 88 89 90\n91 92 93 94 95 96 97 98 99 100",
+        "files": [],
+        "expected": {
+          "stdout": "51 52 53 54 55 56 57 -100 59 60\n11 12 13 14 15 16 17 18 19 20\n21 22 23 24 25 26 27 28 29 30\n31 32 33 34 35 36 37 38 39 40\n41 42 43 44 45 46 47 48 49 50\n1 2 3 4 5 6 7 8 9 10\n61 62 63 64 65 66 67 68 69 70\n71 72 73 74 75 76 77 78 79 80\n81 82 83 84 85 86 87 88 89 90\n91 92 93 94 95 96 97 98 99 100\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-50 2 3 4 5 6 7 8 9 10\n11 12 13 14 15 16 17 18 19 20\n21 22 23 24 25 26 27 28 29 30\n31 32 33 34 35 36 37 38 39 40\n41 42 43 44 45 46 47 48 49 50\n51 52 53 54 55 56 57 58 59 60\n61 62 63 64 65 66 67 68 69 70\n71 72 73 74 75 76 77 78 79 80\n81 82 83 84 85 86 87 88 89 90\n91 92 93 94 95 96 97 98 99 100",
+        "files": [],
+        "expected": {
+          "stdout": "-50 2 3 4 5 6 7 8 9 10\n11 12 13 14 15 16 17 18 19 20\n21 22 23 24 25 26 27 28 29 30\n31 32 33 34 35 36 37 38 39 40\n41 42 43 44 45 46 47 48 49 50\n51 52 53 54 55 56 57 58 59 60\n61 62 63 64 65 66 67 68 69 70\n71 72 73 74 75 76 77 78 79 80\n81 82 83 84 85 86 87 88 89 90\n91 92 93 94 95 96 97 98 99 100\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-003",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел. Выведи все нечётные числа массива в исходном порядке через пробел (если их нет — выведи пустую строку).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n1 2 3 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "1 3 5\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n2 4 6 8",
+        "files": [],
+        "expected": {
+          "stdout": "\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "6\n5 -3 2 7 0 1",
+        "files": [],
+        "expected": {
+          "stdout": "5 -3 7 1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-004",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай матрицу 5 x 3 (результаты 5 спортсменов по 3 попытки, действительные числа). Выведи номер спортсмена и номер попытки (нумерация с 1) с наилучшим (наибольшим) результатом.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "6.1 6.3 6.2 5.8 5.9 6.0 7.5 8.9 7.8 6.0 6.1 6.2 5.5 5.6 5.7",
+        "files": [],
+        "expected": {
+          "stdout": "3 2\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15",
+        "files": [],
+        "expected": {
+          "stdout": "5 3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-005",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел. Вычисли и выведи среднее арифметическое элементов массива с шестью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n1 2 3 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "3.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n1 2 3 4",
+        "files": [],
+        "expected": {
+          "stdout": "2.500000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-006",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай R и C, затем матрицу R x C из целых чисел. Для каждого столбца, который не содержит отрицательных элементов, выведи сумму его элементов (каждую сумму в отдельной строке).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3 3\n1 2 3\n4 -5 6\n7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "12\n18\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 2\n1 -2\n3 4",
+        "files": [],
+        "expected": {
+          "stdout": "4\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-007",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай R и C, затем матрицу R x C из целых чисел. Обнули столбцы с индексами 1, 3 и 5 (нумерация с нуля), если такие столбцы существуют. Выведи полученную матрицу.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3 6\n1 2 3 4 5 6\n7 8 9 10 11 12\n13 14 15 16 17 18",
+        "files": [],
+        "expected": {
+          "stdout": "1 0 3 0 5 0\n7 0 9 0 11 0\n13 0 15 0 17 0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 4\n1 2 3 4\n5 6 7 8",
+        "files": [],
+        "expected": {
+          "stdout": "1 0 3 0\n5 0 7 0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-008",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел, затем номер i (нумерация с 1, 1 <= i <= n). Удали i-й элемент из массива и выведи оставшиеся элементы через пробел.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n10 20 30 40 50\n3",
+        "files": [],
+        "expected": {
+          "stdout": "10 20 40 50\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5\n10 20 30 40 50\n1",
+        "files": [],
+        "expected": {
+          "stdout": "20 30 40 50\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5\n10 20 30 40 50\n5",
+        "files": [],
+        "expected": {
+          "stdout": "10 20 30 40\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-009",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай m и n, затем матрицу m x n из целых чисел, затем вектор из n целых чисел. Вычисли произведение матрицы на вектор (вектор-столбец из m чисел). Выведи в первой строке полученный вектор (через пробел), во второй — максимальный элемент этого вектора.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2 3\n1 2 3\n4 5 6\n1 1 1",
+        "files": [],
+        "expected": {
+          "stdout": "6 15\n15\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 2\n1 2\n3 4\n1 0",
+        "files": [],
+        "expected": {
+          "stdout": "1 3\n3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-010",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n. Заполни матрицу n x n числами от 1 до n*n по диагоналям сверху-вниз и слева-направо зигзагом (по каждой диагонали направление чередуется: сверху вниз, затем снизу вверх и т.д.). Выведи матрицу (n строк по n чисел).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5",
+        "files": [],
+        "expected": {
+          "stdout": "1 3 4 10 11\n2 5 9 12 19\n6 8 13 18 20\n7 14 17 21 24\n15 16 22 23 25\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3",
+        "files": [],
+        "expected": {
+          "stdout": "1 3 4\n2 5 8\n6 7 9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-011",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n и m, затем матрицу n x m. Запиши все элементы матрицы в одномерный массив (по строкам) и выведи их через пробел в одну строку.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2 3\n1 2 3\n4 5 6",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 4 5 6\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3 2\n1 2\n3 4\n5 6",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 4 5 6\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-012",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем квадратную матрицу n x n. Переставь строки и столбцы так, чтобы элемент с наибольшим по модулю значением оказался в правом нижнем углу (сначала поменяй местами его строку с последней, затем его столбец с последним). Выведи полученную матрицу.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3\n1 2 3\n4 5 6\n7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3\n4 5 6\n7 8 9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n9 2 3\n4 5 6\n7 8 1",
+        "files": [],
+        "expected": {
+          "stdout": "1 8 7\n6 5 4\n3 2 9\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2\n5 -1\n3 4",
+        "files": [],
+        "expected": {
+          "stdout": "4 3\n-1 5\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-013",
+    "topic": "arrays",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай матрицу 7 x 7 из целых чисел. В каждом столбце упорядочи по возрастанию элементы, расположенные между максимальным и минимальным элементами этого столбца (крайние не трогай). Выведи полученную матрицу.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "-5 -2 1 4 7 10 13\n0 4 8 12 16 -3 1\n5 10 15 -3 2 7 12\n10 16 -1 5 11 17 0\n15 -1 6 13 -3 4 11\n-3 5 13 -2 6 14 -1\n2 11 -3 6 15 1 10",
+        "files": [],
+        "expected": {
+          "stdout": "-5 -2 1 4 7 10 13\n0 4 8 12 16 -3 0\n5 10 15 -3 2 7 1\n10 16 -1 5 11 17 11\n15 -1 6 13 -3 4 12\n-3 5 13 -2 6 14 -1\n2 11 -3 6 15 1 10\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 9 16 4 11 18 6\n5 12 0 7 14 2 9\n8 15 3 10 17 5 12\n11 18 6 13 1 8 15\n14 2 9 16 4 11 18\n17 5 12 0 7 14 2\n1 8 15 3 10 17 5",
+        "files": [],
+        "expected": {
+          "stdout": "2 9 16 4 11 18 6\n5 12 0 7 14 2 9\n8 15 3 10 17 5 12\n11 18 6 13 1 8 15\n14 2 9 16 4 11 18\n17 5 12 0 7 14 2\n1 8 15 3 10 17 5\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-030",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай целое число n (количество элементов цепной дроби, n >= 1). Вычисли значение цепной дроби 1 + 1/(1 + 1/(1 + 1/(...))) с n элементами. Выведи результат с пятью знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "6",
+        "files": [],
+        "expected": {
+          "stdout": "1.62500\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "1.00000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10",
+        "files": [],
+        "expected": {
+          "stdout": "1.61818\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-031",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [
+      "-lm"
+    ],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай вещественное число x. Вычисли кубический корень из x по итерационной формуле y(i+1) = 0.5 * (y(i) + 3*x / (2*y(i)^2 + x/y(i))), начальное приближение y(0) = x, итерации прекратить при |y(i+1) - y(i)| < 1e-5. Выведи результат с шестью знаками после запятой. Для x = 0 выведи 0.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "27",
+        "files": [],
+        "expected": {
+          "stdout": "3.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "8",
+        "files": [],
+        "expected": {
+          "stdout": "2.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "0",
+        "files": [],
+        "expected": {
+          "stdout": "0.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "-8",
+        "files": [],
+        "expected": {
+          "stdout": "-2.000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-032",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай три целых числа K, D1, D2 (K >= 0, D1 и D2 — цифры 0..9). Сначала добавь к числу K справа цифру D1 (K = K * 10 + D1) и выведи результат. Затем добавь к полученному числу справа цифру D2 и выведи результат.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "123 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "1234\n12345\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "10 0 1",
+        "files": [],
+        "expected": {
+          "stdout": "100\n1001\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-033",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай месячную зарплату (вещественное число). Налог вычисляется так: сумма до 800 включительно не облагается, с суммы свыше 800 взимается 18% от превышения. Выведи величину налога с двумя знаками после запятой.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1000",
+        "files": [],
+        "expected": {
+          "stdout": "36.00\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "800",
+        "files": [],
+        "expected": {
+          "stdout": "0.00\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2000",
+        "files": [],
+        "expected": {
+          "stdout": "216.00\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-034",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай целое число n. Выведи \"yes\", если число составное (больше 1 и имеет делитель, отличный от 1 и самого себя), иначе \"no\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "4",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "7",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "no\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "25",
+        "files": [],
+        "expected": {
+          "stdout": "yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-035",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай два целых числа a и b (a >= 0, b > 0). Найди частное q и остаток r от деления a на b (a = q * b + r, 0 <= r < b), используя только операции сложения и вычитания. Выведи q и r через пробел.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "17 5",
+        "files": [],
+        "expected": {
+          "stdout": "3 2\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "20 4",
+        "files": [],
+        "expected": {
+          "stdout": "5 0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3 7",
+        "files": [],
+        "expected": {
+          "stdout": "0 3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-036",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай два целых числа n и k. Выведи число, состоящее из k первых цифр числа n. Если k больше количества цифр в n — выведи само число n.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "12345 3",
+        "files": [],
+        "expected": {
+          "stdout": "123\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "987 2",
+        "files": [],
+        "expected": {
+          "stdout": "98\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "123 5",
+        "files": [],
+        "expected": {
+          "stdout": "123\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-037",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСначала считай код операции (1 или 2). Для операции 1 считай h, m, s, delta и выведи время h:m:s, из которого вычтено delta секунд (в пределах суток, с переносом через полночь), в виде трёх чисел h m s. Для операции 2 считай h1, m1, s1, h2, m2, s2 и выведи количество секунд между двумя моментами времени (абсолютную разность).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1 10 30 0 90",
+        "files": [],
+        "expected": {
+          "stdout": "10 28 30\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 0 0 10 30",
+        "files": [],
+        "expected": {
+          "stdout": "23 59 40\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 1 0 0 2 30 0",
+        "files": [],
+        "expected": {
+          "stdout": "5400\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 10 0 0 9 30 0",
+        "files": [],
+        "expected": {
+          "stdout": "1800\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-038",
+    "topic": "math",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай координаты двух клеток шахматной доски (x1, y1, x2, y2 — числа от 1 до 8). Выведи \"Yes\", если слон может за один ход перейти с первой клетки на вторую, иначе \"No\".",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "1 1 3 3",
+        "files": [],
+        "expected": {
+          "stdout": "Yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 1 1 5",
+        "files": [],
+        "expected": {
+          "stdout": "No\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1 1 1 1",
+        "files": [],
+        "expected": {
+          "stdout": "No\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 3 5 6",
+        "files": [],
+        "expected": {
+          "stdout": "Yes\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-str-002",
+    "topic": "strings",
+    "level": "medium",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай одну строку, в которой через запятую перечислены целые числа (например \"15,-2,1,0\"). Обработай строку посимвольно и выведи сумму этих чисел.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "15,-2,1,0\n",
+        "files": [],
+        "expected": {
+          "stdout": "14\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1,2,3\n",
+        "files": [],
+        "expected": {
+          "stdout": "6\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "100,-50\n",
+        "files": [],
+        "expected": {
+          "stdout": "50\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-014",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем квадратную матрицу n x n. Найди минимальный элемент среди элементов ниже главной диагонали (i > j) и максимальный элемент среди элементов выше побочной диагонали (i + j < n - 1). Поменяй их местами. Выведи: в первой строке индексы (строка, столбец, нумерация с нуля) минимального элемента, во второй — индексы максимального, затем полученную матрицу.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3\n9 8 7\n1 2 3\n4 5 6",
+        "files": [],
+        "expected": {
+          "stdout": "1 0\n0 0\n1 8 7\n9 2 3\n4 5 6\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
+        "files": [],
+        "expected": {
+          "stdout": "0 1\n2 0\n1 9 3 4\n5 6 7 8\n2 10 11 12\n13 14 15 16\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-015",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n и m, затем матрицу n x m. В первую строку вывода запиши элементы главной диагонали a[i][i], во вторую — элементы побочной диагонали a[i][m-1-i] (для i от 0 до min(n,m)-1). Элементы разделяй пробелами.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3 3\n1 2 3\n4 5 6\n7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "1 5 9\n3 5 7\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2 4\n1 2 3 4\n5 6 7 8",
+        "files": [],
+        "expected": {
+          "stdout": "1 6\n4 7\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-016",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел. Выведи: (1) номер (нумерация с 1) минимального элемента; (2) произведение элементов, расположенных между первым и вторым отрицательными элементами (если отрицательных меньше двух — выведи 0); (3) преобразованный массив: сначала элементы, модуль которых не превышает 1, затем все остальные (порядок внутри групп сохраняется).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "7\n3 -1 2 -4 5 0 -2",
+        "files": [],
+        "expected": {
+          "stdout": "4\n2\n-1 0 3 2 -4 5 -2\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "5\n1 2 3 4 5",
+        "files": [],
+        "expected": {
+          "stdout": "1\n0\n1 2 3 4 5\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n5 -6 7 -8",
+        "files": [],
+        "expected": {
+          "stdout": "4\n7\n5 -6 7 -8\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-017",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай матрицу 6 x 8 из целых чисел. Перепиши все положительные элементы в одномерный массив и отсортируй их по возрастанию. Выведи полученный массив через пробел (если положительных нет — выведи пустую строку).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "-20 -19 -18 -17 -16 -15 -14 -13\n-12 -11 -10 -9 -8 -7 -6 -5\n-4 -3 -2 -1 0 1 2 3\n4 5 6 7 8 9 10 11\n12 13 14 15 16 17 18 19\n20 21 22 23 24 25 26 27",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "30 29 28 27 26 25 24 23\n22 21 20 19 18 17 16 15\n14 13 12 11 10 9 8 7\n6 5 4 3 2 1 0 -1\n-2 -3 -4 -5 -6 -7 -8 -9\n-10 -11 -12 -13 -14 -15 -16 -17",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-018",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nХарактеристикой столбца назовём сумму модулей его отрицательных нечётных элементов. Считай n и m, затем матрицу n x m. Переставь столбцы так, чтобы они шли в порядке возрастания характеристик. Выведи полученную матрицу.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "3 3\n1 -3 2\n4 -1 6\n-7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "2 -3 1\n6 -1 4\n9 8 -7\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3 4\n1 -2 3 4\n5 -6 7 8\n9 10 -11 12",
+        "files": [],
+        "expected": {
+          "stdout": "1 -2 4 3\n5 -6 8 7\n9 10 12 -11\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-019",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел. Удали из массива дубликаты, оставив первое вхождение каждого элемента. Выведи в первой строке полученный массив через пробел, во второй — новую длину массива.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "6\n1 2 2 3 3 3",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3\n3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n5 5 5",
+        "files": [],
+        "expected": {
+          "stdout": "5\n1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n7 1 7 2",
+        "files": [],
+        "expected": {
+          "stdout": "7 1 2\n3\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-020",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай n, затем n целых чисел. Отсортируй массив по возрастанию двумя способами (сортировкой выбором и шейкер-сортировкой). Выведи в первой строке отсортированный массив через пробел, во второй — количество сравнений сортировки выбором (для n элементов оно равно n*(n-1)/2).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "5\n5 3 8 1 2",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 5 8\n10\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "4\n4 3 2 1",
+        "files": [],
+        "expected": {
+          "stdout": "1 2 3 4\n6\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1\n42",
+        "files": [],
+        "expected": {
+          "stdout": "42\n0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-arrays-021",
+    "topic": "arrays",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай N, затем матрицу N x N из целых чисел. Вычисли её определитель. Выведи определитель в отдельной строке.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "2\n1 2\n3 4",
+        "files": [],
+        "expected": {
+          "stdout": "-2\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n1 0 0\n0 1 0\n0 0 1",
+        "files": [],
+        "expected": {
+          "stdout": "1\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n2 0 0\n0 3 0\n0 0 4",
+        "files": [],
+        "expected": {
+          "stdout": "24\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "3\n1 2 3\n4 5 6\n7 8 9",
+        "files": [],
+        "expected": {
+          "stdout": "0\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-bit-001",
+    "topic": "bitops",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай четыре целых числа x, y, m, n (0 <= m,n <= 32, x и y — 32-битные беззнаковые). Выполни: (1) в числе x замени младшие m бит на старшие m бит числа y (если m = 0 — без изменений); (2) инвертируй n младших бит в числе y. Выведи: в первой строке исходные x y m n через пробел, затем строку \"x = <32-битное двоичное>\" и строку \"y = <32-битное двоичное>\" для полученных значений.",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "0 1 0 1",
+        "files": [],
+        "expected": {
+          "stdout": "0 1 0 1\nx = 00000000000000000000000000000000\ny = 00000000000000000000000000000000\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "0 4026531840 4 4",
+        "files": [],
+        "expected": {
+          "stdout": "0 4026531840 4 4\nx = 00000000000000000000000000001111\ny = 11110000000000000000000000001111\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "255 255 8 0",
+        "files": [],
+        "expected": {
+          "stdout": "255 255 8 0\nx = 00000000000000000000000000000000\ny = 00000000000000000000000011111111\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      }
+    ]
+  },
+  {
+    "id": "c-math-039",
+    "topic": "math",
+    "level": "hard",
+    "kind": "program",
+    "io_mode": "stdin_stdout",
+    "compile_flags": [],
+    "prompt": "Напиши программу на языке Си. Верни ПОЛНЫЙ код программы в одном блоке ```c.\n\nСчитай число N. Используя алгоритм «решето Эратосфена», найди все простые числа в интервале [0; N]. Выведи их через пробел по возрастанию (если их нет — выведи пустую строку).",
+    "tests": [
+      {
+        "argv": [],
+        "stdin": "20",
+        "files": [],
+        "expected": {
+          "stdout": "2 3 5 7 11 13 17 19\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "1",
+        "files": [],
+        "expected": {
+          "stdout": "\n",
+          "files": [],
+          "exit_code": 0
+        },
+        "timeout_s": 20
+      },
+      {
+        "argv": [],
+        "stdin": "2",
+        "files": [],
+        "expected": {
+          "stdout": "2\n",
+          "files": [],
           "exit_code": 0
         },
         "timeout_s": 20

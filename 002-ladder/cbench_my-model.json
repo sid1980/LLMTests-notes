@@ -42,35 +42,59 @@
       "enable_thinking_support": false,
       "has_api_key": false
     },
-    "case_bank_hash": "2fa1efbc67ebcf56",
-    "n_cases": 1,
+    "case_bank_hash": "31029e39e45b096a",
+    "n_cases": 63,
     "sanitizers": false,
     "nothink_thought": false
   },
   "usage": {
-    "prompt_tokens": 464,
-    "completion_tokens": 1107,
-    "requests": 1,
-    "request_seconds": 12.2,
-    "gen_tok_s": 90.6,
+    "prompt_tokens": 7164,
+    "completion_tokens": 20266,
+    "requests": 63,
+    "request_seconds": 233.7,
+    "gen_tok_s": 86.7,
     "answers_cut_by_limit": 0,
     "loop_suspects": 0,
     "empty_answers": 0,
     "thinking_answers": 0,
     "code_from_think": 0
   },
-  "wall_minutes": 0.2,
+  "wall_minutes": 4.1,
   "results": {
     "code": {
       "by_level": {
         "easy": {
+          "pass": 8,
+          "total": 31
+        },
+        "medium": {
+          "pass": 4,
+          "total": 22
+        },
+        "hard": {
           "pass": 1,
-          "total": 1
+          "total": 10
         }
       },
       "by_topic": {
         "files": {
           "pass": 1,
+          "total": 1
+        },
+        "arrays": {
+          "pass": 3,
+          "total": 21
+        },
+        "math": {
+          "pass": 9,
+          "total": 38
+        },
+        "strings": {
+          "pass": 0,
+          "total": 2
+        },
+        "bitops": {
+          "pass": 0,
           "total": 1
         }
       },
@@ -82,6 +106,500 @@
           "topic": "files",
           "pass": true,
           "tok": 1107
+        },
+        {
+          "id": "c-arrays-001",
+          "level": "easy",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 232
+        },
+        {
+          "id": "c-math-001",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 210
+        },
+        {
+          "id": "c-math-002",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 83
+        },
+        {
+          "id": "c-math-003",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 79
+        },
+        {
+          "id": "c-math-004",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 110
+        },
+        {
+          "id": "c-math-005",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 181
+        },
+        {
+          "id": "c-math-006",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 522
+        },
+        {
+          "id": "c-math-007",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 192
+        },
+        {
+          "id": "c-math-008",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 191
+        },
+        {
+          "id": "c-math-009",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 321,
+          "tail": "C:\\Users\\User\\AppData\\Local\\Temp\\cbench_zqcfkx5j\\sol.c:4:9: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]\n    4 | int main() {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_zqcfkx5j\\sol.c:30:46: error: use of undeclared identifier 'M_PI'\n   30 |     alpha_degrees = alpha_radians * (180.0 / M_PI);\n      |                                              ^~~~\n1 warning and 1 error generated.\n",
+          "compile_error": ") {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_zqcfkx5j\\sol.c:30:46: error: use of undeclared identifier 'M_PI'\n   30 |     alpha_degrees = alpha_radians * (180.0 / M_PI);\n      |                                              ^~~~\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-010",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 151
+        },
+        {
+          "id": "c-math-011",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 103
+        },
+        {
+          "id": "c-math-012",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 303
+        },
+        {
+          "id": "c-math-013",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 205
+        },
+        {
+          "id": "c-math-014",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 415
+        },
+        {
+          "id": "c-math-015",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 203
+        },
+        {
+          "id": "c-math-016",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 192
+        },
+        {
+          "id": "c-math-017",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 186
+        },
+        {
+          "id": "c-math-018",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 484
+        },
+        {
+          "id": "c-math-019",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 141
+        },
+        {
+          "id": "c-math-020",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 447
+        },
+        {
+          "id": "c-math-021",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 187
+        },
+        {
+          "id": "c-math-022",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 142
+        },
+        {
+          "id": "c-math-023",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 133
+        },
+        {
+          "id": "c-math-024",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 62
+        },
+        {
+          "id": "c-math-025",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 114
+        },
+        {
+          "id": "c-math-026",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 372
+        },
+        {
+          "id": "c-math-027",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 399
+        },
+        {
+          "id": "c-math-028",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 127
+        },
+        {
+          "id": "c-str-001",
+          "level": "easy",
+          "topic": "strings",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 209
+        },
+        {
+          "id": "c-arrays-002",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 381
+        },
+        {
+          "id": "c-arrays-003",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 612
+        },
+        {
+          "id": "c-arrays-004",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 337
+        },
+        {
+          "id": "c-arrays-005",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 259
+        },
+        {
+          "id": "c-arrays-006",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 261
+        },
+        {
+          "id": "c-arrays-007",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 367
+        },
+        {
+          "id": "c-arrays-008",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 221
+        },
+        {
+          "id": "c-arrays-009",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 419
+        },
+        {
+          "id": "c-arrays-010",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 436
+        },
+        {
+          "id": "c-arrays-011",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 312
+        },
+        {
+          "id": "c-arrays-012",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 521
+        },
+        {
+          "id": "c-arrays-013",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 576
+        },
+        {
+          "id": "c-math-030",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 165
+        },
+        {
+          "id": "c-math-031",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 263,
+          "tail": "h_9ctt1uh3\\sol.c:4:9: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]\n    4 | int main() {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_9ctt1uh3\\sol.c:29:20: error: expected ')'\n   29 |     printf(\"%.6f\\n\";\n      |                    ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_9ctt1uh3\\sol.c:29:11: note: to match this '('\n   29 |     printf(\"%.6f\\n\";\n      |           ^\n1 warning and 1 error generated.\n",
+          "compile_error": "\\User\\AppData\\Local\\Temp\\cbench_9ctt1uh3\\sol.c:29:20: error: expected ')'\n   29 |     printf(\"%.6f\\n\";\n      |                    ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_9ctt1uh3\\sol.c:29:11: note: to match this '('\n   29 |     printf(\"%.6f\\n\";\n      |           ^\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-032",
+          "level": "medium",
+          "topic": "math",
+          "pass": true,
+          "tok": 129
+        },
+        {
+          "id": "c-math-033",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 115
+        },
+        {
+          "id": "c-math-034",
+          "level": "medium",
+          "topic": "math",
+          "pass": true,
+          "tok": 200
+        },
+        {
+          "id": "c-math-035",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 189
+        },
+        {
+          "id": "c-math-036",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 221,
+          "tail": "mp\\cbench_fqiiws_7\\sol.c:20:15: error: call to undeclared library function 'strlen' with type '__size_t (const char *)' (aka 'unsigned long long (const char *)'); ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n   20 |     int len = strlen(str);\n      |               ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_fqiiws_7\\sol.c:20:15: note: include the header <string.h> or explicitly provide a declaration for 'strlen'\n1 warning and 1 error generated.\n",
+          "compile_error": "icit function declarations [-Wimplicit-function-declaration]\n   20 |     int len = strlen(str);\n      |               ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_fqiiws_7\\sol.c:20:15: note: include the header <string.h> or explicitly provide a declaration for 'strlen'\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-037",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 509
+        },
+        {
+          "id": "c-math-038",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 183,
+          "tail": "   ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_jwssamz9\\sol.c:13:9: error: call to undeclared library function 'abs' with type 'int (int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n   13 |     if (abs(x1 - x2) == abs(y1 - y2)) {\n      |         ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_jwssamz9\\sol.c:13:9: note: include the header <stdlib.h> or explicitly provide a declaration for 'abs'\n1 warning and 1 error generated.\n",
+          "compile_error": "t function declarations [-Wimplicit-function-declaration]\n   13 |     if (abs(x1 - x2) == abs(y1 - y2)) {\n      |         ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_jwssamz9\\sol.c:13:9: note: include the header <stdlib.h> or explicitly provide a declaration for 'abs'\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-str-002",
+          "level": "medium",
+          "topic": "strings",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 483
+        },
+        {
+          "id": "c-arrays-014",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 645
+        },
+        {
+          "id": "c-arrays-015",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 270
+        },
+        {
+          "id": "c-arrays-016",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 596
+        },
+        {
+          "id": "c-arrays-017",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 451
+        },
+        {
+          "id": "c-arrays-018",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 594
+        },
+        {
+          "id": "c-arrays-019",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 343
+        },
+        {
+          "id": "c-arrays-020",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 532
+        },
+        {
+          "id": "c-arrays-021",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 623,
+          "tail": "  ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_prnkeyvt\\sol.c:72:57: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]\n   72 |     printf(\"Определитель матрицы: %lld\\n\");\n      |                                   ~~~^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_prnkeyvt\\sol.c:69:15: warning: unused variable 'result' [-Wunused-variable]\n   69 |     long long result = determinant(n, matrix);\n      |               ^~~~~~\n3 warnings and 1 error generated.\n",
+          "compile_error": "матрицы: %lld\\n\");\n      |                                   ~~~^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_prnkeyvt\\sol.c:69:15: warning: unused variable 'result' [-Wunused-variable]\n   69 |     long long result = determinant(n, matrix);\n      |               ^~~~~~\n3 warnings and 1 error generated.\n"
+        },
+        {
+          "id": "c-bit-001",
+          "level": "hard",
+          "topic": "bitops",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 831
+        },
+        {
+          "id": "c-math-039",
+          "level": "hard",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 419
         }
       ]
     }

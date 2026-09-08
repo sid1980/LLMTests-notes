@@ -61,6 +61,8 @@ class TaskResult:
     runs: List[RunOutcome] = field(default_factory=list)
     sandbox: List[str] = field(default_factory=list)
     diagnostic: str = ""  # вывод sanitizer-прогона (если CBENCH_SANITIZERS=1)
+    code: str = ""          # извлечённый код решения модели
+    reasoning: str = ""     # полный текст рассуждений (если модель думала)
 
 
 @dataclass
@@ -92,6 +94,7 @@ class RunSummary:
     results: List[TaskResult] = field(default_factory=list)
     sandbox_blocked_tasks: int = 0
     usage: UsageStat = field(default_factory=UsageStat)
+    partial: bool = False  # прогон прерван пользователем (сохранены не все задачи)
 
 
 @dataclass
@@ -118,6 +121,7 @@ class Conditions:
     sampler_mode: str = "reference"
     think: bool = False
     max_tokens: int = 16384
+    http_timeout: int = 1800
     n_runs: int = 1
     base_seed: int = 42
     levels: List[str] = field(default_factory=list)

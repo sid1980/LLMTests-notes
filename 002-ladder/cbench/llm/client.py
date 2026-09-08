@@ -37,12 +37,13 @@ class LLMClient:
 
 
 class OpenAICompatClient(LLMClient):
-    def __init__(self, cfg: ProviderConfig):
+    def __init__(self, cfg: ProviderConfig, http_timeout: int = 1800):
         super().__init__(cfg)
         self._base = cfg.base_url.rstrip("/")
         if self._base.endswith("/v1"):
             self._base = self._base[:-3]
         self._model = cfg.model
+        self._timeout = max(1, http_timeout)
         self._usage = {"prompt": 0, "completion": 0, "secs": 0.0, "req": 0}
         self._last = {}
 
@@ -55,7 +56,9 @@ class OpenAICompatClient(LLMClient):
             h["Authorization"] = f"Bearer {self.cfg.api_key}"
         return h
 
-    def _post(self, body: dict, timeout: int = 900) -> dict:
+    def _post(self, body: dict, timeout: Optional[int] = None) -> dict:
+        if timeout is None:
+            timeout = self._timeout
         req = urllib.request.Request(
             self.endpoint(), data=json.dumps(body).encode("utf-8"),
             headers=self._headers())

@@ -40,6 +40,28 @@ python run_cbench.py https://api.openai.com/v1 my-model code --provider openai -
 
 Результат — `cbench_<label>.json` + автообновляемый `report.html`.
 
+## Запуск под Windows (cmd / PowerShell)
+
+Переменные окружения задаются иначе, чем в bash (`VAR=value command` там не
+работает):
+
+```bat
+:: cmd.exe — на время команды (через &&):
+set CBENCH_MAX_TOKENS=32000 && python run_cbench.py 1234 my-model code
+
+:: либо на время сессии:
+set CBENCH_MAX_TOKENS=32000
+python run_cbench.py 1234 my-model code
+```
+
+```powershell
+# PowerShell:
+$env:CBENCH_MAX_TOKENS=32000; python run_cbench.py 1234 my-model code
+```
+
+Подробности — в руководстве (`docs/UserGuide/user_guide.md`, раздел «Синтаксис
+команд под Windows»).
+
 ## Запуск через reverse-proxy (Caddy)
 
 Если LM Studio проксируется Caddy:
@@ -70,14 +92,23 @@ CBENCH_PROVIDER=lmstudio CBENCH_BASE_URL=http://192.168.56.1:1234 python run_cbe
 | `CBENCH_SANITIZERS` | `0` | `1` — диагностический прогон (ASan/UBSan) |
 | `CBENCH_UNSAFE` | `0` | `1` — ВЫКЛЮЧИТЬ песочницу |
 | `THINK` | `0` | `1` — reasoning-режим |
-| `CBENCH_MAX_TOKENS` | `16384` | лимит токенов ответа (для think — 32000+) |
+| `CBENCH_MAX_TOKENS` | `16384` | лимит токенов ответа (для думающих моделей — 32000+) |
+| `CBENCH_HTTP_TIMEOUT` | `1800` | таймаут HTTP-запроса к модели, сек |
+
+Температура по умолчанию — `0.15` (эталонный сэмплер `reference`). Изменяется
+через `CBENCH_SAMPLER=custom CBENCH_TEMP=0.3` или константу `REF_SAMP` в
+`cbench/sampler.py`. Думающие модели могут съедать токен-бюджет и обрывать код —
+поднимайте `CBENCH_MAX_TOKENS`; если сервер отвечает медленно — `CBENCH_HTTP_TIMEOUT`.
 
 ## Файлы
 
 ```
 run_cbench.py         — точка входа (CLI)
 cbench/               — пакет: model/ llm/ exec/ data/ codegen/ runner/config/report/sampler
-cases/cases.json      — банк задач Си (первая — MatrixOp)
+cases/cases.json      — банк задач Си (63 задачи: math/arrays/strings/files/bitops)
+solutions/*.c         — эталонные решения (по файлу на задачу)
+build_cases.py        — пересборка cases/cases.json из solutions/*.c
+verify_solutions.py   — прогон каждого решения через настоящий Grader
 sampler_presets.json  — рекомендованные сэмплеры по семействам моделей
 probe_sampler.py      — проверка честности параметров сервера
 make_report.py        — пересборка report.html

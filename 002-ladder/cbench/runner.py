@@ -51,7 +51,7 @@ class Runner:
         base_url = resolve_endpoint(self.cfg.endpoint) if self.cfg.base_url is None \
             else self.cfg.base_url
         pcfg = resolve_provider(self.cfg.provider, base_url, self.cfg.api_key, self.cfg.model)
-        self.client = OpenAICompatClient(pcfg)
+        self.client = OpenAICompatClient(pcfg, http_timeout=self.cfg.http_timeout)
 
         self.samp_mode = sampler.sampler_mode()
         self.samp = sampler.resolve_sampler()
@@ -107,6 +107,12 @@ class Runner:
                 row.tail = reply.tail or row.tail
                 row.think_tail = reply.think_tail
                 row.think_chars = reply.think_chars
+                row.code = code
+                row.reasoning = reply.reasoning
+            except KeyboardInterrupt:
+                summary.partial = True
+                print("\n[interrupt] прервано — сохраняю частичные результаты", flush=True)
+                break
             except LLMError as e:
                 row.why = f"llm_error: {e}"
             except Exception as e:
@@ -168,6 +174,10 @@ class Runner:
                         t["flags"].append(f)
                 if row.tail:
                     t["tail"] = row.tail
+                if row.code:
+                    t["code"] = row.code
+                if row.reasoning:
+                    t["reasoning"] = row.reasoning
                 if row.diagnostic:
                     t["diagnostic"] = row.diagnostic
         results = []
@@ -176,6 +186,8 @@ class Runner:
                                       kind=t["kind"], pass_=t["passed"] == t["n"],
                                       why=t["why"], flags=t["flags"],
                                       tail=t.get("tail", ""),
+                                      code=t.get("code", ""),
+                                      reasoning=t.get("reasoning", ""),
                                       diagnostic=t.get("diagnostic", "")))
         out.results = results
         out.sandbox_blocked_tasks = max(r.sandbox_blocked_tasks for r in runs)
@@ -186,6 +198,7 @@ class Runner:
         self.conditions.sampler_mode = self.samp_mode
         self.conditions.think = self.cfg.think
         self.conditions.max_tokens = self.cfg.max_tokens
+        self.conditions.http_timeout = self.cfg.http_timeout
         self.conditions.n_runs = self.cfg.n_runs
         self.conditions.base_seed = self.samp.get("seed", 42)
         self.conditions.levels = self.cfg.levels
@@ -220,7 +233,8 @@ class Runner:
         print(f"[server] {self.client.endpoint()} | model={self.client.model_name()}", flush=True)
         print(f"[compiler] {self.compiler.name} {self.compiler.version()}", flush=True)
         print(f"[conditions] sampler_mode={self.samp_mode} sampler={self.samp} "
-              f"max_tokens={self.cfg.max_tokens} sandbox={'off' if self.cfg.unsafe else self.sandbox.mode}",
+              f"max_tokens={self.cfg.max_tokens} http_timeout={self.cfg.http_timeout}s "
+              f"sandbox={'off' if self.cfg.unsafe else self.sandbox.mode}",
               flush=True)
         if self.cfg.unsafe:
             print("⚠️  CBENCH_UNSAFE=1: песочница ВЫКЛЮЧЕНА — код исполняется без защиты!", flush=True)
@@ -234,9 +248,13 @@ class Runner:
                 self.samp["seed"] = base + ri
                 print(f"\n{'#'*55}\n### ПРОГОН {ri+1}/{self.cfg.n_runs} — seed {self.samp['seed']}\n{'#'*55}",
                       flush=True)
-                runs.append(self.run_code(bank.cases))
+                r = self.run_code(bank.cases)
+                runs.append(r)
+                if r.partial:
+                    break
             self.samp["seed"] = base
             summary = self.aggregate(runs)
+            summary.partial = any(r.partial for r in runs)
 
         # usage из клиента
         cu = self.client.usage
@@ -276,6 +294,10 @@ class Runner:
                 d["tok"] = r.tok
             if r.tail:
                 d["tail"] = r.tail
+            if r.code:
+                d["code"] = r.code
+            if r.reasoning:
+                d["reasoning"] = r.reasoning
             if r.think_tail:
                 d["think_chars"] = r.think_chars
                 d["think_tail"] = r.think_tail
@@ -291,6 +313,7 @@ class Runner:
             "provider": self.client.cfg.redacted(),
             "model": self.client.model_name(),
             "think": self.cfg.think,
+            "partial": summary.partial,
             "conditions": self._conditions_dict(),
             "usage": {
                 "prompt_tokens": usage.prompt_tokens,
@@ -322,7 +345,8 @@ class Runner:
         c = self.conditions
         return {
             "sampler": c.sampler, "sampler_mode": c.sampler_mode, "think": c.think,
-            "max_tokens": c.max_tokens, "n_runs": c.n_runs, "base_seed": c.base_seed,
+            "max_tokens": c.max_tokens, "http_timeout": c.http_timeout,
+            "n_runs": c.n_runs, "base_seed": c.base_seed,
             "levels": c.levels, "topics": c.topics, "exec_timeout_s": c.exec_timeout_s,
             "sandbox": c.sandbox, "sandbox_mode": c.sandbox_mode,
             "compiler": c.compiler, "compiler_version": c.compiler_version,
@@ -334,6 +358,10 @@ class Runner:
 
     def _print_summary(self, summary: RunSummary, wall_min: float):
         print(f"\n{'='*55}\n[cbench] {self.cfg.label} — ИТОГ:")
+        if summary.partial:
+            done = len(summary.results)
+            print(f"  ⚠️ ПРОГОН ПРЕРВАН: сохранены результаты только {done} задач "
+                  f"(не полный прогон).")
         for lv, d in sorted(summary.by_level.items()):
             pct = round(100 * d.pass_ / d.total) if d.total else 0
             bar = "█" * round(pct / 10) + "░" * (10 - round(pct / 10))

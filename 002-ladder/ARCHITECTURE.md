@@ -224,17 +224,21 @@ Windows (`WindowsSandbox`):
 
 Режимы (env `CBENCH_SAMPLER`):
 
-- `reference` (дефолт) — фиксированный эталонный сэмплер, единственный, чьи
-  цифры сравнимы с эталонными;
+- `reference` (дефолт) — фиксированный эталонный сэмплер (температура `0.15`,
+  `top_p 0.95`, `top_k 20`, `seed 42`), единственный, чьи цифры сравнимы с
+  эталонными;
 - `native` — параметры не шлются, работают дефолты сервера/модели;
 - `recommended` — параметры из `sampler_presets.json` по имени модели;
 - `custom` — эталон + переопределения из env (`CBENCH_TEMP`, `CBENCH_TOP_P`, …).
 
 `Conditions` (отпечаток) сохраняется в каждом JSON: sampler, sampler_mode, think,
-max_tokens, n_runs, base_seed, levels, topics, exec_timeout, compiler (имя +
-версия + флаги), sandbox (вкл/режим/degraded), platform, case_bank_hash,
-n_cases. Неэталонный сэмплер или «думанье» в non-think-режиме → прогон
-помечается несравнимым.
+max_tokens, http_timeout, n_runs, base_seed, levels, topics, exec_timeout,
+compiler (имя + версия + флаги), sandbox (вкл/режим/degraded), platform,
+case_bank_hash, n_cases. Неэталонный сэмплер или «думанье» в non-think-режиме →
+прогон помечается несравнимым.
+
+Таймаут HTTP-запроса к модели задаётся `CBENCH_HTTP_TIMEOUT` (по умолчанию 1800
+сек) или флагом `--timeout` — для медленных (например, думающих) серверов.
 
 ## 11. Отчёт
 
@@ -245,7 +249,9 @@ n_cases. Неэталонный сэмплер или «думанье» в non-
 
 ## 12. Точки расширения
 
-- Новая задача → строка в `cases/cases.json` (валидация на входе).
+- Новая задача → строка в `cases/cases.json` (валидация на входе), либо
+  `solutions/<id>.c` + запись в `SPECS` в `build_cases.py` (пересборка банка),
+  затем `verify_solutions.py` (прогон решений через Grader).
 - Новая тема → новое значение `topic`.
 - Новый провайдер → `ProviderConfig` в `llm/providers.py`.
 - Новый компилятор → реализация `Compiler` + регистрация в `detect()`.

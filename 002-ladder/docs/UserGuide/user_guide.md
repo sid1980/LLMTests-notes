@@ -19,8 +19,13 @@ LLM-судьи). Работает с любым OpenAI-совместимым с
 4. сверяет вывод с эталоном (`pass` / `fail`).
 
 Результат — **процент решённых задач** по уровням сложности (`easy`, `medium`,
-`hard`) и по темам (указатели, память, строки, структуры, файлы, рекурсия и т.д.).
-Никакой «оценки другой моделью» — только реальное исполнение.
+`hard`) и по темам (`math`, `arrays`, `strings`, `bitops`, `files`). Никакой
+«оценки другой моделью» — только реальное исполнение.
+
+Большинство задач — **вычислительные** («задачи на просчёт») из сборника
+[cppstudio.com](http://cppstudio.com/cat/285/), адаптированные под Си. Уровни
+отображаются так: категории Beginner и Easy → `easy`, Normal → `medium`,
+Hard и Experienced → `hard`.
 
 Типы задач:
 
@@ -45,6 +50,45 @@ LLM-судьи). Работает с любым OpenAI-совместимым с
 
 ```bash
 python run_cbench.py selftest
+```
+
+### 2.1 Синтаксис команд под Windows (cmd / PowerShell)
+
+Все примеры ниже даны для **bash** (Linux/macOS). Под Windows конструкция
+`VAR=value command` **не работает** — это синтаксис bash. Задайте переменную
+окружения так:
+
+| Оболочка | Задать на время команды | Пример |
+|---|---|---|
+| **cmd.exe** | `set VAR=value && python …` | `set CBENCH_MAX_TOKENS=32000 && python run_cbench.py 1234 my-model code` |
+| **PowerShell** | `$env:VAR=value; python …` | `$env:CBENCH_MAX_TOKENS=32000; python run_cbench.py 1234 my-model code` |
+| **bash / Linux** | `VAR=value python …` | `CBENCH_MAX_TOKENS=32000 python run_cbench.py 1234 my-model code` |
+
+**cmd.exe** — можно задать переменную отдельной командой, она действует до
+закрытия окна:
+
+```bat
+set CBENCH_MAX_TOKENS=32000
+python run_cbench.py 1234 my-model code
+```
+
+**PowerShell** — аналогично на время сессии:
+
+```powershell
+$env:CBENCH_MAX_TOKENS = "32000"
+python run_cbench.py 1234 my-model code
+```
+
+Несколько переменных сразу:
+
+```bat
+:: cmd.exe
+set CBENCH_MAX_TOKENS=32000 && set CBENCH_TEMP=0.15 && python run_cbench.py 1234 my-model code
+```
+
+```powershell
+# PowerShell
+$env:CBENCH_MAX_TOKENS="32000"; $env:CBENCH_TEMP="0.15"; python run_cbench.py 1234 my-model code
 ```
 
 ---
@@ -86,6 +130,16 @@ CBENCH_CC=clang python run_cbench.py 1234 my-model code
 CBENCH_CC=gcc   python run_cbench.py 1234 my-model code
 # или полный путь:
 CBENCH_CC="C:\msys64\clang64\bin\clang.exe" python run_cbench.py 1234 my-model code
+```
+
+Windows (cmd / PowerShell):
+
+```bat
+set CBENCH_CC=clang && python run_cbench.py 1234 my-model code
+```
+
+```powershell
+$env:CBENCH_CC="C:\msys64\clang64\bin\clang.exe"; python run_cbench.py 1234 my-model code
 ```
 
 ---
@@ -143,6 +197,16 @@ CBENCH_PROVIDER=lmstudio CBENCH_BASE_URL=http://192.168.56.1:1234 \
     python run_cbench.py http://192.168.56.1:1234 my-model code
 ```
 
+Windows (cmd / PowerShell):
+
+```bat
+set CBENCH_PROVIDER=lmstudio && set CBENCH_BASE_URL=http://192.168.56.1:1234 && python run_cbench.py http://192.168.56.1:1234 my-model code
+```
+
+```powershell
+$env:CBENCH_PROVIDER="lmstudio"; $env:CBENCH_BASE_URL="http://192.168.56.1:1234"; python run_cbench.py http://192.168.56.1:1234 my-model code
+```
+
 Проверка доступности и честности параметров сервера:
 
 ```bash
@@ -169,6 +233,9 @@ python probe_sampler.py 1234
 # 4. Прогон
 python run_cbench.py 1234 my-model code
 ```
+
+Под Windows те же команды без изменений (переменные окружения задаются как в
+разделе **2.1 «Синтаксис команд под Windows»**).
 
 Результат: `cbench_my-model.json` + автообновляемый `report.html` (открыть в
 браузере).
@@ -201,6 +268,7 @@ python run_cbench.py <endpoint> <label> [code|all] [опции]
 | `--topic` | темы через запятую: `--topic files,pointers` |
 | `--case` | id задач через запятую |
 | `--runs` | число прогонов (усреднение) |
+| `--timeout` | таймаут HTTP-запроса к модели, сек (по умолчанию 1800) |
 | `--cc` | путь к компилятору |
 | `--sanitizers` | диагностический прогон ASan/UBSan |
 | `--unsafe` | отключить песочницу |
@@ -234,14 +302,75 @@ python run_cbench.py 1234 my-model code --runs 3
 | `CBENCH_UNSAFE` | `0` | `1` — выключить песочницу |
 | `CBENCH_COMPILE_TIMEOUT` | `60` | таймаут компиляции, сек |
 | `THINK` | `0` | `1` — reasoning-режим |
-| `CBENCH_MAX_TOKENS` | `16384` | лимит токенов (для think — 32000+) |
+| `CBENCH_MAX_TOKENS` | `16384` | лимит токенов ответа (для думающих моделей — 32000+) |
+| `CBENCH_HTTP_TIMEOUT` | `1800` | таймаут HTTP-запроса к модели, сек |
 | `CBENCH_TEMP`/`CBENCH_TOP_P`/`CBENCH_TOP_K`/`CBENCH_MIN_P`/`CBENCH_SEED` | эталон | переопределения для `CBENCH_SAMPLER=custom` |
+
+### 8.1 Параметры сэмплера, таймаут и лимит токенов
+
+**Температура по умолчанию — `0.15`** (эталонный сэмплер `reference`). Изменить её
+можно двумя способами:
+
+1. **Переменной окружения** — режим `custom` + переопределение:
+   ```bash
+   CBENCH_SAMPLER=custom CBENCH_TEMP=0.3 python run_cbench.py 1234 my-model code
+   ```
+   Windows:
+   ```bat
+   set CBENCH_SAMPLER=custom && set CBENCH_TEMP=0.3 && python run_cbench.py 1234 my-model code
+   ```
+   ```powershell
+   $env:CBENCH_SAMPLER="custom"; $env:CBENCH_TEMP="0.3"; python run_cbench.py 1234 my-model code
+   ```
+2. **В коде** — константа `REF_SAMP` в файле `cbench/sampler.py` (значение по
+   умолчанию для всех прогонов).
+
+**Таймаут запроса к модели** — `CBENCH_HTTP_TIMEOUT` (по умолчанию `1800` сек)
+или флаг `--timeout`. Увеличьте его, если сервер модели отвечает медленно
+(например, думающая модель на CPU генерирует долго и запрос обрывается).
+
+**Думающие (reasoning) модели.** Если модель думает даже в non-think-режиме
+(в выводе появляется пометка `🧠думала`), рассуждения съедают токен-бюджет, и код
+в ответе может обрезаться (`compile_error`). В этом случае увеличьте лимит:
+
+```bash
+CBENCH_MAX_TOKENS=32000 python run_cbench.py 1234 my-model code
+```
+
+Windows:
+
+```bat
+set CBENCH_MAX_TOKENS=32000 && python run_cbench.py 1234 my-model code
+```
+
+```powershell
+$env:CBENCH_MAX_TOKENS=32000; python run_cbench.py 1234 my-model code
+```
+
+Если вы намеренно гоняете thinking-режим (`THINK=1`), ставьте `CBENCH_MAX_TOKENS`
+равным 32000+, иначе `content` может прийти пустым.
 
 ---
 
 ## 9. Банк задач (cases.json)
 
-Задачи лежат в `cases/cases.json`. Формат одной задачи:
+Банк содержит **63 задачи**: 31 `easy`, 22 `medium`, 10 `hard`. Распределение по
+темам: `math` (38), `arrays` (21), `strings` (2), `files` (1), `bitops` (1).
+
+Каждой задаче соответствует:
+
+- эталонное решение — `solutions/<id>.c`;
+- заметка с исходным условием — `001-tasks/<id>.md` (URL страницы + условие).
+
+Соответствие категорий cppstudio уровням cbench:
+
+| Категория cppstudio | Уровень cbench |
+|---|---|
+| Beginner, Easy | `easy` |
+| Normal | `medium` |
+| Hard, Experienced | `hard` |
+
+Формат одной задачи:
 
 ```json
 {
@@ -298,6 +427,32 @@ python run_cbench.py 1234 my-model code --runs 3
 ```bash
 python run_cbench.py validate
 ```
+
+### 9.2 Генерация банка и проверка решений
+
+Банк генерируется из эталонных решений, а не пишется вручную:
+
+```bash
+# пересобрать cases/cases.json из solutions/*.c (эталон снимается прогоном решения):
+python build_cases.py
+
+# прогнать каждое эталонное решение через настоящий Grader (compile → run → verify):
+python verify_solutions.py
+```
+
+`build_cases.py` компилирует каждое решение reference-флагами бенча, прогоняет
+тестовые входы и **снимает stdout как эталон** — это гарантирует точное совпадение
+для задач с плавающей точкой. Задачи, которых нет в спецификации скрипта,
+сохраняются (например `c-matrix-001`).
+
+Правила для новых задач:
+
+1. **Вывод только ASCII.** Кириллица в выводе программы ломается на MSVC (кодовая
+   страница), поэтому токены вида `больше`/`равны` заменяйте на `greater`/`equal`.
+2. **Задачи с `math.h`** добавляйте в `compile_flags` значение `"-lm"` (на MSVC
+   игнорируется, на gcc/clang линкует libm).
+3. **Задачи со «случайными числами»** адаптируйте под чтение массива из stdin —
+   иначе тесты недетерминированы.
 
 ---
 
@@ -356,6 +511,11 @@ prompt ──▶ LLM-запрос ──▶ вырезание reasoning ──�
 `conditions` (отпечаток условий: сэмплер, think, компилятор, платформа, hash
 банка). По нему любой прогон самопроверяем на сравнимость.
 
+Для каждой задачи в JSON сохраняется **полный код решения** (`code`) и **полный
+текст рассуждений** (`reasoning`), если модель думала — это и есть «лог решения»
+(поле `results.code.results[]`). Прогон, прерванный `Ctrl+C`, тоже сохраняется —
+с флагом `"partial": true` (сохранены результаты только обработанных задач).
+
 Сводный HTML-отчёт — `report.html` (обновляется автоматически):
 
 ```bash
@@ -363,13 +523,14 @@ python make_report.py
 ```
 
 В отчёте: процент по уровням и темам, токены и скорость генерации, маркеры
-аномалий, детали по каждой задаче (почему провалена, expected/actual).
+аномалий. **Кликните по строке прогона** — откроется список задач с кодом
+решения, рассуждениями модели, ошибкой компиляции и причиной провала.
 
 ---
 
 ## 13. Разбор примера: MatrixOp
 
-Первая задача банка — `c-matrix-001` (тема `files`, уровень `easy`, тип
+Пример задачи из банка — `c-matrix-001` (тема `files`, уровень `easy`, тип
 `program` + `argv_files`). Условие — из файла `001-tasks/001-MatrixOp.md`
 (действия над считанными из файлов матрицами), доработанное до однозначного
 контракта:
@@ -419,7 +580,9 @@ A+B = 6 8        A-B = -4 -4       A*B = 19 22
 сравнимых цифр используйте один компилятор и указывайте его при публикации.
 
 **Как добавить свою задачу?**
-Добавьте объект в `cases/cases.json` и проверьте: `python run_cbench.py validate`.
+Добавьте решение в `solutions/<id>.c` и запись в `SPECS` в `build_cases.py`, затем
+`python build_cases.py && python verify_solutions.py`. Либо добавьте объект прямо в
+`cases/cases.json` и проверьте: `python run_cbench.py validate`.
 
 **Можно ли гонять одну задачу?**
 Да: `python run_cbench.py 1234 my-model code --case c-matrix-001`.

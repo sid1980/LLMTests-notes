@@ -8,7 +8,7 @@ from typing import Optional
 
 HERE = Path(__file__).resolve().parent.parent
 
-REF_SAMP = {"temperature": 1.0, "top_p": 0.95, "top_k": 20, "min_p": 0.0, "seed": 42}
+REF_SAMP = {"temperature": 0.15, "top_p": 0.95, "top_k": 20, "min_p": 0.0, "seed": 42}
 
 _ENV = os.environ
 

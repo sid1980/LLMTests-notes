@@ -22,6 +22,7 @@ class RunConfig:
     case_ids: List[str] = field(default_factory=list)
     think: bool = False
     max_tokens: int = 16384
+    http_timeout: int = 1800
     n_runs: int = 1
     cc: Optional[str] = None
     sanitizers: bool = False
@@ -56,6 +57,9 @@ def build_config(argv: Optional[List[str]] = None) -> RunConfig:
     p.add_argument("--case", default=env.get("CBENCH_CASES", ""),
                    help="id задач через запятую")
     p.add_argument("--runs", type=int, default=int(env.get("CBENCH_RUNS", "1")))
+    p.add_argument("--timeout", type=int,
+                   default=int(env.get("CBENCH_HTTP_TIMEOUT", "1800")),
+                   help="таймаут HTTP-запроса к модели, сек (по умолчанию 1800)")
     p.add_argument("--cc", default=env.get("CBENCH_CC"), help="переопределить компилятор")
     p.add_argument("--sanitizers", action="store_true",
                    default=env.get("CBENCH_SANITIZERS", "0") == "1")
@@ -81,6 +85,7 @@ def build_config(argv: Optional[List[str]] = None) -> RunConfig:
         case_ids=_split_csv(a.case),
         think=think,
         max_tokens=max_tokens,
+        http_timeout=max(1, a.timeout),
         n_runs=max(1, a.runs),
         cc=a.cc,
         sanitizers=a.sanitizers,

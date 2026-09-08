@@ -77,14 +77,14 @@ section.hidden { display:none; }
     <div id="stats"></div>
     <nav id="toc">
 <a class="toc-ch" href="#ch-1">1. Что измеряет бенчмарк</a>
-<a class="toc-ch" href="#ch-2">2. Требования и установка</a>
+<a class="toc-ch" href="#ch-2">2. Требования и установка</a><a class="toc-sub" href="#ch-2-1">2.1 Синтаксис команд под Windows (cmd / PowerShell)</a>
 <a class="toc-ch" href="#ch-3">3. Установка компилятора</a><a class="toc-sub" href="#ch-3-1">3.1 Linux — GCC/Clang</a><a class="toc-sub" href="#ch-3-2">3.2 Windows — MSVC (Visual Studio)</a><a class="toc-sub" href="#ch-3-3">3.3 Windows — clang (MSYS2, опционально)</a><a class="toc-sub" href="#ch-3-4">3.4 Принудительный выбор компилятора</a>
 <a class="toc-ch" href="#ch-4">4. Подключение к модели: три варианта</a><a class="toc-sub" href="#ch-4-1">4.1 LM Studio (локально)</a><a class="toc-sub" href="#ch-4-2">4.2 llama.cpp-server</a><a class="toc-sub" href="#ch-4-3">4.3 Внешний провайдер (OpenAI-протокол)</a>
 <a class="toc-ch" href="#ch-5">5. LM Studio через reverse-proxy (Caddy)</a>
 <a class="toc-ch" href="#ch-6">6. Быстрый старт (пошагово)</a>
 <a class="toc-ch" href="#ch-7">7. Командная строка</a>
-<a class="toc-ch" href="#ch-8">8. Переменные окружения</a>
-<a class="toc-ch" href="#ch-9">9. Банк задач (cases.json)</a><a class="toc-sub" href="#ch-9-1">9.1 Правила написания задачи</a>
+<a class="toc-ch" href="#ch-8">8. Переменные окружения</a><a class="toc-sub" href="#ch-8-1">8.1 Параметры сэмплера, таймаут и лимит токенов</a>
+<a class="toc-ch" href="#ch-9">9. Банк задач (cases.json)</a><a class="toc-sub" href="#ch-9-1">9.1 Правила написания задачи</a><a class="toc-sub" href="#ch-9-2">9.2 Генерация банка и проверка решений</a>
 <a class="toc-ch" href="#ch-10">10. Как устроена проверка (pipeline)</a><a class="toc-sub" href="#ch-10-1">10.1 Маркеры аномалий ответа</a>
 <a class="toc-ch" href="#ch-11">11. Песочница и безопасность</a>
 <a class="toc-ch" href="#ch-12">12. Отчёт и результаты</a>
@@ -104,13 +104,28 @@ section.hidden { display:none; }
 <hr>
 <section id="ch-1" data-title="1. Что измеряет бенчмарк"><h2 id="ch-1-h">1. Что измеряет бенчмарк</h2><p>Для каждой задачи модель получает текстовое условие, пишет решение на Си, а бенчмарк:</p>
 <ol><li>извлекает код из ответа;</li><li><strong>компилирует</strong> его (gcc/clang/MSVC);</li><li><strong>запускает</strong> скомпилированный бинарник в песочнице;</li><li>сверяет вывод с эталоном (<code>pass</code> / <code>fail</code>).</li></ol>
-<p>Результат — <strong>процент решённых задач</strong> по уровням сложности (<code>easy</code>, <code>medium</code>, <code>hard</code>) и по темам (указатели, память, строки, структуры, файлы, рекурсия и т.д.). Никакой «оценки другой моделью» — только реальное исполнение.</p>
+<p>Результат — <strong>процент решённых задач</strong> по уровням сложности (<code>easy</code>, <code>medium</code>, <code>hard</code>) и по темам (<code>math</code>, <code>arrays</code>, <code>strings</code>, <code>bitops</code>, <code>files</code>). Никакой «оценки другой моделью» — только реальное исполнение.</p>
+<p>Большинство задач — <strong>вычислительные</strong> («задачи на просчёт») из сборника <a href="http://cppstudio.com/cat/285/">cppstudio.com</a>, адаптированные под Си. Уровни отображаются так: категории Beginner и Easy → <code>easy</code>, Normal → <code>medium</code>, Hard и Experienced → <code>hard</code>.</p>
 <p>Типы задач:</p>
 <div class="tablewrap"><table><thead><tr><th>Тип</th><th>Описание</th></tr></thead><tbody><tr><td><code>function</code></td><td>модель дописывает одну функцию, тест через <code>main()</code> с проверками</td></tr><tr><td><code>program</code> + stdin/stdout</td><td>полная программа: читает stdin, пишет stdout</td></tr><tr><td><code>program</code> + argv</td><td>аргументы командной строки</td></tr><tr><td><code>program</code> + files</td><td>чтение/запись файлов</td></tr><tr><td><code>program</code> + argv_files</td><td>имена файлов передаются через argv (пример — MatrixOp)</td></tr></tbody></table></div>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-2" data-title="2. Требования и установка"><h2 id="ch-2-h">2. Требования и установка</h2><ul><li><strong>Python 3.8+</strong> — только стандартная библиотека, ничего устанавливать не нужно.</li><li><strong>Компилятор Си</strong>: на Linux — <code>gcc</code> или <code>clang</code>; на Windows — MSVC <code>cl.exe</code> (Visual Studio Build Tools) или clang из PATH (например, MSYS2 clang64).</li><li>Запущенный сервер модели с OpenAI-совместимым API.</li></ul>
 <p>Проверка окружения (компилятор + компиляция + запуск + таймаут):</p>
 <pre><code class="lang-bash">python run_cbench.py selftest</code></pre>
+<h3 id="ch-2-1">2.1 Синтаксис команд под Windows (cmd / PowerShell)</h3>
+<p>Все примеры ниже даны для <strong>bash</strong> (Linux/macOS). Под Windows конструкция <code>VAR=value command</code> <strong>не работает</strong> — это синтаксис bash. Задайте переменную окружения так:</p>
+<div class="tablewrap"><table><thead><tr><th>Оболочка</th><th>Задать на время команды</th><th>Пример</th></tr></thead><tbody><tr><td><strong>cmd.exe</strong></td><td><code>set VAR=value &amp;&amp; python …</code></td><td><code>set CBENCH_MAX_TOKENS=32000 &amp;&amp; python run_cbench.py 1234 my-model code</code></td></tr><tr><td><strong>PowerShell</strong></td><td><code>$env:VAR=value; python …</code></td><td><code>$env:CBENCH_MAX_TOKENS=32000; python run_cbench.py 1234 my-model code</code></td></tr><tr><td><strong>bash / Linux</strong></td><td><code>VAR=value python …</code></td><td><code>CBENCH_MAX_TOKENS=32000 python run_cbench.py 1234 my-model code</code></td></tr></tbody></table></div>
+<p><strong>cmd.exe</strong> — можно задать переменную отдельной командой, она действует до закрытия окна:</p>
+<pre><code class="lang-bat">set CBENCH_MAX_TOKENS=32000
+python run_cbench.py 1234 my-model code</code></pre>
+<p><strong>PowerShell</strong> — аналогично на время сессии:</p>
+<pre><code class="lang-powershell">$env:CBENCH_MAX_TOKENS = "32000"
+python run_cbench.py 1234 my-model code</code></pre>
+<p>Несколько переменных сразу:</p>
+<pre><code class="lang-bat">:: cmd.exe
+set CBENCH_MAX_TOKENS=32000 &amp;&amp; set CBENCH_TEMP=0.15 &amp;&amp; python run_cbench.py 1234 my-model code</code></pre>
+<pre><code class="lang-powershell"># PowerShell
+$env:CBENCH_MAX_TOKENS="32000"; $env:CBENCH_TEMP="0.15"; python run_cbench.py 1234 my-model code</code></pre>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-3" data-title="3. Установка компилятора"><h2 id="ch-3-h">3. Установка компилятора</h2><h3 id="ch-3-1">3.1 Linux — GCC/Clang</h3>
 <pre><code class="lang-bash"># Ubuntu/Debian
@@ -130,6 +145,9 @@ sudo dnf install gcc            # или: sudo dnf install clang</code></pre>
 CBENCH_CC=gcc   python run_cbench.py 1234 my-model code
 # или полный путь:
 CBENCH_CC="C:\msys64\clang64\bin\clang.exe" python run_cbench.py 1234 my-model code</code></pre>
+<p>Windows (cmd / PowerShell):</p>
+<pre><code class="lang-bat">set CBENCH_CC=clang &amp;&amp; python run_cbench.py 1234 my-model code</code></pre>
+<pre><code class="lang-powershell">$env:CBENCH_CC="C:\msys64\clang64\bin\clang.exe"; python run_cbench.py 1234 my-model code</code></pre>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-4" data-title="4. Подключение к модели: три варианта"><h2 id="ch-4-h">4. Подключение к модели: три варианта</h2><p>Все три варианта говорят по одному OpenAI-протоколу — разница только в конфигурации. Бенчмарк выбирает пресет по <code>CBENCH_PROVIDER</code> или автоматически по порту/URL.</p>
 <div class="tablewrap"><table><thead><tr><th>Вариант</th><th>Порт по умолч.</th><th>API key</th><th>Имя модели</th></tr></thead><tbody><tr><td><strong>LM Studio</strong></td><td><code>1234</code></td><td>не нужен</td><td>авто (<code>/v1/models</code>)</td></tr><tr><td><strong>llama.cpp-server</strong></td><td><code>8080</code></td><td>не нужен</td><td>авто (<code>/v1/models</code>)</td></tr><tr><td><strong>внешний провайдер (OpenAI)</strong></td><td>задаётся URL</td><td>обязателен</td><td>обязательно</td></tr></tbody></table></div>
@@ -148,6 +166,9 @@ CBENCH_CC="C:\msys64\clang64\bin\clang.exe" python run_cbench.py 1234 my-model c
 <p>Запуск бенчмарка:</p>
 <pre><code class="lang-bash">CBENCH_PROVIDER=lmstudio CBENCH_BASE_URL=http://192.168.56.1:1234 \
     python run_cbench.py http://192.168.56.1:1234 my-model code</code></pre>
+<p>Windows (cmd / PowerShell):</p>
+<pre><code class="lang-bat">set CBENCH_PROVIDER=lmstudio &amp;&amp; set CBENCH_BASE_URL=http://192.168.56.1:1234 &amp;&amp; python run_cbench.py http://192.168.56.1:1234 my-model code</code></pre>
+<pre><code class="lang-powershell">$env:CBENCH_PROVIDER="lmstudio"; $env:CBENCH_BASE_URL="http://192.168.56.1:1234"; python run_cbench.py http://192.168.56.1:1234 my-model code</code></pre>
 <p>Проверка доступности и честности параметров сервера:</p>
 <pre><code class="lang-bash">python probe_sampler.py http://192.168.56.1:1234</code></pre>
 <blockquote>⚠️ Если сервис доступен из недоверенной сети — ограничьте доступ firewall или добавьте TLS/аутентификацию: HTTP-трафик и модель проходят по сети в открытом виде.</blockquote>
@@ -163,21 +184,37 @@ python probe_sampler.py 1234
 
 # 4. Прогон
 python run_cbench.py 1234 my-model code</code></pre>
+<p>Под Windows те же команды без изменений (переменные окружения задаются как в разделе <strong>2.1 «Синтаксис команд под Windows»</strong>).</p>
 <p>Результат: <code>cbench_my-model.json</code> + автообновляемый <code>report.html</code> (открыть в браузере).</p>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-7" data-title="7. Командная строка"><h2 id="ch-7-h">7. Командная строка</h2><pre><code class="lang-text">python run_cbench.py &lt;endpoint&gt; &lt;label&gt; [code|all] [опции]</code></pre>
 <div class="tablewrap"><table><thead><tr><th>Аргумент</th><th>Описание</th></tr></thead><tbody><tr><td><code>endpoint</code></td><td>порт (<code>1234</code>) или полный URL (<code>http://192.168.56.1:1234</code>, <code>https://api.openai.com/v1</code>)</td></tr><tr><td><code>label</code></td><td>метка прогона (имя файла результата)</td></tr><tr><td><code>track</code></td><td><code>code</code> (только код) или <code>all</code></td></tr><tr><td><code>selftest</code></td><td>вместо прогона — проверка компилятора и песочницы</td></tr><tr><td><code>validate</code></td><td>проверка корректности банка задач</td></tr></tbody></table></div>
 <p>Опции:</p>
-<div class="tablewrap"><table><thead><tr><th>Опция</th><th>Описание</th></tr></thead><tbody><tr><td><code>--provider</code></td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>--base-url</code></td><td>переопределить базовый URL</td></tr><tr><td><code>--api-key</code></td><td>ключ API (внешний провайдер)</td></tr><tr><td><code>--model</code></td><td>имя модели</td></tr><tr><td><code>--level</code></td><td>уровни через запятую: <code>--level easy,hard</code></td></tr><tr><td><code>--topic</code></td><td>темы через запятую: <code>--topic files,pointers</code></td></tr><tr><td><code>--case</code></td><td>id задач через запятую</td></tr><tr><td><code>--runs</code></td><td>число прогонов (усреднение)</td></tr><tr><td><code>--cc</code></td><td>путь к компилятору</td></tr><tr><td><code>--sanitizers</code></td><td>диагностический прогон ASan/UBSan</td></tr><tr><td><code>--unsafe</code></td><td>отключить песочницу</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Опция</th><th>Описание</th></tr></thead><tbody><tr><td><code>--provider</code></td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>--base-url</code></td><td>переопределить базовый URL</td></tr><tr><td><code>--api-key</code></td><td>ключ API (внешний провайдер)</td></tr><tr><td><code>--model</code></td><td>имя модели</td></tr><tr><td><code>--level</code></td><td>уровни через запятую: <code>--level easy,hard</code></td></tr><tr><td><code>--topic</code></td><td>темы через запятую: <code>--topic files,pointers</code></td></tr><tr><td><code>--case</code></td><td>id задач через запятую</td></tr><tr><td><code>--runs</code></td><td>число прогонов (усреднение)</td></tr><tr><td><code>--timeout</code></td><td>таймаут HTTP-запроса к модели, сек (по умолчанию 1800)</td></tr><tr><td><code>--cc</code></td><td>путь к компилятору</td></tr><tr><td><code>--sanitizers</code></td><td>диагностический прогон ASan/UBSan</td></tr><tr><td><code>--unsafe</code></td><td>отключить песочницу</td></tr></tbody></table></div>
 <p>Примеры:</p>
 <pre><code class="lang-bash">python run_cbench.py 1234 my-model code --level hard
 python run_cbench.py 1234 my-model code --topic files
 python run_cbench.py 1234 my-model code --case c-matrix-001
 python run_cbench.py 1234 my-model code --runs 3</code></pre>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
-<section id="ch-8" data-title="8. Переменные окружения"><h2 id="ch-8-h">8. Переменные окружения</h2><div class="tablewrap"><table><thead><tr><th>Переменная</th><th>По умолчанию</th><th>Назначение</th></tr></thead><tbody><tr><td><code>CBENCH_PROVIDER</code></td><td>авто</td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>CBENCH_BASE_URL</code></td><td>по провайдеру</td><td>базовый URL</td></tr><tr><td><code>CBENCH_MODEL</code></td><td>авто (<code>/v1/models</code>)</td><td>имя модели</td></tr><tr><td><code>CBENCH_API_KEY</code></td><td>—</td><td>ключ API</td></tr><tr><td><code>CBENCH_CC</code></td><td>авто</td><td>путь к компилятору</td></tr><tr><td><code>CBENCH_LEVELS</code></td><td><code>easy,medium,hard</code></td><td>уровни через запятую</td></tr><tr><td><code>CBENCH_TOPICS</code></td><td>—</td><td>темы через запятую</td></tr><tr><td><code>CBENCH_CASES</code></td><td>—</td><td>id задач через запятую</td></tr><tr><td><code>CBENCH_RUNS</code></td><td><code>1</code></td><td>число прогонов (сиды 42, 43, …)</td></tr><tr><td><code>CBENCH_SAMPLER</code></td><td><code>reference</code></td><td>режим сэмплера</td></tr><tr><td><code>CBENCH_SANITIZERS</code></td><td><code>0</code></td><td><code>1</code> — доп. прогон ASan/UBSan</td></tr><tr><td><code>CBENCH_UNSAFE</code></td><td><code>0</code></td><td><code>1</code> — выключить песочницу</td></tr><tr><td><code>CBENCH_COMPILE_TIMEOUT</code></td><td><code>60</code></td><td>таймаут компиляции, сек</td></tr><tr><td><code>THINK</code></td><td><code>0</code></td><td><code>1</code> — reasoning-режим</td></tr><tr><td><code>CBENCH_MAX_TOKENS</code></td><td><code>16384</code></td><td>лимит токенов (для think — 32000+)</td></tr><tr><td><code>CBENCH_TEMP</code>/<code>CBENCH_TOP_P</code>/<code>CBENCH_TOP_K</code>/<code>CBENCH_MIN_P</code>/<code>CBENCH_SEED</code></td><td>эталон</td><td>переопределения для <code>CBENCH_SAMPLER=custom</code></td></tr></tbody></table></div>
+<section id="ch-8" data-title="8. Переменные окружения"><h2 id="ch-8-h">8. Переменные окружения</h2><div class="tablewrap"><table><thead><tr><th>Переменная</th><th>По умолчанию</th><th>Назначение</th></tr></thead><tbody><tr><td><code>CBENCH_PROVIDER</code></td><td>авто</td><td><code>openai</code> / <code>llamacpp</code> / <code>lmstudio</code></td></tr><tr><td><code>CBENCH_BASE_URL</code></td><td>по провайдеру</td><td>базовый URL</td></tr><tr><td><code>CBENCH_MODEL</code></td><td>авто (<code>/v1/models</code>)</td><td>имя модели</td></tr><tr><td><code>CBENCH_API_KEY</code></td><td>—</td><td>ключ API</td></tr><tr><td><code>CBENCH_CC</code></td><td>авто</td><td>путь к компилятору</td></tr><tr><td><code>CBENCH_LEVELS</code></td><td><code>easy,medium,hard</code></td><td>уровни через запятую</td></tr><tr><td><code>CBENCH_TOPICS</code></td><td>—</td><td>темы через запятую</td></tr><tr><td><code>CBENCH_CASES</code></td><td>—</td><td>id задач через запятую</td></tr><tr><td><code>CBENCH_RUNS</code></td><td><code>1</code></td><td>число прогонов (сиды 42, 43, …)</td></tr><tr><td><code>CBENCH_SAMPLER</code></td><td><code>reference</code></td><td>режим сэмплера</td></tr><tr><td><code>CBENCH_SANITIZERS</code></td><td><code>0</code></td><td><code>1</code> — доп. прогон ASan/UBSan</td></tr><tr><td><code>CBENCH_UNSAFE</code></td><td><code>0</code></td><td><code>1</code> — выключить песочницу</td></tr><tr><td><code>CBENCH_COMPILE_TIMEOUT</code></td><td><code>60</code></td><td>таймаут компиляции, сек</td></tr><tr><td><code>THINK</code></td><td><code>0</code></td><td><code>1</code> — reasoning-режим</td></tr><tr><td><code>CBENCH_MAX_TOKENS</code></td><td><code>16384</code></td><td>лимит токенов ответа (для думающих моделей — 32000+)</td></tr><tr><td><code>CBENCH_HTTP_TIMEOUT</code></td><td><code>1800</code></td><td>таймаут HTTP-запроса к модели, сек</td></tr><tr><td><code>CBENCH_TEMP</code>/<code>CBENCH_TOP_P</code>/<code>CBENCH_TOP_K</code>/<code>CBENCH_MIN_P</code>/<code>CBENCH_SEED</code></td><td>эталон</td><td>переопределения для <code>CBENCH_SAMPLER=custom</code></td></tr></tbody></table></div>
+<h3 id="ch-8-1">8.1 Параметры сэмплера, таймаут и лимит токенов</h3>
+<p><strong>Температура по умолчанию — <code>0.15</code></strong> (эталонный сэмплер <code>reference</code>). Изменить её можно двумя способами:</p>
+<ol><li><strong>Переменной окружения</strong> — режим <code>custom</code> + переопределение: ``<code>bash CBENCH_SAMPLER=custom CBENCH_TEMP=0.3 python run_cbench.py 1234 my-model code </code>`<code> Windows: </code>`<code>bat set CBENCH_SAMPLER=custom &amp;&amp; set CBENCH_TEMP=0.3 &amp;&amp; python run_cbench.py 1234 my-model code </code>`<code> </code>`<code>powershell $env:CBENCH_SAMPLER="custom"; $env:CBENCH_TEMP="0.3"; python run_cbench.py 1234 my-model code </code>``</li><li><strong>В коде</strong> — константа <code>REF_SAMP</code> в файле <code>cbench/sampler.py</code> (значение по умолчанию для всех прогонов).</li></ol>
+<p><strong>Таймаут запроса к модели</strong> — <code>CBENCH_HTTP_TIMEOUT</code> (по умолчанию <code>1800</code> сек) или флаг <code>--timeout</code>. Увеличьте его, если сервер модели отвечает медленно (например, думающая модель на CPU генерирует долго и запрос обрывается).</p>
+<p><strong>Думающие (reasoning) модели.</strong> Если модель думает даже в non-think-режиме (в выводе появляется пометка <code>🧠думала</code>), рассуждения съедают токен-бюджет, и код в ответе может обрезаться (<code>compile_error</code>). В этом случае увеличьте лимит:</p>
+<pre><code class="lang-bash">CBENCH_MAX_TOKENS=32000 python run_cbench.py 1234 my-model code</code></pre>
+<p>Windows:</p>
+<pre><code class="lang-bat">set CBENCH_MAX_TOKENS=32000 &amp;&amp; python run_cbench.py 1234 my-model code</code></pre>
+<pre><code class="lang-powershell">$env:CBENCH_MAX_TOKENS=32000; python run_cbench.py 1234 my-model code</code></pre>
+<p>Если вы намеренно гоняете thinking-режим (<code>THINK=1</code>), ставьте <code>CBENCH_MAX_TOKENS</code> равным 32000+, иначе <code>content</code> может прийти пустым.</p>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
-<section id="ch-9" data-title="9. Банк задач (cases.json)"><h2 id="ch-9-h">9. Банк задач (cases.json)</h2><p>Задачи лежат в <code>cases/cases.json</code>. Формат одной задачи:</p>
+<section id="ch-9" data-title="9. Банк задач (cases.json)"><h2 id="ch-9-h">9. Банк задач (cases.json)</h2><p>Банк содержит <strong>63 задачи</strong>: 31 <code>easy</code>, 22 <code>medium</code>, 10 <code>hard</code>. Распределение по темам: <code>math</code> (38), <code>arrays</code> (21), <code>strings</code> (2), <code>files</code> (1), <code>bitops</code> (1).</p>
+<p>Каждой задаче соответствует:</p>
+<ul><li>эталонное решение — <code>solutions/&lt;id&gt;.c</code>;</li><li>заметка с исходным условием — <code>001-tasks/&lt;id&gt;.md</code> (URL страницы + условие).</li></ul>
+<p>Соответствие категорий cppstudio уровням cbench:</p>
+<div class="tablewrap"><table><thead><tr><th>Категория cppstudio</th><th>Уровень cbench</th></tr></thead><tbody><tr><td>Beginner, Easy</td><td><code>easy</code></td></tr><tr><td>Normal</td><td><code>medium</code></td></tr><tr><td>Hard, Experienced</td><td><code>hard</code></td></tr></tbody></table></div>
+<p>Формат одной задачи:</p>
 <pre><code class="lang-json">{
   "id": "c-matrix-001",
   "topic": "files",
@@ -206,6 +243,16 @@ python run_cbench.py 1234 my-model code --runs 3</code></pre>
 <ol><li><strong>Контракт ввода-вывода должен быть однозначным</strong> — модель и эталон должны понимать его одинаково (формат файлов, разделители, порядок вывода).</li><li><strong>Эталон должен быть точным</strong> — сравнение stdout с нормализацией хвостовых пробелов строк и пустых строк по краям (внутренние пустые строки сохраняются).</li><li><strong>Тестов должно быть несколько</strong> — включайте крайние случаи (1×1, отрицательные числа, пустые входы).</li><li>После изменения банка меняется его <code>case_bank_hash</code> в <code>conditions</code> — прогоны со старым и новым банком несравнимы.</li></ol>
 <p>Проверка банка:</p>
 <pre><code class="lang-bash">python run_cbench.py validate</code></pre>
+<h3 id="ch-9-2">9.2 Генерация банка и проверка решений</h3>
+<p>Банк генерируется из эталонных решений, а не пишется вручную:</p>
+<pre><code class="lang-bash"># пересобрать cases/cases.json из solutions/*.c (эталон снимается прогоном решения):
+python build_cases.py
+
+# прогнать каждое эталонное решение через настоящий Grader (compile → run → verify):
+python verify_solutions.py</code></pre>
+<p><code>build_cases.py</code> компилирует каждое решение reference-флагами бенча, прогоняет тестовые входы и <strong>снимает stdout как эталон</strong> — это гарантирует точное совпадение для задач с плавающей точкой. Задачи, которых нет в спецификации скрипта, сохраняются (например <code>c-matrix-001</code>).</p>
+<p>Правила для новых задач:</p>
+<ol><li><strong>Вывод только ASCII.</strong> Кириллица в выводе программы ломается на MSVC (кодовая страница), поэтому токены вида <code>больше</code>/<code>равны</code> заменяйте на <code>greater</code>/<code>equal</code>.</li><li><strong>Задачи с <code>math.h</code></strong> добавляйте в <code>compile_flags</code> значение <code>"-lm"</code> (на MSVC игнорируется, на gcc/clang линкует libm).</li><li><strong>Задачи со «случайными числами»</strong> адаптируйте под чтение массива из stdin — иначе тесты недетерминированы.</li></ol>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-10" data-title="10. Как устроена проверка (pipeline)"><h2 id="ch-10-h">10. Как устроена проверка (pipeline)</h2><pre><code class="lang-text">prompt ──▶ LLM-запрос ──▶ вырезание reasoning ──▶ извлечение ```c-кода
      ──▶ компиляция (таймаут) ──▶ запуск в песочнице (каждый тест)
@@ -221,11 +268,12 @@ python run_cbench.py 1234 my-model code --runs 3</code></pre>
 <p>Отключение песочницы (не рекомендуется): <code>CBENCH_UNSAFE=1</code>.</p>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-12" data-title="12. Отчёт и результаты"><h2 id="ch-12-h">12. Отчёт и результаты</h2><p>После прогона создаётся <code>cbench_&lt;label&gt;.json</code> с полными данными и блоком <code>conditions</code> (отпечаток условий: сэмплер, think, компилятор, платформа, hash банка). По нему любой прогон самопроверяем на сравнимость.</p>
+<p>Для каждой задачи в JSON сохраняется <strong>полный код решения</strong> (<code>code</code>) и <strong>полный текст рассуждений</strong> (<code>reasoning</code>), если модель думала — это и есть «лог решения» (поле <code>results.code.results[]</code>). Прогон, прерванный <code>Ctrl+C</code>, тоже сохраняется — с флагом <code>"partial": true</code> (сохранены результаты только обработанных задач).</p>
 <p>Сводный HTML-отчёт — <code>report.html</code> (обновляется автоматически):</p>
 <pre><code class="lang-bash">python make_report.py</code></pre>
-<p>В отчёте: процент по уровням и темам, токены и скорость генерации, маркеры аномалий, детали по каждой задаче (почему провалена, expected/actual).</p>
+<p>В отчёте: процент по уровням и темам, токены и скорость генерации, маркеры аномалий. <strong>Кликните по строке прогона</strong> — откроется список задач с кодом решения, рассуждениями модели, ошибкой компиляции и причиной провала.</p>
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
-<section id="ch-13" data-title="13. Разбор примера: MatrixOp"><h2 id="ch-13-h">13. Разбор примера: MatrixOp</h2><p>Первая задача банка — <code>c-matrix-001</code> (тема <code>files</code>, уровень <code>easy</code>, тип <code>program</code> + <code>argv_files</code>). Условие — из файла <code>001-tasks/001-MatrixOp.md</code> (действия над считанными из файлов матрицами), доработанное до однозначного контракта:</p>
+<section id="ch-13" data-title="13. Разбор примера: MatrixOp"><h2 id="ch-13-h">13. Разбор примера: MatrixOp</h2><p>Пример задачи из банка — <code>c-matrix-001</code> (тема <code>files</code>, уровень <code>easy</code>, тип <code>program</code> + <code>argv_files</code>). Условие — из файла <code>001-tasks/001-MatrixOp.md</code> (действия над считанными из файлов матрицами), доработанное до однозначного контракта:</p>
 <ul><li>программа получает <strong>два аргумента</strong> — имена файлов с матрицами;</li><li>формат файла: первая строка <code>R C</code>, далее <code>R</code> строк по <code>C</code> целых чисел;</li><li>гарантируется, что матрицы квадратные и одного размера;</li><li>вывод: три матрицы (сумма, разность, произведение), каждая строка — отдельной строкой, элементы через один пробел, между матрицами — ровно одна пустая строка;</li><li>память выделяется через <code>malloc</code> и освобождается через <code>free</code>.</li></ul>
 <p>Эталон для теста 1:</p>
 <pre><code class="lang-text">A = [[1,2],[3,4]], B = [[5,6],[7,8]]
@@ -238,7 +286,7 @@ A+B = 6 8        A-B = -4 -4       A*B = 19 22
 <hr><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
 <section id="ch-15" data-title="15. ЧаВо (FAQ)"><h2 id="ch-15-h">15. ЧаВо (FAQ)</h2><p><strong>Зачем компиляция, а не просто текст?</strong> Только реальное исполнение даёт честный <code>pass/fail</code> без LLM-судьи. Компиляция дополнительно ловит синтаксические ошибки и (с <code>CBENCH_SANITIZERS=1</code>) UB.</p>
 <p><strong>Почему результаты на gcc и MSVC могут отличаться?</strong> Код с undefined behavior ведёт себя по-разному на разных компиляторах. Для сравнимых цифр используйте один компилятор и указывайте его при публикации.</p>
-<p><strong>Как добавить свою задачу?</strong> Добавьте объект в <code>cases/cases.json</code> и проверьте: <code>python run_cbench.py validate</code>.</p>
+<p><strong>Как добавить свою задачу?</strong> Добавьте решение в <code>solutions/&lt;id&gt;.c</code> и запись в <code>SPECS</code> в <code>build_cases.py</code>, затем <code>python build_cases.py &amp;&amp; python verify_solutions.py</code>. Либо добавьте объект прямо в <code>cases/cases.json</code> и проверьте: <code>python run_cbench.py validate</code>.</p>
 <p><strong>Можно ли гонять одну задачу?</strong> Да: <code>python run_cbench.py 1234 my-model code --case c-matrix-001</code>.</p>
 <p><strong>Сравнимы ли прогоны на разных сэмплерах?</strong> Нет. Фиксируйте <code>CBENCH_SAMPLER=reference</code> (по умолчанию) для сравнимых цифр.</p><div class="chapnav"><a class="navlink" data-nav="prev"></a><a class="navlink" data-nav="next"></a></div></section>
   </main>
