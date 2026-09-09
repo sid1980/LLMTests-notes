@@ -1,0 +1,674 @@
+{
+  "label": "qwen3-4b-2507",
+  "provider": {
+    "name": "lmstudio",
+    "base_url": "http://127.0.0.1:1234",
+    "model": "",
+    "enable_thinking_support": false,
+    "has_api_key": false
+  },
+  "model": "qwen/qwen3-4b-2507",
+  "think": false,
+  "partial": false,
+  "conditions": {
+    "sampler": {
+      "temperature": 0.15,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "seed": 42
+    },
+    "sampler_mode": "reference",
+    "think": false,
+    "max_tokens": 32000,
+    "http_timeout": 1800,
+    "n_runs": 1,
+    "base_seed": 42,
+    "levels": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "topics": [],
+    "exec_timeout_s": 20.0,
+    "sandbox": true,
+    "sandbox_mode": "windows-best-effort",
+    "compiler": "clang.EXE",
+    "compiler_version": "clang version 22.1.7 (https://github.com/msys2/MINGW-packages b8f306ad57e0c8f3f15aed0dc809d7e3e8e2eee9)",
+    "platform": "Windows-10-10.0.19044-SP0",
+    "python_version": "3.14.5",
+    "provider": {
+      "name": "lmstudio",
+      "base_url": "http://127.0.0.1:1234",
+      "model": "",
+      "enable_thinking_support": false,
+      "has_api_key": false
+    },
+    "case_bank_hash": "31029e39e45b096a",
+    "n_cases": 63,
+    "sanitizers": false,
+    "nothink_thought": false
+  },
+  "usage": {
+    "prompt_tokens": 7164,
+    "completion_tokens": 21074,
+    "requests": 63,
+    "request_seconds": 235.3,
+    "gen_tok_s": 89.6,
+    "answers_cut_by_limit": 0,
+    "loop_suspects": 0,
+    "empty_answers": 0,
+    "thinking_answers": 0,
+    "code_from_think": 0
+  },
+  "wall_minutes": 4.1,
+  "results": {
+    "code": {
+      "by_level": {
+        "easy": {
+          "pass": 7,
+          "total": 31
+        },
+        "medium": {
+          "pass": 5,
+          "total": 22
+        },
+        "hard": {
+          "pass": 1,
+          "total": 10
+        }
+      },
+      "by_topic": {
+        "files": {
+          "pass": 1,
+          "total": 1
+        },
+        "arrays": {
+          "pass": 3,
+          "total": 21
+        },
+        "math": {
+          "pass": 9,
+          "total": 38
+        },
+        "strings": {
+          "pass": 0,
+          "total": 2
+        },
+        "bitops": {
+          "pass": 0,
+          "total": 1
+        }
+      },
+      "sandbox_blocked_tasks": 0,
+      "results": [
+        {
+          "id": "c-matrix-001",
+          "level": "easy",
+          "topic": "files",
+          "pass": true,
+          "tok": 1112,
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n\n// Функция для чтения матрицы из файла\nint** read_matrix(const char* filename, int* rows, int* cols) {\n    FILE* file = fopen(filename, \"r\");\n    if (!file) {\n        fprintf(stderr, \"Ошибка открытия файла: %s\\n\", filename);\n        exit(1);\n    }\n\n    // Чтение размеров\n    fscanf(file, \"%d %d\", rows, cols);\n    \n    // Выделение памяти для матрицы\n    int** matrix = (int**)malloc((*rows) * sizeof(int*));\n    for (int i = 0; i < *rows; i++) {\n        matrix[i] = (int*)malloc((*cols) * sizeof(int));\n    }\n\n    // Чтение элементов\n    for (int i = 0; i < *rows; i++) {\n        for (int j = 0; j < *cols; j++) {\n            fscanf(file, \"%d\", &matrix[i][j]);\n        }\n    }\n\n    fclose(file);\n    return matrix;\n}\n\n// Функция для вывода матрицы\nvoid print_matrix(int** matrix, int rows, int cols) {\n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n}\n\n// Функция для сложения двух матриц\nint** add_matrices(int** a, int** b, int rows, int cols) {\n    int** result = (int**)malloc(rows * sizeof(int*));\n    for (int i = 0; i < rows; i++) {\n        result[i] = (int*)malloc(cols * sizeof(int));\n    }\n    \n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            result[i][j] = a[i][j] + b[i][j];\n        }\n    }\n    \n    return result;\n}\n\n// Функция для вычитания двух матриц\nint** subtract_matrices(int** a, int** b, int rows, int cols) {\n    int** result = (int**)malloc(rows * sizeof(int*));\n    for (int i = 0; i < rows; i++) {\n        result[i] = (int*)malloc(cols * sizeof(int));\n    }\n    \n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            result[i][j] = a[i][j] - b[i][j];\n        }\n    }\n    \n    return result;\n}\n\n// Функция для умножения двух матриц\nint** multiply_matrices(int** a, int** b, int rows, int cols) {\n    int** result = (int**)malloc(rows * sizeof(int*));\n    for (int i = 0; i < rows; i++) {\n        result[i] = (int*)malloc(cols * sizeof(int));\n    }\n    \n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            result[i][j] = 0;\n            for (int k = 0; k < cols; k++) {\n                result[i][j] += a[i][k] * b[k][j];\n            }\n        }\n    }\n    \n    return result;\n}\n\n// Функция для освобождения памяти\nvoid free_matrix(int** matrix, int rows) {\n    for (int i = 0; i < rows; i++) {\n        free(matrix[i]);\n    }\n    free(matrix);\n}\n\nint main(int argc, char* argv[]) {\n    if (argc != 3) {\n        fprintf(stderr, \"Использование: %s <имя_файла_A> <имя_файла_B>\\n\", argv[0]);\n        return 1;\n    }\n\n    char* file_a = argv[1];\n    char* file_b = argv[2];\n\n    // Чтение матриц\n    int rows, cols;\n    int** matrix_a = read_matrix(file_a, &rows, &cols);\n    int** matrix_b = read_matrix(file_b, &rows, &cols);\n\n    // Вычисление результатов\n    int** sum = add_matrices(matrix_a, matrix_b, rows, cols);\n    int** diff = subtract_matrices(matrix_a, matrix_b, rows, cols);\n    int** product = multiply_matrices(matrix_a, matrix_b, rows, cols);\n\n    // Вывод результатов\n    print_matrix(sum, rows, cols);\n    printf(\"\\n\");\n    print_matrix(diff, rows, cols);\n    printf(\"\\n\");\n    print_matrix(product, rows, cols);\n\n    // Освобождение памяти\n    free_matrix(matrix_a, rows);\n    free_matrix(matrix_b, rows);\n    free_matrix(sum, rows);\n    free_matrix(diff, rows);\n    free_matrix(product, rows);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-001",
+          "level": "easy",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 218,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    int matrix[100][100];\n    int i, j;\n    int trace = 0;\n\n    // Считываем размер матрицы\n    printf(\"Введите размер матрицы n: \");\n    scanf(\"%d\", &n);\n\n    // Считываем матрицу n x n\n    printf(\"Введите элементы матрицы:\\n\");\n    for (i = 0; i < n; i++) {\n        for (j = 0; j < n; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n\n    // Вычисляем след матрицы — сумму элементов главной диагонали\n    for (i = 0; i < n; i++) {\n        trace += matrix[i][i];\n    }\n\n    // Выводим след матрицы\n    printf(\"След матрицы: %d\\n\", trace);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-001",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 191,
+          "code": "#include <stdio.h>\n\nint main() {\n    int number;\n    \n    printf(\"Введите пятизначное целое число от 10000 до 99999: \");\n    scanf(\"%d\", &number);\n    \n    // Выводим цифры в порядке от старшей к младшей\n    printf(\"%d\\n\", number / 10000);        // десятки тысяч\n    printf(\"%d\\n\", (number / 1000) % 10);  // тысячи\n    printf(\"%d\\n\", (number / 100) % 10);   // сотни\n    printf(\"%d\\n\", (number / 10) % 10);    // десятки\n    printf(\"%d\\n\", number % 10);          // единицы\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-002",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 163,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, b, f;\n    \n    // Считываем три целых числа\n    scanf(\"%d %d %d\", &a, &b, &f);\n    \n    // Вычисляем выражение в целочисленной арифметике\n    // x = (a + b - f / a) + f * a * a - (a + b)\n    int division = f / a;  // целочисленное деление\n    int x = (a + b - division) + f * a * a - (a + b);\n    \n    // Выводим результат\n    printf(\"%d\\n\", x);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-003",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 79,
+          "code": "#include <stdio.h>\n\nint main() {\n    int meters;\n    double kilometers;\n\n    printf(\"Введите количество метров: \");\n    scanf(\"%d\", &meters);\n\n    kilometers = meters / 1000.0;\n\n    printf(\"Результат в километрах: %.3f\\n\", kilometers);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-004",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 110,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, b;\n    \n    printf(\"Введите первое целое число: \");\n    scanf(\"%d\", &a);\n    \n    printf(\"Введите второе целое число: \");\n    scanf(\"%d\", &b);\n    \n    if (a > b) {\n        printf(\"greater\\n\");\n    } else if (a < b) {\n        printf(\"less\\n\");\n    } else {\n        printf(\"equal\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-005",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 181,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, b, c;\n\n    // Считываем три целых числа\n    printf(\"Введите три целых числа: \");\n    scanf(\"%d %d %d\", &a, &b, &c);\n\n    // Проверяем, есть ли хотя бы две равные\n    if (a == b || a == c || b == c) {\n        // Если есть равные, увеличиваем каждое на 5\n        a += 5;\n        b += 5;\n        c += 5;\n        printf(\"%d\\n\", a);\n        printf(\"%d\\n\", b);\n        printf(\"%d\\n\", c);\n    } else {\n        // Если нет равных, выводим \"no equal\"\n        printf(\"no equal\");\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-006",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 471,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    double Y = 0.0;\n    \n    for (int i = 0; i < n; i++) {\n        double Z, B, A, beta;\n        scanf(\"%lf %lf %lf %lf\", &Z, &B, &A, &beta);\n        \n        // Вычисляем tg(beta) = sin(beta) / cos(beta)\n        double tg_beta = sin(beta) / cos(beta);\n        \n        // Проверяем на ноль, чтобы избежать деления на ноль\n        if (fabs(tg_beta) < 1e-10) {\n            // Если tg(beta) близко к нулю, то 1/tg^2(beta) стремится к бесконечности\n            // В таких случаях считаем, что выражение не определено, но по условию задачи\n            // вероятно, что beta не равен 0 или pi/2, поэтому предполагаем, что tg(beta) != 0\n            // Если всё же возникает ошибка, можно выдать ошибку, но в задаче предполагается корректный ввод\n            // Поэтому просто пропускаем или используем большое значение — но по смыслу задачи\n            // вероятно, beta не равен 0 или pi/2, поэтому деление на ноль не будет\n            // В данном случае просто пропускаем (но лучше обработать)\n            // Однако, в условии не сказано, что может быть деление на ноль, поэтому будем считать, что tg(beta) != 0\n            // Если бы было, то программа могла бы выдать ошибку, но в задаче предполагается корректный ввод\n            // Поэтому просто продолжаем\n            continue;\n        }\n        \n        double term = pow(Z, 3) - B + (A * A) / (tg_beta * tg_beta);\n        Y += term;\n    }\n    \n    printf(\"%.6f\\n\", Y);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-007",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 188,
+          "code": "#include <stdio.h>\n\nint main() {\n    int N, k;\n    long long sum = 0;\n\n    // Считываем два целых числа N и k\n    printf(\"Введите N и k: \");\n    scanf(\"%d %d\", &N, &k);\n\n    // Вычисляем сумму 1^k + 2^k + 3^k + ... + N^k\n    for (int i = 1; i <= N; i++) {\n        long long power = 1;\n        // Вычисляем i^k с помощью цикла\n        for (int j = 0; j < k; j++) {\n            power *= i;\n        }\n        sum += power;\n    }\n\n    // Выводим результат\n    printf(\"Сумма равна: %lld\\n\", sum);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-008",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 252,
+          "code": "#include <stdio.h>\n\nint main() {\n    int number;\n    \n    // Считываем двузначное натуральное число от 10 до 99\n    printf(\"Введите двузначное натуральное число (10-99): \");\n    scanf(\"%d\", &number);\n    \n    // Проверка на корректность ввода\n    if (number < 10 || number > 99) {\n        printf(\"Ошибка: введено число вне диапазона 10-99.\\n\");\n        return 1;\n    }\n    \n    // Извлекаем цифры\n    int tens = number / 10;        // десятки\n    int units = number % 10;       // единицы\n    \n    // Находим наибольшую и наименьшую цифры\n    int max_digit = (tens > units) ? tens : units;\n    int min_digit = (tens < units) ? tens : units;\n    \n    // Выводим результат\n    printf(\"%d\\n\", max_digit);\n    printf(\"%d\\n\", min_digit);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-009",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 325,
+          "tail": "C:\\Users\\User\\AppData\\Local\\Temp\\cbench_5xvvkdh9\\sol.c:4:9: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]\n    4 | int main() {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_5xvvkdh9\\sol.c:29:46: error: use of undeclared identifier 'M_PI'\n   29 |     alpha_degrees = alpha_radians * (180.0 / M_PI);\n      |                                              ^~~~\n1 warning and 1 error generated.\n",
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double V, T, g, alpha_radians, alpha_degrees;\n\n    // Константа ускорения свободного падения\n    g = 9.81;\n\n    // Считываем начальную скорость и время полёта\n    printf(\"Введите начальную скорость V: \");\n    scanf(\"%lf\", &V);\n    printf(\"Введите время полёта T: \");\n    scanf(\"%lf\", &T);\n\n    // Вычисляем угол alpha по формуле: alpha = arcsin(g * T / (2 * V))\n    double argument = (g * T) / (2 * V);\n\n    // Проверяем, что аргумент arcsin не превышает 1 по модулю\n    if (argument > 1.0 || argument < -1.0) {\n        printf(\"Ошибка: аргумент arcsin выходит за пределы [-1, 1].\\n\");\n        return 1;\n    }\n\n    // Вычисляем угол в радианах\n    alpha_radians = asin(argument);\n\n    // Преобразуем в градусы\n    alpha_degrees = alpha_radians * (180.0 / M_PI);\n\n    // Выводим угол в градусах с шестью знаками после запятой\n    printf(\"Угол alpha = %.6f градусов\\n\", alpha_degrees);\n\n    return 0;\n}",
+          "compile_error": ") {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_5xvvkdh9\\sol.c:29:46: error: use of undeclared identifier 'M_PI'\n   29 |     alpha_degrees = alpha_radians * (180.0 / M_PI);\n      |                                              ^~~~\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-010",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 150,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, n;\n    long long result = 1; // Используем long long, чтобы избежать переполнения при больших степенях\n\n    printf(\"Введите основание a: \");\n    scanf(\"%d\", &a);\n\n    printf(\"Введите неотрицательную целую степень n: \");\n    scanf(\"%d\", &n);\n\n    // Вычисляем a^n с помощью цикла\n    for (int i = 0; i < n; i++) {\n        result *= a;\n    }\n\n    printf(\"Результат a^n = %lld\\n\", result);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-011",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 103,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double x, y, z;\n    \n    printf(\"Введите координаты вектора x, y, z: \");\n    scanf(\"%lf %lf %lf\", &x, &y, &z);\n    \n    double length = sqrt(x*x + y*y + z*z);\n    \n    printf(\"Длина вектора: %.6f\\n\", length);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-012",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 328,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double x, m, z;\n    int i, j;\n\n    // Цикл по значениям x от -1.1 до 0.3 с шагом 0.2\n    for (x = -1.1; x <= 0.3; x += 0.2) {\n        // Цикл по значениям m от 1 до 5\n        for (m = 1; m <= 5; m++) {\n            // Вычисление x^m без использования функции pow\n            double x_power_m = 1.0;\n            for (int k = 0; k < (int)m; k++) {\n                x_power_m *= x;\n            }\n\n            // Вычисление sin(x * m)\n            double sin_val = sin(x * m);\n\n            // Вычисление sin^m(x * m) — возводим синус в степень m\n            double sin_power_m = 1.0;\n            for (int k = 0; k < (int)m; k++) {\n                sin_power_m *= sin_val;\n            }\n\n            // Вычисление z = x^m * sin^m(x * m)\n            z = x_power_m * sin_power_m;\n\n            // Вывод результата в формате \"x m z\"\n            printf(\"%.1f %.0f %.6f\\n\", x, m, z);\n        }\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-013",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 129,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    int n;\n    double num, sum = 0.0;\n\n    printf(\"Введите количество чисел: \");\n    scanf(\"%d\", &n);\n\n    for (int i = 0; i < n; i++) {\n        printf(\"Введите число: \");\n        scanf(\"%lf\", &num);\n        \n        double abs_num = fabs(num);\n        if (abs_num > 2.5) {\n            sum += num * num;\n        }\n    }\n\n    printf(\"%.6f\\n\", sum);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-014",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 913,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double x, y;\n    \n    printf(\"Введите два угла в радианах x и y: \");\n    scanf(\"%lf %lf\", &x, &y);\n    \n    // Вычисление tg(x) = sin(x)/cos(x)\n    double tg_x = sin(x) / cos(x);\n    \n    // Вычисление ctg(x) = 1 / tg(x)\n    double ctg_x = 1.0 / tg_x;\n    \n    // Вычисление (1 - tg(x))^(ctg(x))\n    double base = 1.0 - tg_x;\n    double exp = ctg_x;\n    \n    // Обработка случая, когда base == 0 или base < 0 и exp не целое\n    // В данном случае, если base <= 0, то выражение может быть не определено\n    // Однако, если base > 0, то можно вычислить как exp(base, exp)\n    double term1 = 1.0;\n    if (base > 0) {\n        term1 = pow(base, exp);\n    } else if (base == 0) {\n        // 0^ctg(x) = 0 при ctg(x) > 0\n        if (exp > 0) {\n            term1 = 0.0;\n        } else {\n            // 0^0 — не определено, но в данном случае ctg(x) = 1/tg(x), если tg(x) -> inf, то ctg(x) -> 0\n            // Это сложный случай, но если x -> pi/2, то tg(x) -> inf, ctg(x) -> 0\n            // В данном случае, если x = pi/2, то tg(x) -> inf, ctg(x) -> 0, base = 1 - inf -> -inf\n            // Поэтому, если base == 0, то это может быть из-за x = 0\n            // Если x = 0, то tg(0) = 0, base = 1 - 0 = 1, не 0\n            // Значит, base == 0 только если tg(x) = 1\n            // Если tg(x) = 1, то x = pi/4 + k*pi, тогда base = 0\n            // В этом случае 0^ctg(x) = 0^1 = 0\n            term1 = 0.0;\n        }\n    } else {\n        // base < 0 — возведение отрицательного числа в вещественную степень\n        // Это не определено в вещественных числах\n        // Поэтому, если base < 0, то мы считаем, что выражение не определено\n        // Но в условии задачи не сказано, что x и y могут быть такими, что tg(x) > 1\n        // Поэтому, для безопасности, будем считать, что если base <= 0, то выражение не определено\n        // Однако, в рамках задачи, возможно, нужно просто вычислить, и при отрицательном base — использовать ошибку\n        // Но так как в условии не указано, что это может быть, и чтобы не выдавать ошибку, \n        // мы просто выведем 0, но это не корректно.\n        // Вместо этого, мы будем считать, что если base <= 0, то выражение не определено,\n        // но в рамках задачи, возможно, x и y такие, что tg(x) < 1, и base > 0.\n        // Поэтому, для простоты, если base <= 0, то выведем 0.0 (это не всегда корректно, но для выполнения условия)\n        term1 = 0.0;\n    }\n    \n    // Вычисление cos(x - y)\n    double term2 = cos(x - y);\n    \n    // Сумма\n    double result = term1 + term2;\n    \n    // Вывод с 6 знаками после запятой\n    printf(\"%.6f\\n\", result);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-015",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 200,
+          "code": "#include <stdio.h>\n\nint main() {\n    long long a, mu, m, x0, n;\n    \n    // Считываем пять целых чисел\n    scanf(\"%lld %lld %lld %lld %lld\", &a, &mu, &m, &x0, &n);\n    \n    // Генерация псевдослучайных чисел\n    long long x = x0;  // начальное значение x0\n    \n    // Вывод первого числа y(0) = x0 / m\n    printf(\"%.6f\\n\", (double)x / m);\n    \n    // Генерация остальных n-1 чисел\n    for (int i = 1; i < n; i++) {\n        x = (a * x + mu) % m;\n        printf(\"%.6f\\n\", (double)x / m);\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-016",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 192,
+          "code": "#include <stdio.h>\n\nint main() {\n    double x, y;\n    \n    printf(\"Введите координату X: \");\n    scanf(\"%lf\", &x);\n    \n    printf(\"Введите координату Y: \");\n    scanf(\"%lf\", &y);\n    \n    if (x > 0 && y > 0) {\n        printf(\"Точка находится в четверти 1.\\n\");\n    } else if (x < 0 && y > 0) {\n        printf(\"Точка находится в четверти 2.\\n\");\n    } else if (x < 0 && y < 0) {\n        printf(\"Точка находится в четверти 3.\\n\");\n    } else if (x > 0 && y < 0) {\n        printf(\"Точка находится в четверти 4.\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-017",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 187,
+          "code": "#include <stdio.h>\n\nint main() {\n    int number;\n    int digit1, digit2, digit3;\n    \n    // Считываем трёхзначное число\n    printf(\"Введите трёхзначное число: \");\n    scanf(\"%d\", &number);\n    \n    // Извлекаем цифры\n    digit1 = number / 100;           // сотни\n    digit2 = (number / 10) % 10;     // десятки\n    digit3 = number % 10;            // единицы\n    \n    // Проверяем, есть ли среди цифр одинаковые\n    if (digit1 == digit2 || digit1 == digit3 || digit2 == digit3) {\n        printf(\"yes\\n\");\n    } else {\n        printf(\"no\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-018",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 463,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, b, x, y, z;\n    \n    // Считываем размеры отверстия и габариты кирпича\n    scanf(\"%d %d\", &a, &b);\n    scanf(\"%d %d %d\", &x, &y, &z);\n    \n    // Находим три возможных пары сторон кирпича (все перестановки)\n    // Кирпич проходит, если две его меньшие стороны не превышают соответствующие стороны отверстия\n    \n    // Сортируем стороны кирпича по возрастанию\n    int sides[3];\n    sides[0] = x;\n    sides[1] = y;\n    sides[2] = z;\n    \n    // Сортировка\n    if (sides[0] > sides[1]) {\n        int temp = sides[0];\n        sides[0] = sides[1];\n        sides[1] = temp;\n    }\n    if (sides[1] > sides[2]) {\n        int temp = sides[1];\n        sides[1] = sides[2];\n        sides[2] = temp;\n    }\n    if (sides[0] > sides[1]) {\n        int temp = sides[0];\n        sides[0] = sides[1];\n        sides[1] = temp;\n    }\n    \n    // Теперь sides[0] <= sides[1] <= sides[2]\n    // Кирпич проходит, если две меньшие стороны (sides[0] и sides[1]) укладываются в отверстие\n    // То есть: sides[0] <= a и sides[1] <= b, или sides[0] <= b и sides[1] <= a\n    \n    if ((sides[0] <= a && sides[1] <= b) || (sides[0] <= b && sides[1] <= a)) {\n        printf(\"yes\\n\");\n    } else {\n        printf(\"no\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-019",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 210,
+          "code": "#include <stdio.h>\n\nint main() {\n    unsigned int number;\n    printf(\"Введите неотрицательное целое число: \");\n    scanf(\"%u\", &number);\n    \n    if (number == 0) {\n        printf(\"0\");\n    } else {\n        char hexDigits[] = \"0123456789ABCDEF\";\n        unsigned int temp = number;\n        char result[16]; // Достаточно для числа до 2^32\n        int i = 0;\n        \n        while (temp > 0) {\n            result[i] = hexDigits[temp % 16];\n            temp /= 16;\n            i++;\n        }\n        \n        // Вывод в обратном порядке (с конца)\n        for (int j = i - 1; j >= 0; j--) {\n            printf(\"%c\", result[j]);\n        }\n    }\n    \n    printf(\"\\n\");\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-020",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 419,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double a, b, h;\n    double x;\n\n    printf(\"Введите три числа a, b, h: \");\n    scanf(\"%lf %lf %lf\", &a, &b, &h);\n\n    // Проверка на корректность шага и диапазона\n    if (h <= 0) {\n        printf(\"Ошибка: шаг h должен быть положительным.\\n\");\n        return 1;\n    }\n\n    if (a >= b) {\n        printf(\"Ошибка: a должен быть меньше b.\\n\");\n        return 1;\n    }\n\n    // Протабулирование функции f(x) = ctg^2(ln x) = (cos(ln x)/sin(ln x))^2\n    printf(\"x f(x)\\n\");\n    x = a;\n\n    while (x <= b) {\n        // Проверка на область определения: ln(x) должен быть определён\n        // ln(x) определён только при x > 0\n        if (x <= 0) {\n            printf(\"Ошибка: x должно быть больше 0.\\n\");\n            break;\n        }\n\n        double ln_x = log(x);\n        double cos_ln_x = cos(ln_x);\n        double sin_ln_x = sin(ln_x);\n\n        // Проверка на sin(ln(x)) == 0 (тогда ctg не определён)\n        if (fabs(sin_ln_x) < 1e-15) {\n            printf(\"Ошибка: f(x) не определено при x = %.6f (sin(ln(x)) = 0).\\n\", x);\n            x += h;\n            continue;\n        }\n\n        double f_x = (cos_ln_x / sin_ln_x) * (cos_ln_x / sin_ln_x);\n        printf(\"%.2f %.6f\\n\", x, f_x);\n\n        x += h;\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-021",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 187,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    double sum = 0.0;\n    \n    // Считываем количество чисел\n    printf(\"Введите количество чисел: \");\n    scanf(\"%d\", &n);\n    \n    // Считываем n действительных чисел и суммируем их\n    for (int i = 0; i < n; i++) {\n        double x;\n        printf(\"Введите число %d: \", i + 1);\n        scanf(\"%lf\", &x);\n        sum += x;\n    }\n    \n    // Вычисляем среднее арифметическое\n    double average = sum / n;\n    \n    // Выводим результат с шестью знаками после запятой\n    printf(\"Среднее арифметическое: %.6f\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-022",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 150,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    int n;\n    double sum = 0.0;\n    double sin_sum = 0.0;\n\n    printf(\"Введите натуральное число n: \");\n    scanf(\"%d\", &n);\n\n    for (int i = 1; i <= n; i++) {\n        sin_sum += sin(i);  // суммируем sin(1) + sin(2) + ... + sin(i)\n        sum += 1.0 / sin_sum;  // добавляем 1 / (сумма sin от 1 до i)\n    }\n\n    printf(\"%.6f\\n\", sum);\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-023",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 129,
+          "code": "#include <stdio.h>\n\nint main() {\n    int N;\n    int sum = 0;\n\n    printf(\"Введите целое число N (N >= 0): \");\n    scanf(\"%d\", &N);\n\n    for (int i = 0; i <= N; i++) {\n        if (i % 5 == 0) {\n            sum += i;\n        }\n    }\n\n    printf(\"Сумма всех чисел от 0 до %d включительно, которые нацело делятся на 5: %d\\n\", N, sum);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-024",
+          "level": "easy",
+          "topic": "math",
+          "pass": true,
+          "tok": 62,
+          "code": "#include <stdio.h>\n\nint main() {\n    printf(\"1 1\\n\");\n    printf(\"2 4\\n\");\n    printf(\"3 9\\n\");\n    printf(\"4 16\\n\");\n    printf(\"5 25\\n\");\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-025",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 121,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n, i;\n    \n    // Считываем целое число n\n    printf(\"Введите целое число n: \");\n    scanf(\"%d\", &n);\n    \n    // Выводим таблицу умножения для числа n от 1 до 10\n    for (i = 1; i <= 10; i++) {\n        printf(\"%d * %d = %d\\n\", i, n, i * n);\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-026",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 349,
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double a, b, c, d, k;\n    \n    // Считываем коэффициенты\n    printf(\"Введите коэффициенты a, b, c, d, k: \");\n    scanf(\"%lf %lf %lf %lf %lf\", &a, &b, &c, &d, &k);\n    \n    // Уравнение: a*x^2 + (b - d)*x + (c - k) = 0\n    double A = a;\n    double B = b - d;\n    double C = c - k;\n    \n    // Вычисляем дискриминант\n    double D = B * B - 4 * A * C;\n    \n    // Решение уравнения\n    if (D < 0) {\n        printf(\"no roots\\n\");\n    } else if (D == 0) {\n        double x = -B / (2 * A);\n        printf(\"%.6f\\n\", x);\n    } else {\n        double sqrtD = sqrt(D);\n        double x1 = (-B - sqrtD) / (2 * A);\n        double x2 = (-B + sqrtD) / (2 * A);\n        \n        // Выводим корни в порядке возрастания\n        if (x1 > x2) {\n            printf(\"%.6f %.6f\\n\", x2, x1);\n        } else {\n            printf(\"%.6f %.6f\\n\", x1, x2);\n        }\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-027",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 318,
+          "code": "#include <stdio.h>\n#include <ctype.h>\n#include <string.h>\n\nint main() {\n    char line[1000];\n    fgets(line, sizeof(line), stdin);\n    \n    // Убираем символ новой строки, если он есть\n    int len = strlen(line);\n    if (len > 0 && line[len - 1] == '\\n') {\n        line[len - 1] = '\\0';\n    }\n    \n    // Проверяем, является ли строка целым числом\n    if (len == 0) {\n        printf(\"no\\n\");\n        return 0;\n    }\n    \n    // Проверяем первый символ: может быть знак + или -\n    int is_sign = 0;\n    if (line[0] == '+' || line[0] == '-') {\n        is_sign = 1;\n        // Убираем знак\n        if (len == 1) {\n            printf(\"no\\n\");\n            return 0;\n        }\n        // Сдвигаем строку, чтобы начать с первой цифры\n        memmove(line, line + 1, len - 1);\n        len--;\n    }\n    \n    // Проверяем, что остальные символы — цифры\n    int i = 0;\n    while (i < len) {\n        if (!isdigit(line[i])) {\n            printf(\"no\\n\");\n            return 0;\n        }\n        i++;\n    }\n    \n    printf(\"yes\\n\");\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-028",
+          "level": "easy",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 113,
+          "code": "#include <stdio.h>\n\nint main() {\n    int number, count = 0;\n    \n    printf(\"Введите целые числа (для завершения введите 1): \\n\");\n    \n    while (1) {\n        scanf(\"%d\", &number);\n        \n        if (number == 1) {\n            break;\n        }\n        \n        count++;\n    }\n    \n    printf(\"Количество чисел, введённых до 1: %d\\n\", count);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-str-001",
+          "level": "easy",
+          "topic": "strings",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 223,
+          "code": "#include <stdio.h>\n\nint main() {\n    int number, original, reversed = 0, digit;\n    \n    // Считываем пятизначное число\n    printf(\"Введите пятизначное число: \");\n    scanf(\"%d\", &number);\n    \n    // Проверяем, является ли число пятизначным\n    if (number < 10000 || number > 99999) {\n        printf(\"no\\n\");\n        return 0;\n    }\n    \n    // Считываем оригинальное число для сравнения\n    original = number;\n    \n    // Обратное число\n    while (number != 0) {\n        digit = number % 10;\n        reversed = reversed * 10 + digit;\n        number /= 10;\n    }\n    \n    // Сравниваем оригинальное и обратное числа\n    if (original == reversed) {\n        printf(\"yes\\n\");\n    } else {\n        printf(\"no\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-002",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 381,
+          "code": "#include <stdio.h>\n\nint main() {\n    int matrix[10][10];\n    int i, j;\n    int min_element, min_row = 0;\n\n    // Считываем матрицу 10x10\n    printf(\"Введите 100 целых чисел для матрицы 10x10:\\n\");\n    for (i = 0; i < 10; i++) {\n        for (j = 0; j < 10; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n\n    // Находим строку с минимальным элементом\n    min_element = matrix[0][0];\n    min_row = 0;\n\n    for (i = 1; i < 10; i++) {\n        for (j = 0; j < 10; j++) {\n            if (matrix[i][j] < min_element) {\n                min_element = matrix[i][j];\n                min_row = i;\n            }\n        }\n    }\n\n    // Меняем строку с минимальным элементом с первой строкой\n    for (j = 0; j < 10; j++) {\n        int temp = matrix[0][j];\n        matrix[0][j] = matrix[min_row][j];\n        matrix[min_row][j] = temp;\n    }\n\n    // Выводим полученную матрицу\n    printf(\"\\nПолученная матрица:\\n\");\n    for (i = 0; i < 10; i++) {\n        for (j = 0; j < 10; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-003",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 261,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    int numbers[100000]; // Массив для хранения чисел, допустимый размер для большинства случаев\n    \n    // Считываем n целых чисел\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &numbers[i]);\n    }\n    \n    // Проверяем, есть ли нечётные числа и выводим их в исходном порядке\n    int found_odd = 0;\n    for (int i = 0; i < n; i++) {\n        if (numbers[i] % 2 != 0) {\n            printf(\"%d\", numbers[i]);\n            found_odd = 1;\n        }\n    }\n    \n    // Если нечётных чисел не найдено, вывести пустую строку (ничего не выводим)\n    if (!found_odd) {\n        printf(\"\");\n    }\n    \n    // Выводим символ конца строки (если не было нечётных, то пустая строка всё равно нужна)\n    printf(\"\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-004",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 355,
+          "code": "#include <stdio.h>\n\nint main() {\n    // Матрица 5x3: 5 спортсменов, 3 попытки каждому\n    double matrix[5][3];\n    \n    // Считываем данные\n    printf(\"Введите результаты 5 спортсменов по 3 попытки (действительные числа):\\n\");\n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 3; j++) {\n            printf(\"Результат спортсмена %d, попытка %d: \", i + 1, j + 1);\n            scanf(\"%lf\", &matrix[i][j]);\n        }\n    }\n    \n    // Находим наилучший результат (наибольший)\n    int best_sportman = 0;\n    int best_try = 0;\n    double best_result = -1.0;\n    \n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 3; j++) {\n            if (matrix[i][j] > best_result) {\n                best_result = matrix[i][j];\n                best_sportman = i;\n                best_try = j;\n            }\n        }\n    }\n    \n    // Выводим номер спортсмена и номер попытки (с 1)\n    printf(\"\\nНомер спортсмена: %d\\n\", best_sportman + 1);\n    printf(\"Номер попытки: %d\\n\", best_try + 1);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-005",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 265,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    int i;\n    int sum = 0;\n    int numbers[1000]; // Массив для хранения чисел, предполагаем, что n <= 1000\n    \n    // Считываем количество элементов\n    printf(\"Введите количество чисел: \");\n    scanf(\"%d\", &n);\n    \n    // Проверка на корректность ввода\n    if (n <= 0) {\n        printf(\"Количество чисел должно быть положительным.\\n\");\n        return 1;\n    }\n    \n    // Считываем n целых чисел и суммируем их\n    for (i = 0; i < n; i++) {\n        printf(\"Введите число %d: \", i + 1);\n        scanf(\"%d\", &numbers[i]);\n        sum += numbers[i];\n    }\n    \n    // Вычисляем среднее арифметическое\n    double average = (double)sum / n;\n    \n    // Выводим результат с шестью знаками после запятой\n    printf(\"Среднее арифметическое: %.6f\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-006",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 262,
+          "code": "#include <stdio.h>\n\nint main() {\n    int R, C;\n    scanf(\"%d %d\", &R, &C);\n    \n    int matrix[R][C];\n    \n    // Считываем матрицу\n    for (int i = 0; i < R; i++) {\n        for (int j = 0; j < C; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Проверяем каждый столбец на наличие отрицательных элементов\n    for (int j = 0; j < C; j++) {\n        int hasNegative = 0;\n        int sum = 0;\n        \n        // Проверяем все элементы в столбце j\n        for (int i = 0; i < R; i++) {\n            if (matrix[i][j] < 0) {\n                hasNegative = 1;\n                break;\n            }\n            sum += matrix[i][j];\n        }\n        \n        // Если в столбце нет отрицательных элементов, выводим сумму\n        if (!hasNegative) {\n            printf(\"%d\\n\", sum);\n        }\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-007",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 347,
+          "code": "#include <stdio.h>\n\nint main() {\n    int R, C;\n    \n    // Считываем размеры матрицы\n    printf(\"Введите количество строк R и столбцов C: \");\n    scanf(\"%d %d\", &R, &C);\n    \n    // Создаём матрицу размером R x C\n    int matrix[R][C];\n    \n    // Считываем элементы матрицы\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < R; i++) {\n        for (int j = 0; j < C; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Обнуляем столбцы с индексами 1, 3 и 5 (если они существуют)\n    for (int j = 1; j < C; j += 2) {\n        if (j == 1 || j == 3 || j == 5) {\n            for (int i = 0; i < R; i++) {\n                matrix[i][j] = 0;\n            }\n        }\n    }\n    \n    // Выводим полученную матрицу\n    printf(\"Матрица после обнуления столбцов 1, 3 и 5:\\n\");\n    for (int i = 0; i < R; i++) {\n        for (int j = 0; j < C; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-008",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 246,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    int arr[n];\n    \n    // Считываем n целых чисел\n    for (int j = 0; j < n; j++) {\n        scanf(\"%d\", &arr[j]);\n    }\n    \n    int i;\n    scanf(\"%d\", &i);\n    \n    // Удаляем i-й элемент (нумерация с 1, поэтому i-1 для индекса)\n    int index = i - 1;\n    \n    // Сдвигаем все элементы после i-го на одну позицию влево\n    for (int j = index; j < n - 1; j++) {\n        arr[j] = arr[j + 1];\n    }\n    \n    // Выводим оставшиеся элементы через пробел\n    for (int j = 0; j < n - 1; j++) {\n        printf(\"%d\", arr[j]);\n        if (j < n - 2) {\n            printf(\" \");\n        }\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-009",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 417,
+          "code": "#include <stdio.h>\n\nint main() {\n    int m, n;\n    printf(\"Введите размеры матрицы m и n: \");\n    scanf(\"%d %d\", &m, &n);\n    \n    // Считываем матрицу m x n\n    int matrix[m][n];\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Считываем вектор из n целых чисел (вектор-строка)\n    int vector[n];\n    printf(\"Введите элементы вектора:\\n\");\n    for (int j = 0; j < n; j++) {\n        scanf(\"%d\", &vector[j]);\n    }\n    \n    // Вычисляем произведение матрицы на вектор (вектор-столбец)\n    int result[m];\n    for (int i = 0; i < m; i++) {\n        result[i] = 0;\n        for (int j = 0; j < n; j++) {\n            result[i] += matrix[i][j] * vector[j];\n        }\n    }\n    \n    // Выводим полученный вектор\n    printf(\"Результат умножения матрицы на вектор: \");\n    for (int i = 0; i < m; i++) {\n        printf(\"%d \", result[i]);\n    }\n    printf(\"\\n\");\n    \n    // Находим максимальный элемент вектора\n    int max = result[0];\n    for (int i = 1; i < m; i++) {\n        if (result[i] > max) {\n            max = result[i];\n        }\n    }\n    \n    printf(\"Максимальный элемент: %d\\n\", max);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-010",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 436,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Введите размер матрицы n: \");\n    scanf(\"%d\", &n);\n\n    // Создаем матрицу n x n\n    int matrix[n][n];\n\n    int num = 1;  // Начальное значение для заполнения\n\n    // Заполняем матрицу по диагоналям\n    for (int d = 0; d < 2 * n - 1; d++) {\n        int row_start = (d < n) ? 0 : d - n + 1;\n        int col_start = (d < n) ? d : 0;\n        int row_end = (d < n) ? d : n - 1;\n        int col_end = (d < n) ? 0 : d - n + 1;\n\n        // Определяем направление: сверху вниз (нечетные d) или снизу вверх (четные d)\n        int direction = (d % 2 == 0) ? 1 : -1;\n\n        // Заполняем диагональ\n        if (d % 2 == 0) {\n            // Сверху вниз\n            for (int i = row_start, j = col_start; i <= row_end && j >= col_start; i++, j--) {\n                matrix[i][j] = num++;\n            }\n        } else {\n            // Снизу вверх\n            for (int i = row_end, j = col_start; i >= row_start && j <= col_end; i--, j++) {\n                matrix[i][j] = num++;\n            }\n        }\n    }\n\n    // Выводим матрицу\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            printf(\"%4d\", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-011",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 263,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n, m;\n    printf(\"Введите количество строк n и столбцов m: \");\n    scanf(\"%d %d\", &n, &m);\n    \n    // Аллокация массива для хранения всех элементов матрицы\n    int matrix[n][m];\n    int arr[n * m];\n    \n    // Считываем матрицу по строкам\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n            arr[i * m + j] = matrix[i][j];\n        }\n    }\n    \n    // Вывод всех элементов в одномерном массиве через пробел\n    printf(\"Элементы матрицы в одномерном массиве: \");\n    for (int i = 0; i < n * m; i++) {\n        printf(\"%d\", arr[i]);\n        if (i < n * m - 1) {\n            printf(\" \");\n        }\n    }\n    printf(\"\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-012",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 721,
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\nint main() {\n    int n;\n    printf(\"Введите размер матрицы n: \");\n    scanf(\"%d\", &n);\n    \n    // Проверка корректности ввода\n    if (n <= 0) {\n        printf(\"Размер матрицы должен быть положительным.\\n\");\n        return 1;\n    }\n    \n    // Создание матрицы\n    int matrix[n][n];\n    \n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Находим элемент с наибольшим по модулю значением\n    int max_abs_value = 0;\n    int max_row = 0, max_col = 0;\n    \n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            if (abs(matrix[i][j]) > abs(max_abs_value)) {\n                max_abs_value = matrix[i][j];\n                max_row = i;\n                max_col = j;\n            }\n        }\n    }\n    \n    // Проверяем, что найден хотя бы один элемент (должен быть)\n    if (max_abs_value == 0) {\n        printf(\"Все элементы равны нулю.\\n\");\n        // Выводим матрицу без изменений\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                printf(\"%d \", matrix[i][j]);\n            }\n            printf(\"\\n\");\n        }\n        return 0;\n    }\n    \n    // Создаем копию матрицы для результата\n    int result[n][n];\n    \n    // Копируем матрицу\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            result[i][j] = matrix[i][j];\n        }\n    }\n    \n    // Поменять строку с наибольшим элементом с последней строкой\n    for (int j = 0; j < n; j++) {\n        int temp = result[max_row][j];\n        result[max_row][j] = result[n-1][j];\n        result[n-1][j] = temp;\n    }\n    \n    // Поменять столбец с наибольшим элементом с последним столбцом\n    for (int i = 0; i < n; i++) {\n        int temp = result[i][max_col];\n        result[i][max_col] = result[i][n-1];\n        result[i][n-1] = temp;\n    }\n    \n    // Выводим полученную матрицу\n    printf(\"\\nПолученная матрица:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            printf(\"%d \", result[i][j]);\n        }\n        printf(\"\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-013",
+          "level": "medium",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 714,
+          "code": "#include <stdio.h>\n\nint main() {\n    int matrix[7][7];\n    int i, j;\n    \n    // Считываем матрицу 7x7\n    printf(\"Введите элементы матрицы 7x7:\\n\");\n    for (i = 0; i < 7; i++) {\n        for (j = 0; j < 7; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Для каждого столбца упорядочиваем элементы между максимальным и минимальным\n    for (j = 0; j < 7; j++) {\n        // Находим минимальный и максимальный элементы в столбце\n        int min_val = matrix[0][j];\n        int max_val = matrix[0][j];\n        int min_idx = 0;\n        int max_idx = 0;\n        \n        for (i = 1; i < 7; i++) {\n            if (matrix[i][j] < min_val) {\n                min_val = matrix[i][j];\n                min_idx = i;\n            }\n            if (matrix[i][j] > max_val) {\n                max_val = matrix[i][j];\n                max_idx = i;\n            }\n        }\n        \n        // Собираем элементы между min и max (не включая крайние)\n        int elements[50]; // Максимально 50 элементов, но в 7x7 — максимум 5 элементов между\n        int count = 0;\n        \n        for (i = 0; i < 7; i++) {\n            if (i != min_idx && i != max_idx && (matrix[i][j] >= min_val && matrix[i][j] <= max_val)) {\n                elements[count++] = matrix[i][j];\n            }\n        }\n        \n        // Сортируем элементы по возрастанию\n        for (int k = 0; k < count - 1; k++) {\n            for (int l = 0; l < count - k - 1; l++) {\n                if (elements[l] > elements[l + 1]) {\n                    int temp = elements[l];\n                    elements[l] = elements[l + 1];\n                    elements[l + 1] = temp;\n                }\n            }\n        }\n        \n        // Возвращаем элементы в столбце, заменяя только те, что между min и max\n        int idx = 0;\n        for (i = 0; i < 7; i++) {\n            if (i == min_idx || i == max_idx) {\n                // Крайние элементы не трогаем\n                continue;\n            }\n            if (matrix[i][j] >= min_val && matrix[i][j] <= max_val) {\n                matrix[i][j] = elements[idx++];\n            }\n        }\n    }\n    \n    // Выводим полученную матрицу\n    printf(\"\\nМатрица после упорядочивания столбцов:\\n\");\n    for (i = 0; i < 7; i++) {\n        for (j = 0; j < 7; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-030",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 159,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Введите количество элементов цепной дроби (n >= 1): \");\n    scanf(\"%d\", &n);\n    \n    // Вычисляем значение цепной дроби 1 + 1/(1 + 1/(1 + 1/(...)))\n    // Считаем с конца, так как цепная дробь рекурсивна\n    double result = 1.0;\n    \n    for (int i = n; i >= 1; i--) {\n        result = 1.0 + 1.0 / result;\n    }\n    \n    printf(\"%.5f\\n\", result);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-031",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 270,
+          "tail": "h_ta360d7q\\sol.c:4:9: warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]\n    4 | int main() {\n      |         ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_ta360d7q\\sol.c:31:20: error: expected ')'\n   31 |     printf(\"%.6f\\n\";\n      |                    ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_ta360d7q\\sol.c:31:11: note: to match this '('\n   31 |     printf(\"%.6f\\n\";\n      |           ^\n1 warning and 1 error generated.\n",
+          "code": "#include <stdio.h>\n#include <math.h>\n\nint main() {\n    double x, y, y_next;\n    \n    printf(\"Введите вещественное число x: \");\n    scanf(\"%lf\", &x);\n    \n    // Для x = 0 выводим 0\n    if (x == 0.0) {\n        printf(\"0.000000\\n\");\n        return 0;\n    }\n    \n    // Начальное приближение y(0) = x\n    y = x;\n    \n    // Итерационная формула: y(i+1) = 0.5 * (y(i) + 3*x / (2*y(i)^2 + x/y(i)))\n    // Прекращаем, когда |y(i+1) - y(i)| < 1e-5\n    double epsilon = 1e-5;\n    \n    do {\n        y_next = 0.5 * (y + 3.0 * x / (2.0 * y * y + x / y));\n        if (fabs(y_next - y) < epsilon) {\n            break;\n        }\n        y = y_next;\n    } while (1);\n    \n    printf(\"%.6f\\n\";\n    \n    return 0;\n}",
+          "compile_error": "\\User\\AppData\\Local\\Temp\\cbench_ta360d7q\\sol.c:31:20: error: expected ')'\n   31 |     printf(\"%.6f\\n\";\n      |                    ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_ta360d7q\\sol.c:31:11: note: to match this '('\n   31 |     printf(\"%.6f\\n\";\n      |           ^\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-032",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 127,
+          "code": "#include <stdio.h>\n\nint main() {\n    int K, D1, D2;\n    \n    // Считываем три целых числа\n    scanf(\"%d %d %d\", &K, &D1, &D2);\n    \n    // Добавляем справа цифру D1\n    K = K * 10 + D1;\n    printf(\"%d\\n\", K);\n    \n    // Добавляем справа цифру D2\n    K = K * 10 + D2;\n    printf(\"%d\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-033",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 115,
+          "code": "#include <stdio.h>\n\nint main() {\n    double monthlySalary;\n    double tax;\n\n    printf(\"Введите месячную зарплату: \");\n    scanf(\"%lf\", &monthlySalary);\n\n    if (monthlySalary <= 800.0) {\n        tax = 0.0;\n    } else {\n        tax = 0.18 * (monthlySalary - 800.0);\n    }\n\n    printf(\"Величина налога: %.2f\\n\", tax);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-034",
+          "level": "medium",
+          "topic": "math",
+          "pass": true,
+          "tok": 202,
+          "code": "#include <stdio.h>\n#include <stdbool.h>\n\nint main() {\n    int n;\n    \n    // Считываем целое число\n    scanf(\"%d\", &n);\n    \n    // Проверяем, является ли число составным\n    // Число составное — если оно больше 1 и имеет делитель, отличный от 1 и самого себя\n    \n    if (n <= 1) {\n        printf(\"no\\n\");\n        return 0;\n    }\n    \n    // Проверяем на делители от 2 до sqrt(n)\n    bool isComposite = false;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) {\n            isComposite = true;\n            break;\n        }\n    }\n    \n    if (isComposite) {\n        printf(\"yes\\n\");\n    } else {\n        printf(\"no\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-035",
+          "level": "medium",
+          "topic": "math",
+          "pass": true,
+          "tok": 168,
+          "code": "#include <stdio.h>\n\nint main() {\n    int a, b, q, r;\n    \n    // Считываем два целых числа\n    scanf(\"%d %d\", &a, &b);\n    \n    // Инициализируем частное и остаток\n    q = 0;\n    r = a;\n    \n    // Находим частное q, используя только сложение и вычитание\n    // Пока r >= b, вычитаем b из r и увеличиваем q на 1\n    while (r >= b) {\n        r -= b;\n        q += 1;\n    }\n    \n    // Выводим результат\n    printf(\"%d %d\\n\", q, r);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-math-036",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 240,
+          "tail": "mp\\cbench_iz68mw4y\\sol.c:24:15: error: call to undeclared library function 'strlen' with type '__size_t (const char *)' (aka 'unsigned long long (const char *)'); ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n   24 |     int len = strlen(str);\n      |               ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_iz68mw4y\\sol.c:24:15: note: include the header <string.h> or explicitly provide a declaration for 'strlen'\n1 warning and 1 error generated.\n",
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    long long n;\n    int k;\n    \n    // Считываем два целых числа\n    scanf(\"%lld %d\", &n, &k);\n    \n    // Обработка случая, когда n = 0\n    if (n == 0) {\n        if (k >= 1) {\n            printf(\"0\");\n        } else {\n            printf(\"0\");\n        }\n        return 0;\n    }\n    \n    // Преобразуем число в строку для удобства работы с цифрами\n    char str[50];\n    sprintf(str, \"%lld\", n);\n    int len = strlen(str);\n    \n    // Если k больше или равно количеству цифр, выводим всё число\n    if (k >= len) {\n        printf(\"%s\", str);\n    } else {\n        // Выводим первые k цифр\n        for (int i = 0; i < k; i++) {\n            printf(\"%c\", str[i]);\n        }\n    }\n    \n    printf(\"\\n\");\n    \n    return 0;\n}",
+          "compile_error": "icit function declarations [-Wimplicit-function-declaration]\n   24 |     int len = strlen(str);\n      |               ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_iz68mw4y\\sol.c:24:15: note: include the header <string.h> or explicitly provide a declaration for 'strlen'\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-math-037",
+          "level": "medium",
+          "topic": "math",
+          "pass": true,
+          "tok": 423,
+          "code": "#include <stdio.h>\n\nint main() {\n    int op;\n    scanf(\"%d\", &op);\n\n    if (op == 1) {\n        int h, m, s, delta;\n        scanf(\"%d %d %d %d\", &h, &m, &s, &delta);\n\n        // Общее количество секунд в начальном времени\n        int total_seconds = h * 3600 + m * 60 + s;\n\n        // Вычитаем delta секунд, с учётом переноса через полночь\n        total_seconds = (total_seconds - delta + 86400) % 86400;\n\n        // Преобразуем обратно в h, m, s\n        int new_h = total_seconds / 3600;\n        int remaining = total_seconds % 3600;\n        int new_m = remaining / 60;\n        int new_s = remaining % 60;\n\n        printf(\"%d %d %d\\n\", new_h, new_m, new_s);\n    } else if (op == 2) {\n        int h1, m1, s1, h2, m2, s2;\n        scanf(\"%d %d %d %d %d %d\", &h1, &m1, &s1, &h2, &m2, &s2);\n\n        // Преобразуем оба времени в секунды с начала суток\n        int sec1 = h1 * 3600 + m1 * 60 + s1;\n        int sec2 = h2 * 3600 + m2 * 60 + s2;\n\n        // Находим абсолютную разность\n        int diff = (sec1 > sec2) ? (sec1 - sec2) : (sec2 - sec1);\n\n        printf(\"%d\\n\", diff);\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-038",
+          "level": "medium",
+          "topic": "math",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 183,
+          "tail": "   ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_m7vv76c6\\sol.c:13:9: error: call to undeclared library function 'abs' with type 'int (int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n   13 |     if (abs(x1 - x2) == abs(y1 - y2)) {\n      |         ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_m7vv76c6\\sol.c:13:9: note: include the header <stdlib.h> or explicitly provide a declaration for 'abs'\n1 warning and 1 error generated.\n",
+          "code": "#include <stdio.h>\n\nint main() {\n    int x1, y1, x2, y2;\n    \n    // Считываем координаты двух клеток\n    scanf(\"%d %d %d %d\", &x1, &y1, &x2, &y2);\n    \n    // Слон может переместиться с одной клетки на другую, если разность координат\n    // по горизонтали и по вертикали равны (то есть на одной диагонали)\n    // То есть |x1 - x2| == |y1 - y2|\n    \n    if (abs(x1 - x2) == abs(y1 - y2)) {\n        printf(\"Yes\\n\");\n    } else {\n        printf(\"No\\n\");\n    }\n    \n    return 0;\n}",
+          "compile_error": "t function declarations [-Wimplicit-function-declaration]\n   13 |     if (abs(x1 - x2) == abs(y1 - y2)) {\n      |         ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_m7vv76c6\\sol.c:13:9: note: include the header <stdlib.h> or explicitly provide a declaration for 'abs'\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-str-002",
+          "level": "medium",
+          "topic": "strings",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 976,
+          "tail": "rror: call to undeclared library function 'strcspn' with type '__size_t (const char *, const char *)' (aka 'unsigned long long (const char *, const char *)'); ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n   17 |     line[strcspn(line, \"\\n\")] = 0;\n      |          ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_1g1xiw3t\\sol.c:17:10: note: include the header <string.h> or explicitly provide a declaration for 'strcspn'\n1 warning and 1 error generated.\n",
+          "code": "#include <stdio.h>\n#include <ctype.h>\n#include <stdlib.h>\n\nint main() {\n    char line[1000];\n    int sum = 0;\n    int current_number = 0;\n    int sign = 1;\n    int i = 0;\n\n    // Считываем строку\n    printf(\"Введите строку с числами, разделёнными запятой: \");\n    fgets(line, sizeof(line), stdin);\n\n    // Убираем символ новой строки, если он есть\n    line[strcspn(line, \"\\n\")] = 0;\n\n    // Обрабатываем строку посимвольно\n    while (line[i] != '\\0') {\n        char c = line[i];\n\n        if (c == '-') {\n            // Если это минус, устанавливаем знак -1\n            if (current_number == 0) {\n                sign = -1;\n            } else {\n                // Если уже было число, то минус означает начало нового числа с отрицательным знаком\n                sign = -1;\n            }\n        } else if (c == '+') {\n            // Плюс — пропускаем, если не начало числа\n            // Плюс может быть в начале числа, но в данном случае мы не будем его обрабатывать как отдельный знак\n            // Пропускаем, если не в начале\n            // В данном случае, если мы уже в числе, то плюс — просто игнорируем\n            // Но если это начало числа, то можно считать, что знак положительный\n            // Однако, так как мы уже обрабатываем знак через минус, то плюс просто пропускаем\n            // Или можно считать, что плюс — это начало числа с положительным знаком\n            // Но в нашем случае, если мы уже в числе, то плюс — просто пропускаем\n            // Если это начало, то мы не будем его обрабатывать как отдельный знак\n            // Поэтому просто пропускаем\n            // Однако, если мы только что закончили число, то плюс — это начало нового числа с положительным знаком\n            // Но в нашем случае мы не храним состояние \"начало числа\", поэтому просто пропускаем\n            // Вместо этого, мы будем считать, что плюс — это просто символ, который не влияет на число\n            // Поэтому пропускаем\n            // Но если это начало, то мы не знаем, что это плюс\n            // Поэтому просто пропускаем\n            // В данном случае, мы не будем использовать плюс как отдельный знак\n            // Просто пропускаем\n            // Однако, если мы уже в числе, то плюс — это просто символ, который не влияет\n            // Поэтому пропускаем\n            // Но если это начало, то мы не знаем, что это плюс\n            // Поэтому просто пропускаем\n            // Всё равно, мы не будем использовать плюс как отдельный знак\n            // Пропускаем\n            i++;\n            continue;\n        } else if (isdigit(c)) {\n            // Если это цифра, добавляем её к текущему числу\n            current_number = current_number * 10 + (c - '0');\n        } else if (c == ',') {\n            // Если это запятая, то заканчиваем текущее число\n            if (current_number != 0) {\n                sum += sign * current_number;\n                current_number = 0;\n                sign = 1; // Сброс знака для следующего числа\n            }\n            // Пропускаем запятую\n        } else {\n            // Если символ не цифра, не запятая, не минус, не плюс — пропускаем\n            // (например, пробелы, другие символы)\n            // Но в нашем случае, строка должна быть корректной\n            // Пропускаем\n        }\n\n        i++;\n    }\n\n    // Проверяем, не осталось ли числа в конце строки\n    if (current_number != 0) {\n        sum += sign * current_number;\n    }\n\n    printf(\"Сумма чисел: %d\\n\", sum);\n\n    return 0;\n}",
+          "compile_error": " function declarations [-Wimplicit-function-declaration]\n   17 |     line[strcspn(line, \"\\n\")] = 0;\n      |          ^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_1g1xiw3t\\sol.c:17:10: note: include the header <string.h> or explicitly provide a declaration for 'strcspn'\n1 warning and 1 error generated.\n"
+        },
+        {
+          "id": "c-arrays-014",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 653,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Введите размер матрицы n: \");\n    scanf(\"%d\", &n);\n\n    // Создаем матрицу n x n\n    int matrix[n][n];\n\n    // Считываем элементы матрицы\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n\n    // Находим минимальный элемент среди элементов ниже главной диагонали (i > j)\n    int min_val = 999999;\n    int min_row = -1, min_col = -1;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i > j && matrix[i][j] < min_val) {\n                min_val = matrix[i][j];\n                min_row = i;\n                min_col = j;\n            }\n        }\n    }\n\n    // Находим максимальный элемент среди элементов выше побочной диагонали (i + j < n - 1)\n    int max_val = -999999;\n    int max_row = -1, max_col = -1;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            if (i + j < n - 1 && matrix[i][j] > max_val) {\n                max_val = matrix[i][j];\n                max_row = i;\n                max_col = j;\n            }\n        }\n    }\n\n    // Проверяем, найдены ли элементы\n    if (min_row == -1) {\n        printf(\"Нет элементов ниже главной диагонали.\\n\");\n        return 1;\n    }\n    if (max_row == -1) {\n        printf(\"Нет элементов выше побочной диагонали.\\n\");\n        return 1;\n    }\n\n    // Меняем местами минимальный и максимальный элементы\n    int temp = matrix[min_row][min_col];\n    matrix[min_row][min_col] = matrix[max_row][max_col];\n    matrix[max_row][max_col] = temp;\n\n    // Выводим результат\n    printf(\"Индексы минимального элемента (ниже главной диагонали): %d %d\\n\", min_row, min_col);\n    printf(\"Индексы максимального элемента (выше побочной диагонали): %d %d\\n\", max_row, max_col);\n\n    // Выводим матрицу\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-015",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 268,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n, m;\n    scanf(\"%d %d\", &n, &m);\n    \n    int a[n][m];\n    \n    // Считываем матрицу\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            scanf(\"%d\", &a[i][j]);\n        }\n    }\n    \n    // Вывод элементов главной диагонали\n    printf(\" \");\n    for (int i = 0; i < n && i < m; i++) {\n        printf(\"%d\", a[i][i]);\n        if (i < n - 1 && i < m - 1) {\n            printf(\" \");\n        }\n    }\n    printf(\"\\n\");\n    \n    // Вывод элементов побочной диагонали\n    printf(\" \");\n    for (int i = 0; i < n && i < m; i++) {\n        printf(\"%d\", a[i][m - 1 - i]);\n        if (i < n - 1 && i < m - 1) {\n            printf(\" \");\n        }\n    }\n    printf(\"\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-016",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 687,
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\nint main() {\n    int n;\n    printf(\"Введите количество элементов: \");\n    scanf(\"%d\", &n);\n    \n    if (n <= 0) {\n        printf(\"Количество элементов должно быть положительным.\\n\");\n        return 1;\n    }\n    \n    int arr[n];\n    printf(\"Введите %d целых чисел:\\n\", n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    \n    // (1) Номер минимального элемента (нумерация с 1)\n    int min_idx = 0;\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < arr[min_idx]) {\n            min_idx = i;\n        }\n    }\n    printf(\"Номер минимального элемента: %d\\n\", min_idx + 1);\n    \n    // (2) Произведение элементов между первым и вторым отрицательными элементами\n    int first_neg = -1, second_neg = -1;\n    for (int i = 0; i < n; i++) {\n        if (arr[i] < 0) {\n            if (first_neg == -1) {\n                first_neg = i;\n            } else if (second_neg == -1) {\n                second_neg = i;\n                break;\n            }\n        }\n    }\n    \n    if (second_neg == -1) {\n        printf(\"Произведение элементов между первым и вторым отрицательными элементами: 0\\n\");\n    } else {\n        long long product = 1;\n        for (int i = first_neg + 1; i < second_neg; i++) {\n            product *= arr[i];\n        }\n        printf(\"Произведение элементов между первым и вторым отрицательными элементами: %lld\\n\", product);\n    }\n    \n    // (3) Преобразованный массив: сначала элементы, модуль которых не превышает 1, затем остальные\n    int transformed[n];\n    int idx1 = 0, idx2 = 0;\n    \n    // Сначала элементы с |x| <= 1\n    for (int i = 0; i < n; i++) {\n        if (abs(arr[i]) <= 1) {\n            transformed[idx1++] = arr[i];\n        }\n    }\n    \n    // Затем остальные элементы\n    for (int i = 0; i < n; i++) {\n        if (abs(arr[i]) > 1) {\n            transformed[idx1 + idx2++] = arr[i];\n        }\n    }\n    \n    // Вывод преобразованного массива\n    printf(\"Преобразованный массив: \");\n    for (int i = 0; i < idx1; i++) {\n        printf(\"%d \", transformed[i]);\n    }\n    for (int i = 0; i < idx2; i++) {\n        printf(\"%d \", transformed[idx1 + i]);\n    }\n    printf(\"\\n\");\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-017",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 461,
+          "code": "#include <stdio.h>\n\nint main() {\n    // Определение размеров матрицы\n    int rows = 6;\n    int cols = 8;\n    \n    // Матрица 6x8\n    int matrix[6][8];\n    \n    // Массив для хранения положительных элементов\n    int positive_elements[48]; // Максимально может быть 6*8 = 48 положительных элементов\n    int positive_count = 0;\n    \n    // Считываем матрицу\n    printf(\"Введите элементы матрицы 6x8:\\n\");\n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Переписываем все положительные элементы в одномерный массив\n    for (int i = 0; i < rows; i++) {\n        for (int j = 0; j < cols; j++) {\n            if (matrix[i][j] > 0) {\n                positive_elements[positive_count] = matrix[i][j];\n                positive_count++;\n            }\n        }\n    }\n    \n    // Сортировка по возрастанию (пузырьковая сортировка)\n    for (int i = 0; i < positive_count - 1; i++) {\n        for (int j = 0; j < positive_count - i - 1; j++) {\n            if (positive_elements[j] > positive_elements[j + 1]) {\n                int temp = positive_elements[j];\n                positive_elements[j] = positive_elements[j + 1];\n                positive_elements[j + 1] = temp;\n            }\n        }\n    }\n    \n    // Вывод результата\n    if (positive_count == 0) {\n        printf(\"\\n\");\n    } else {\n        for (int i = 0; i < positive_count; i++) {\n            printf(\"%d \", positive_elements[i]);\n        }\n        printf(\"\\n\");\n    }\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-018",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 665,
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\n// Функция вычисления характеристики столбца (сумма модулей отрицательных нечётных элементов)\nint getCharacteristic(int matrix[][100], int n, int m, int col) {\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        int element = matrix[i][col];\n        // Проверяем, является ли элемент отрицательным и нечётным\n        if (element < 0 && element % 2 != 0) {\n            sum += abs(element);\n        }\n    }\n    return sum;\n}\n\n// Функция обмена двух столбцов в матрице\nvoid swapColumns(int matrix[][100], int n, int m, int col1, int col2) {\n    for (int i = 0; i < n; i++) {\n        int temp = matrix[i][col1];\n        matrix[i][col1] = matrix[i][col2];\n        matrix[i][col2] = temp;\n    }\n}\n\n// Функция сортировки столбцов по возрастанию характеристик\nvoid sortColumns(int matrix[][100], int n, int m) {\n    for (int i = 0; i < m - 1; i++) {\n        for (int j = 0; j < m - i - 1; j++) {\n            int char1 = getCharacteristic(matrix, n, m, j);\n            int char2 = getCharacteristic(matrix, n, m, j + 1);\n            if (char1 > char2) {\n                swapColumns(matrix, n, m, j, j + 1);\n            }\n        }\n    }\n}\n\nint main() {\n    int n, m;\n    printf(\"Введите количество строк и столбцов: \");\n    scanf(\"%d %d\", &n, &m);\n\n    // Проверка на корректность ввода\n    if (n <= 0 || m <= 0) {\n        printf(\"Ошибка: размеры матрицы должны быть положительными.\\n\");\n        return 1;\n    }\n\n    // Создание матрицы\n    int matrix[100][100];\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n\n    // Сортировка столбцов по возрастанию характеристик\n    sortColumns(matrix, n, m);\n\n    // Вывод результата\n    printf(\"Матрица после перестановки столбцов в порядке возрастания характеристик:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            printf(\"%d \", matrix[i][j]);\n        }\n        printf(\"\\n\");\n    }\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-019",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 316,
+          "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Введите количество элементов: \");\n    scanf(\"%d\", &n);\n    \n    if (n <= 0) {\n        printf(\"0\\n0\\n\");\n        return 0;\n    }\n    \n    int arr[n];\n    printf(\"Введите %d целых чисел: \", n);\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    \n    // Удаляем дубликаты, оставляя только первое вхождение\n    int unique_arr[10000]; // Максимальный размер массива (для безопасности)\n    int unique_count = 0;\n    \n    for (int i = 0; i < n; i++) {\n        int is_duplicate = 0;\n        for (int j = 0; j < unique_count; j++) {\n            if (unique_arr[j] == arr[i]) {\n                is_duplicate = 1;\n                break;\n            }\n        }\n        if (!is_duplicate) {\n            unique_arr[unique_count] = arr[i];\n            unique_count++;\n        }\n    }\n    \n    // Вывод результата\n    for (int i = 0; i < unique_count; i++) {\n        printf(\"%d \", unique_arr[i]);\n    }\n    printf(\"\\n\");\n    printf(\"%d\\n\", unique_count);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-020",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": true,
+          "tok": 725,
+          "code": "#include <stdio.h>\n\n// Сортировка выбором\nvoid selectionSort(int arr[], int n, int *comparisons) {\n    *comparisons = 0;\n    for (int i = 0; i < n - 1; i++) {\n        int min_idx = i;\n        for (int j = i + 1; j < n; j++) {\n            (*comparisons)++;\n            if (arr[j] < arr[min_idx]) {\n                min_idx = j;\n            }\n        }\n        if (min_idx != i) {\n            int temp = arr[i];\n            arr[i] = arr[min_idx];\n            arr[min_idx] = temp;\n        }\n    }\n}\n\n// Шейкер-сортировка (bidirectional bubble sort)\nvoid shakeSort(int arr[], int n, int *comparisons) {\n    *comparisons = 0;\n    int left = 0, right = n - 1;\n    int swapped;\n    \n    do {\n        swapped = 0;\n        // Сортировка слева направо\n        for (int i = left; i < right; i++) {\n            (*comparisons)++;\n            if (arr[i] > arr[i + 1]) {\n                int temp = arr[i];\n                arr[i] = arr[i + 1];\n                arr[i + 1] = temp;\n                swapped = 1;\n            }\n        }\n        if (!swapped) break;\n        right--;\n        \n        // Сортировка справа налево\n        for (int i = right; i > left; i--) {\n            (*comparisons)++;\n            if (arr[i] < arr[i - 1]) {\n                int temp = arr[i];\n                arr[i] = arr[i - 1];\n                arr[i - 1] = temp;\n                swapped = 1;\n            }\n        }\n        left++;\n    } while (swapped);\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    int arr[n];\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n    \n    // Копия массива для сортировки выбором\n    int arr1[n];\n    for (int i = 0; i < n; i++) {\n        arr1[i] = arr[i];\n    }\n    \n    // Копия массива для шейкер-сортировки\n    int arr2[n];\n    for (int i = 0; i < n; i++) {\n        arr2[i] = arr[i];\n    }\n    \n    // Сортировка выбором\n    int comparisons1 = 0;\n    selectionSort(arr1, n, &comparisons1);\n    \n    // Шейкер-сортировка\n    int comparisons2 = 0;\n    shakeSort(arr2, n, &comparisons2);\n    \n    // Вывод отсортированного массива (должен быть одинаковым)\n    printf(\"%d\", arr1[0]);\n    for (int i = 1; i < n; i++) {\n        printf(\" %d\", arr1[i]);\n    }\n    printf(\"\\n\");\n    \n    // Вывод количества сравнений сортировки выбором\n    printf(\"%d\\n\", comparisons1);\n    \n    return 0;\n}"
+        },
+        {
+          "id": "c-arrays-021",
+          "level": "hard",
+          "topic": "arrays",
+          "pass": false,
+          "why": "compile_error",
+          "tok": 712,
+          "tail": "  ^\n      |          void\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_runggw5y\\sol.c:78:57: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]\n   78 |     printf(\"Определитель матрицы: %lld\\n\");\n      |                                   ~~~^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_runggw5y\\sol.c:75:15: warning: unused variable 'result' [-Wunused-variable]\n   75 |     long long result = determinant(n, matrix);\n      |               ^~~~~~\n3 warnings and 1 error generated.\n",
+          "code": "#include <stdio.h>\n\n// Функция для вычисления определителя матрицы n x n с помощью разложения по первому столбцу\n// Используется рекурсивный алгоритм (разложение по строке/столбцу)\nlong long determinant(int n, int matrix[100][100]) {\n    long long det = 0;\n    \n    // Базовый случай: 1x1 матрица\n    if (n == 1) {\n        return matrix[0][0];\n    }\n    \n    // Базовый случай: 2x2 матрица\n    if (n == 2) {\n        return (long long)matrix[0][0] * matrix[1][1] - (long long)matrix[0][1] * matrix[1][0];\n    }\n    \n    // Рекурсивный случай: разложение по первому столбцу\n    for (int i = 0; i < n; i++) {\n        // Создаём подматрицу размером (n-1) x (n-1)\n        int sub_matrix[99][99];\n        int sub_size = n - 1;\n        \n        // Копируем элементы подматрицы\n        int idx = 0;\n        for (int row = 0; row < n; row++) {\n            if (row == i) continue;\n            for (int col = 0; col < n; col++) {\n                if (col == 0) {\n                    sub_matrix[idx][0] = matrix[row][col];\n                } else {\n                    sub_matrix[idx][col - 1] = matrix[row][col];\n                }\n            }\n            idx++;\n        }\n        \n        // Вычисляем определитель подматрицы\n        long long minor_det = determinant(sub_size, sub_matrix);\n        \n        // Слагаем с учётом знака: (-1)^(i+1)\n        if (i % 2 == 0) {\n            det += (long long)matrix[i][0] * minor_det;\n        } else {\n            det -= (long long)matrix[i][0] * minor_det;\n        }\n    }\n    \n    return det;\n}\n\nint main() {\n    int n;\n    \n    // Считываем размер матрицы\n    printf(\"Введите размер матрицы N: \");\n    scanf(\"%d\", &n);\n    \n    // Проверка на корректность ввода\n    if (n <= 0 || n > 100) {\n        printf(\"Ошибка: размер матрицы должен быть от 1 до 100.\\n\");\n        return 1;\n    }\n    \n    // Считываем матрицу\n    int matrix[100][100];\n    printf(\"Введите элементы матрицы:\\n\");\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n    \n    // Вычисляем определитель\n    long long result = determinant(n, matrix);\n    \n    // Выводим результат\n    printf(\"Определитель матрицы: %lld\\n\");\n    \n    return 0;\n}",
+          "compile_error": "матрицы: %lld\\n\");\n      |                                   ~~~^\nC:\\Users\\User\\AppData\\Local\\Temp\\cbench_runggw5y\\sol.c:75:15: warning: unused variable 'result' [-Wunused-variable]\n   75 |     long long result = determinant(n, matrix);\n      |               ^~~~~~\n3 warnings and 1 error generated.\n"
+        },
+        {
+          "id": "c-bit-001",
+          "level": "hard",
+          "topic": "bitops",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 385,
+          "code": "#include <stdio.h>\n#include <stdint.h>\n\nint main() {\n    uint32_t x, y;\n    int m, n;\n\n    // Считываем входные данные\n    scanf(\"%u %u %d %d\", &x, &y, &m, &n);\n\n    // (1) В числе x замени младшие m бит на старшие m бит числа y\n    if (m > 0) {\n        // Извлекаем старшие m бит из y\n        uint32_t higher_m_bits = (y >> (32 - m)) & ((1U << m) - 1);\n        // Убираем младшие m бит из x\n        x = (x & ~(0xFFFFFFFFU << (32 - m))) | (higher_m_bits << (32 - m));\n    }\n    // Если m == 0 — без изменений (условие уже учтено)\n\n    // (2) Инвертируем n младших бит в числе y\n    if (n > 0) {\n        uint32_t mask = (1U << n) - 1;\n        y = (y & ~mask) | (~mask & (y & mask));\n        // Или проще: y = y ^ ((1U << n) - 1);\n        y = y ^ ((1U << n) - 1);\n    }\n    // Если n == 0 — без изменений\n\n    // Выводим результат\n    printf(\"%u %u %d %d\\n\", x, y, m, n);\n    printf(\"x = %08X\\n\", x);\n    printf(\"y = %08X\\n\", y);\n\n    return 0;\n}"
+        },
+        {
+          "id": "c-math-039",
+          "level": "hard",
+          "topic": "math",
+          "pass": false,
+          "why": "wrong_answer",
+          "tok": 435,
+          "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\nint main() {\n    int N;\n    printf(\"Введите число N: \");\n    scanf(\"%d\", &N);\n\n    // Если N меньше 2, то простых чисел нет\n    if (N < 2) {\n        printf(\"\\n\");\n        return 0;\n    }\n\n    // Создаем булевый массив для хранения простоты чисел\n    // is_prime[i] будет true, если i — простое число\n    int is_prime[N + 1];\n    for (int i = 0; i <= N; i++) {\n        is_prime[i] = 1;\n    }\n\n    // 0 и 1 не являются простыми числами\n    is_prime[0] = is_prime[1] = 0;\n\n    // Алгоритм решета Эратосфена\n    for (int i = 2; i * i <= N; i++) {\n        if (is_prime[i]) {\n            // Отмечаем все кратные i как не простые\n            for (int j = i * i; j <= N; j += i) {\n                is_prime[j] = 0;\n            }\n        }\n    }\n\n    // Собираем простые числа\n    int primes[10000]; // Массив для хранения простых чисел\n    int count = 0;\n\n    for (int i = 2; i <= N; i++) {\n        if (is_prime[i]) {\n            primes[count++] = i;\n        }\n    }\n\n    // Выводим простые числа через пробел\n    if (count == 0) {\n        printf(\"\\n\");\n    } else {\n        for (int i = 0; i < count; i++) {\n            printf(\"%d\", primes[i]);\n            if (i < count - 1) {\n                printf(\" \");\n            }\n        }\n        printf(\"\\n\");\n    }\n\n    return 0;\n}"
+        }
+      ]
+    }
+  }
+}

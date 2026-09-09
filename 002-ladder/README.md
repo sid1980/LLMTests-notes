@@ -32,6 +32,9 @@ python run_cbench.py validate
 python probe_sampler.py 1234
 
 # 3. Прогнать бенч:
+set CBENCH_MAX_TOKENS=120000 && python run_cbench.py 1234 qwen38-27b code
+set CBENCH_MAX_TOKENS=32000 && python run_cbench.py 1234 qwen38-flash-next code
+set CBENCH_MAX_TOKENS=120000 && python run_cbench.py 1234 glm-4.6v-flash code
 python run_cbench.py 1234 my-model code                 # LM Studio локально
 python run_cbench.py http://192.168.56.1:1234 my-model code   # LM Studio через Caddy
 python run_cbench.py 8080 my-model code                 # llama.cpp
