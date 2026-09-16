@@ -1,0 +1,23 @@
+ggml_cuda_init: found 2 CUDA devices (Total VRAM: 32690 MiB):
+  Device 0: NVIDIA GeForce RTX 4060 Ti, compute capability 8.9, VMM: yes, VRAM: 16379 MiB
+  Device 1: NVIDIA GeForce RTX 5060 Ti, compute capability 12.0, VMM: yes, VRAM: 16310 MiB
+| model                          |       size |     params | backend    | ngl | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------: | --------------: | -------------------: |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       7 |           pp512 |       818.43 ± 23.18 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       7 |           tg128 |         18.45 ± 0.06 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       8 |           pp512 |       829.30 ± 19.02 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       8 |           tg128 |         18.49 ± 0.01 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       9 |           pp512 |       836.88 ± 15.29 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |       9 |           tg128 |         18.49 ± 0.01 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      10 |           pp512 |       848.35 ± 15.02 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      10 |           tg128 |         18.49 ± 0.02 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      11 |           pp512 |       859.09 ± 13.82 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      11 |           tg128 |         18.49 ± 0.02 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      12 |           pp512 |       862.18 ± 14.14 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      12 |           tg128 |         18.51 ± 0.01 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      13 |           pp512 |        871.01 ± 9.86 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      13 |           tg128 |         18.50 ± 0.03 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      14 |           pp512 |        877.66 ± 8.43 |
+| qwen35 27B Q4_K - Medium       |  15.65 GiB |    27.32 B | CUDA       |  99 |      14 |           tg128 |         18.52 ± 0.01 |
+
+build: 873e5d8e3 (10568)

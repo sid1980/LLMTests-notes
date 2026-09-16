@@ -1,0 +1,21 @@
+ggml_cuda_init: found 2 CUDA devices (Total VRAM: 32690 MiB):
+  Device 0: NVIDIA GeForce RTX 4060 Ti, compute capability 8.9, VMM: yes, VRAM: 16379 MiB
+  Device 1: NVIDIA GeForce RTX 5060 Ti, compute capability 12.0, VMM: yes, VRAM: 16310 MiB
+| model                          |       size |     params | backend    | ngl | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------: | --------------: | -------------------: |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |       8 |           pp512 |      1671.80 ± 25.14 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |       8 |           tg128 |         26.41 ± 0.16 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |       9 |           pp512 |      1679.87 ± 17.05 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |       9 |           tg128 |         26.42 ± 0.06 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      10 |           pp512 |      1670.29 ± 24.73 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      10 |           tg128 |         26.19 ± 0.17 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      11 |           pp512 |      1677.45 ± 11.25 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      11 |           tg128 |         26.33 ± 0.15 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      12 |           pp512 |      1512.59 ± 34.95 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      12 |           tg128 |         26.24 ± 0.12 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      13 |           pp512 |      1568.83 ± 20.56 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      13 |           tg128 |         26.06 ± 0.13 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      14 |           pp512 |      1618.31 ± 32.58 |
+| qwen2 14B Q6_K                 |  11.29 GiB |    14.77 B | CUDA       |  99 |      14 |           tg128 |         26.19 ± 0.07 |
+
+build: 873e5d8e3 (10568)
